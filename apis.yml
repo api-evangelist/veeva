@@ -1,0 +1,19 @@
+aid: veeva
+url: https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/apis.yml
+apis:
+- aid: veeva:veeva-api
+  name: Veeva Vault Platform API
+  tags:
+  - Pharma
+  - Regulatory
+  - QMS
+  - Clinical
+  - Life Sciences
+  image: https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/image.png
+  humanURL: https://developer.veevavault.com/
+  baseURL: https://myvault.veevavault.com/api/v23.3
+  properties:
+  - url: https://developer.veevavault.com/
+    type: Documentation
+  description: >-
+    Veeva Vault provides life sciences cloud platform APIs for regulatory document management, quality management (QMS), clinical operations, and commercial content management. REST APIs enable document lifecycle management, workflow automation, and compliance-validated data exchange.
