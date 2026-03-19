@@ -25,6 +25,8 @@ apis:
     type: ChangeLog
   - url: https://developer.veevavault.com/docs
     type: GettingStarted
+  - url: openapi/veeva-vault-openapi.yml
+    type: OpenAPI
   description: >-
     Veeva Vault provides life sciences cloud platform APIs for regulatory document management, quality management (QMS), clinical operations, and commercial content management. REST APIs enable document lifecycle management, workflow automation, and compliance-validated data exchange.
 
@@ -59,6 +61,8 @@ apis:
   properties:
   - url: https://developer.veevavault.com/vql/
     type: Documentation
+  - url: openapi/veeva-vault-openapi.yml
+    type: OpenAPI
   description: >-
     Vault Query Language (VQL) provides SQL-like query capabilities for accessing and retrieving Vault data. Supports SELECT, FROM, WHERE, ORDER BY, relationship queries, and functions for querying documents, objects, users, workflows, and system data.
 
@@ -99,6 +103,10 @@ common:
   type: PrivacyPolicy
 - url: https://github.com/veeva
   type: GitHubOrganization
+- url: json-schema/veeva-vault-document-schema.json
+  type: JSONSchema
+- url: json-ld/veeva-context.jsonld
+  type: JSONLDContext
 
 maintainers:
 - name: Kin Lane

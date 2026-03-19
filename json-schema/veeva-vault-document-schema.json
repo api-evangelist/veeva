@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developer.veevavault.com/schemas/document",
+  "title": "Veeva Vault Document",
+  "description": "A document record in the Veeva Vault platform — a controlled document with lifecycle, version, and audit trail",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique Vault document ID"
+    },
+    "name__v": {
+      "type": "string",
+      "description": "Document name (required)"
+    },
+    "type__v": {
+      "type": "string",
+      "description": "Document type API name (e.g., study_protocol__c)"
+    },
+    "subtype__v": {
+      "type": "string",
+      "description": "Document subtype API name"
+    },
+    "classification__v": {
+      "type": "string",
+      "description": "Document classification API name"
+    },
+    "lifecycle__v": {
+      "type": "string",
+      "description": "Document lifecycle API name (controls allowed states and actions)"
+    },
+    "status__v": {
+      "type": "string",
+      "description": "Current lifecycle state API name"
+    },
+    "document_number__v": {
+      "type": "string",
+      "description": "Auto-generated document number"
+    },
+    "major_version_number__v": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Major version number (increments on approval)"
+    },
+    "minor_version_number__v": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Minor version number (increments on draft revisions)"
+    },
+    "created_by__v": {
+      "type": "integer",
+      "description": "User ID of document creator"
+    },
+    "last_modified_by__v": {
+      "type": "integer",
+      "description": "User ID of last modifier"
+    },
+    "created_date__v": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Document creation timestamp"
+    },
+    "last_modified_date__v": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last modification timestamp"
+    },
+    "description__v": {
+      "type": "string",
+      "description": "Document description"
+    },
+    "size__v": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Source file size in bytes"
+    },
+    "format__v": {
+      "type": "string",
+      "description": "MIME type of source file (e.g., application/pdf)"
+    },
+    "external_id__v": {
+      "type": "string",
+      "description": "External system identifier for integration"
+    },
+    "owner__v": {
+      "type": "integer",
+      "description": "User ID of document owner"
+    },
+    "approver__v": {
+      "type": "integer",
+      "description": "User ID of document approver"
+    },
+    "effective_date__v": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Date document becomes effective (approved state)"
+    },
+    "expiration_date__v": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Document expiration date"
+    }
+  },
+  "required": ["id", "name__v", "type__v", "lifecycle__v", "status__v"],
+  "additionalProperties": {
+    "description": "Custom field values (API names ending in __c)"
+  }
+}

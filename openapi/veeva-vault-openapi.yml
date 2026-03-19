@@ -1,0 +1,754 @@
+openapi: 3.1.0
+info:
+  title: Veeva Vault REST API
+  description: >-
+    Veeva Vault provides life sciences cloud platform APIs for regulatory document
+    management, quality management (QMS), clinical operations, and commercial content
+    management. REST APIs enable document lifecycle management, workflow automation,
+    object CRUD operations, and compliance-validated data exchange. API version v25.3.
+  version: "25.3"
+  contact:
+    name: Veeva Developer Support
+    url: https://developer.veevavault.com/
+  license:
+    name: Veeva Vault Terms of Service
+    url: https://www.veeva.com/legal/
+servers:
+  - url: https://{vaultDomain}/api/v25.3
+    description: Veeva Vault API
+    variables:
+      vaultDomain:
+        description: Your Vault domain (e.g., myvault.veevavault.com)
+        default: myvault.veevavault.com
+
+security:
+  - VaultSession: []
+
+tags:
+  - name: Authentication
+    description: Session management
+  - name: Documents
+    description: Document lifecycle management
+  - name: Objects
+    description: Vault object CRUD operations
+  - name: Workflows
+    description: Workflow and task management
+  - name: Users
+    description: User management
+  - name: Query
+    description: VQL query execution
+
+paths:
+  /auth:
+    post:
+      operationId: authenticateUser
+      summary: Authenticate and obtain session ID
+      description: >-
+        Authenticates a user with username and password and returns a session ID
+        for use in subsequent API requests. Session IDs are included in the
+        Authorization header for all API calls.
+      tags:
+        - Authentication
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                  description: Vault username (email address)
+                password:
+                  type: string
+                  format: password
+                vaultDNS:
+                  type: string
+                  description: Target Vault DNS (for multi-vault environments)
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /objects/documents:
+    get:
+      operationId: listDocuments
+      summary: List all documents
+      description: >-
+        Returns a list of all documents accessible to the authenticated user.
+        Supports filtering by document type, lifecycle state, and custom fields.
+      tags:
+        - Documents
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 200
+            maximum: 1000
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: sort
+          in: query
+          schema:
+            type: string
+            example: "name__v asc"
+      responses:
+        '200':
+          description: Document list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentListResponse'
+        '401':
+          description: Unauthorized
+
+    post:
+      operationId: createDocument
+      summary: Create a document
+      description: >-
+        Creates a new document record in Vault. Optionally uploads a file as the
+        document source file in the same request using multipart/form-data.
+      tags:
+        - Documents
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - name__v
+                - type__v
+                - lifecycle__v
+              properties:
+                name__v:
+                  type: string
+                  description: Document name
+                type__v:
+                  type: string
+                  description: Document type API name
+                  example: "study_protocol__c"
+                lifecycle__v:
+                  type: string
+                  description: Document lifecycle API name
+                  example: "general_lifecycle__c"
+                status__v:
+                  type: string
+                  description: Initial lifecycle state
+                  example: "draft__v"
+                file:
+                  type: string
+                  format: binary
+                  description: Source file (optional)
+                description__v:
+                  type: string
+                study__v:
+                  type: string
+                  description: Study object reference
+      responses:
+        '200':
+          description: Document created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentCreateResponse'
+        '400':
+          description: Validation error
+
+  /objects/documents/{documentId}:
+    get:
+      operationId: getDocument
+      summary: Retrieve a document
+      description: Returns metadata and properties for a specific document.
+      tags:
+        - Documents
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+      responses:
+        '200':
+          description: Document metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentResponse'
+        '404':
+          description: Document not found
+
+    put:
+      operationId: updateDocument
+      summary: Update document metadata
+      description: Updates document field values. Does not replace the document file.
+      tags:
+        - Documents
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+              description: Document field name-value pairs
+      responses:
+        '200':
+          description: Document updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentUpdateResponse'
+
+    delete:
+      operationId: deleteDocument
+      summary: Delete a document
+      description: Deletes a document and all versions.
+      tags:
+        - Documents
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+      responses:
+        '200':
+          description: Document deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaultResponse'
+
+  /objects/documents/{documentId}/file:
+    get:
+      operationId: downloadDocumentFile
+      summary: Download document source file
+      description: Downloads the source file for the latest version of a document.
+      tags:
+        - Documents
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+      responses:
+        '200':
+          description: Document file binary
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+
+  /objects/documents/{documentId}/actions/{actionName}:
+    post:
+      operationId: performDocumentAction
+      summary: Perform a document lifecycle action
+      description: >-
+        Executes a user action on a document to change its lifecycle state.
+        Common actions include Approve, Submit for Review, Send to Archive.
+      tags:
+        - Documents
+        - Workflows
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+        - name: actionName
+          in: path
+          required: true
+          description: Lifecycle action API name
+          schema:
+            type: string
+          example: "Approve"
+      responses:
+        '200':
+          description: Action performed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaultResponse'
+
+  /vobjects/{objectName}:
+    get:
+      operationId: listObjectRecords
+      summary: List Vault object records
+      description: >-
+        Returns records for a Vault object. Vault objects are configurable
+        business entities (studies, products, sites, etc.).
+      tags:
+        - Objects
+      parameters:
+        - name: objectName
+          in: path
+          required: true
+          description: Vault object API name
+          schema:
+            type: string
+          example: "study__v"
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 200
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: fields
+          in: query
+          description: Comma-separated list of field names to return
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Object records
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectListResponse'
+
+    post:
+      operationId: createObjectRecord
+      summary: Create a Vault object record
+      description: Creates a new record for the specified Vault object.
+      tags:
+        - Objects
+      parameters:
+        - name: objectName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+              description: Object field values keyed by API name
+      responses:
+        '200':
+          description: Record created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectCreateResponse'
+
+  /vobjects/{objectName}/{recordId}:
+    get:
+      operationId: getObjectRecord
+      summary: Get a Vault object record
+      description: Returns a single record for a Vault object.
+      tags:
+        - Objects
+      parameters:
+        - name: objectName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Object record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectRecordResponse'
+
+    put:
+      operationId: updateObjectRecord
+      summary: Update a Vault object record
+      description: Updates fields on an existing Vault object record.
+      tags:
+        - Objects
+      parameters:
+        - name: objectName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Record updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaultResponse'
+
+    delete:
+      operationId: deleteObjectRecord
+      summary: Delete a Vault object record
+      description: Deletes a specific Vault object record.
+      tags:
+        - Objects
+      parameters:
+        - name: objectName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Record deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaultResponse'
+
+  /query:
+    get:
+      operationId: executeVQLQuery
+      summary: Execute a VQL query
+      description: >-
+        Executes a Vault Query Language (VQL) query to retrieve data from documents,
+        objects, users, and system data. Supports SELECT, FROM, WHERE, ORDER BY,
+        FIND, and relationship traversal.
+      tags:
+        - Query
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: VQL query string
+          schema:
+            type: string
+          example: "SELECT id, name__v, status__v FROM documents WHERE type__v = 'study_protocol__c'"
+      responses:
+        '200':
+          description: Query results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '400':
+          description: Invalid VQL syntax
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /objects/users:
+    get:
+      operationId: listUsers
+      summary: List Vault users
+      description: Returns all active users in the Vault.
+      tags:
+        - Users
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 200
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: User list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListResponse'
+
+components:
+  securitySchemes:
+    VaultSession:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Vault Session ID from /auth endpoint
+
+  parameters:
+    DocumentId:
+      name: documentId
+      in: path
+      required: true
+      description: Vault document ID
+      schema:
+        type: integer
+      example: 12345
+
+  schemas:
+    AuthResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+          example: "SUCCESS"
+        sessionId:
+          type: string
+          description: Session ID for Authorization header
+        userId:
+          type: integer
+        vaultId:
+          type: integer
+        vaultIds:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              url:
+                type: string
+
+    DocumentListResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        documents:
+          type: array
+          items:
+            type: object
+            properties:
+              document:
+                $ref: '#/components/schemas/DocumentFields'
+        size:
+          type: integer
+        start:
+          type: integer
+
+    DocumentCreateResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        id:
+          type: integer
+          description: New document ID
+        external_id__v:
+          type: string
+        major_version_number__v:
+          type: integer
+        minor_version_number__v:
+          type: integer
+
+    DocumentUpdateResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        id:
+          type: integer
+        major_version_number__v:
+          type: integer
+        minor_version_number__v:
+          type: integer
+
+    DocumentResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        document:
+          $ref: '#/components/schemas/DocumentFields'
+        versions:
+          type: array
+          items:
+            type: object
+            properties:
+              number:
+                type: string
+              value:
+                type: string
+              format: uri
+
+    DocumentFields:
+      type: object
+      description: Document field values (field names end in __v for standard, __c for custom)
+      properties:
+        id:
+          type: integer
+        name__v:
+          type: string
+        type__v:
+          type: string
+        subtype__v:
+          type: string
+        classification__v:
+          type: string
+        lifecycle__v:
+          type: string
+        status__v:
+          type: string
+        created_by__v:
+          type: integer
+        last_modified_by__v:
+          type: integer
+        created_date__v:
+          type: string
+          format: date-time
+        last_modified_date__v:
+          type: string
+          format: date-time
+        major_version_number__v:
+          type: integer
+        minor_version_number__v:
+          type: integer
+        document_number__v:
+          type: string
+        description__v:
+          type: string
+        size__v:
+          type: integer
+        format__v:
+          type: string
+      additionalProperties: true
+
+    ObjectListResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        size:
+          type: integer
+        start:
+          type: integer
+
+    ObjectCreateResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        id:
+          type: string
+
+    ObjectRecordResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        data:
+          type: object
+          additionalProperties: true
+
+    QueryResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        responseDetails:
+          type: object
+          properties:
+            limit:
+              type: integer
+            offset:
+              type: integer
+            size:
+              type: integer
+            total:
+              type: integer
+            url:
+              type: string
+              format: uri
+        data:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+
+    UserListResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        users:
+          type: array
+          items:
+            type: object
+            properties:
+              user:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  user_name__v:
+                    type: string
+                  user_first_name__v:
+                    type: string
+                  user_last_name__v:
+                    type: string
+                  user_email__v:
+                    type: string
+                    format: email
+                  user_timezone__v:
+                    type: string
+                  user_locale__v:
+                    type: string
+                  is_active__v:
+                    type: boolean
+
+    VaultResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+          enum: [SUCCESS, FAILURE]
+        id:
+          type: integer
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              message:
+                type: string
+
+    ErrorResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+          example: "FAILURE"
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              message:
+                type: string

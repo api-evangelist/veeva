@@ -1,0 +1,65 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "veeva": "https://developer.veevavault.com/vocab/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "Document": "schema:DigitalDocument",
+    "ObjectRecord": "schema:Thing",
+    "User": "schema:Person",
+    "Vault": "schema:SoftwareApplication",
+
+    "id": "@id",
+    "name__v": "schema:name",
+    "description__v": "schema:description",
+    "type__v": "schema:additionalType",
+    "subtype__v": "veeva:documentSubtype",
+    "classification__v": "schema:category",
+    "lifecycle__v": "veeva:lifecycle",
+    "status__v": "schema:status",
+    "document_number__v": "schema:identifier",
+    "major_version_number__v": "schema:version",
+    "minor_version_number__v": "veeva:minorVersion",
+    "created_by__v": {
+      "@id": "schema:author",
+      "@type": "@id"
+    },
+    "last_modified_by__v": {
+      "@id": "schema:editor",
+      "@type": "@id"
+    },
+    "created_date__v": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:dateTime"
+    },
+    "last_modified_date__v": {
+      "@id": "schema:dateModified",
+      "@type": "xsd:dateTime"
+    },
+    "size__v": "schema:contentSize",
+    "format__v": "schema:encodingFormat",
+    "external_id__v": "schema:sameAs",
+    "owner__v": {
+      "@id": "schema:accountablePerson",
+      "@type": "@id"
+    },
+    "effective_date__v": {
+      "@id": "schema:startDate",
+      "@type": "xsd:date"
+    },
+    "expiration_date__v": {
+      "@id": "schema:expires",
+      "@type": "xsd:date"
+    },
+
+    "user_name__v": "schema:identifier",
+    "user_first_name__v": "schema:givenName",
+    "user_last_name__v": "schema:familyName",
+    "user_email__v": "schema:email",
+    "is_active__v": "schema:isAccessibleForFree",
+
+    "sessionId": "veeva:sessionId",
+    "vaultId": "veeva:vaultId"
+  }
+}
