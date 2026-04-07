@@ -1,17 +1,15 @@
 aid: veeva
-url: 
-  https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/apis.yml
 apis:
   - aid: veeva:veeva-vault-api
     name: Veeva Vault Platform API
     tags:
-      - Pharma
-      - Regulatory
-      - QMS
       - Clinical
       - Life Sciences
-    image: 
-      https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/image.png
+      - Pharma
+      - QMS
+      - Regulatory
+    image: https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/image.png
     humanURL: https://developer.veevavault.com/
     baseURL: https://myvault.veevavault.com/api/v25.3
     properties:
@@ -38,12 +36,11 @@ apis:
   - aid: veeva:veeva-vault-java-sdk
     name: Veeva Vault Java SDK
     tags:
-      - Pharma
-      - Life Sciences
-      - SDK
       - Java
-    image: 
-      https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/image.png
+      - Life Sciences
+      - Pharma
+      - SDK
+    image: https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/image.png
     humanURL: https://developer.veevavault.com/sdk/
     baseURL: https://myvault.veevavault.com/api
     properties:
@@ -60,12 +57,11 @@ apis:
   - aid: veeva:veeva-vault-query-language
     name: Veeva Vault Query Language (VQL) API
     tags:
-      - Pharma
       - Life Sciences
+      - Pharma
       - Query Language
       - SQL
-    image: 
-      https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/image.png
+    image: https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/image.png
     humanURL: https://developer.veevavault.com/vql/
     baseURL: https://myvault.veevavault.com/api
     properties:
@@ -82,12 +78,11 @@ apis:
   - aid: veeva:veeva-vault-direct-data-api
     name: Veeva Vault Direct Data API
     tags:
-      - Pharma
-      - Life Sciences
-      - Data Access
       - Bulk Data
-    image: 
-      https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/image.png
+      - Data Access
+      - Life Sciences
+      - Pharma
+    image: https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/image.png
     humanURL: https://developer.veevavault.com/docs
     baseURL: https://myvault.veevavault.com/api
     properties:

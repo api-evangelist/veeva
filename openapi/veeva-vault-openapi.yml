@@ -31,13 +31,13 @@ tags:
     description: Document lifecycle management
   - name: Objects
     description: Vault object CRUD operations
-  - name: Workflows
-    description: Workflow and task management
-  - name: Users
-    description: User management
   - name: Query
     description: VQL query execution
 
+  - name: Users
+    description: User management
+  - name: Workflows
+    description: Workflow and task management
 paths:
   /auth:
     post:
