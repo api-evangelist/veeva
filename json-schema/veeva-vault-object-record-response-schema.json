@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/json-schema/veeva-vault-object-record-response-schema.json",
+  "title": "ObjectRecordResponse",
+  "description": "ObjectRecordResponse schema from Veeva Vault REST API",
+  "type": "object",
+  "properties": {
+    "responseStatus": {
+      "type": "string"
+    },
+    "data": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

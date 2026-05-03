@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/json-structure/veeva-vault-query-response-structure.json",
+  "name": "QueryResponse",
+  "description": "QueryResponse schema from Veeva Vault REST API",
+  "type": "object",
+  "properties": {
+    "responseStatus": {
+      "type": "string"
+    },
+    "responseDetails": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "int32"
+        },
+        "offset": {
+          "type": "int32"
+        },
+        "size": {
+          "type": "int32"
+        },
+        "total": {
+          "type": "int32"
+        },
+        "url": {
+          "type": "uri"
+        }
+      }
+    },
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    }
+  }
+}

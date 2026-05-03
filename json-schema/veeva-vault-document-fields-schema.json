@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/json-schema/veeva-vault-document-fields-schema.json",
+  "title": "DocumentFields",
+  "description": "Document field values (field names end in __v for standard, __c for custom)",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "name__v": {
+      "type": "string"
+    },
+    "type__v": {
+      "type": "string"
+    },
+    "subtype__v": {
+      "type": "string"
+    },
+    "classification__v": {
+      "type": "string"
+    },
+    "lifecycle__v": {
+      "type": "string"
+    },
+    "status__v": {
+      "type": "string"
+    },
+    "created_by__v": {
+      "type": "integer"
+    },
+    "last_modified_by__v": {
+      "type": "integer"
+    },
+    "created_date__v": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_modified_date__v": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "major_version_number__v": {
+      "type": "integer"
+    },
+    "minor_version_number__v": {
+      "type": "integer"
+    },
+    "document_number__v": {
+      "type": "string"
+    },
+    "description__v": {
+      "type": "string"
+    },
+    "size__v": {
+      "type": "integer"
+    },
+    "format__v": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

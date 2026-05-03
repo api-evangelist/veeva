@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/json-structure/veeva-vault-object-list-response-structure.json",
+  "name": "ObjectListResponse",
+  "description": "ObjectListResponse schema from Veeva Vault REST API",
+  "type": "object",
+  "properties": {
+    "responseStatus": {
+      "type": "string"
+    },
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "size": {
+      "type": "int32"
+    },
+    "start": {
+      "type": "int32"
+    }
+  }
+}

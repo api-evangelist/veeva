@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/json-structure/veeva-vault-auth-response-structure.json",
+  "name": "AuthResponse",
+  "description": "AuthResponse schema from Veeva Vault REST API",
+  "type": "object",
+  "properties": {
+    "responseStatus": {
+      "type": "string",
+      "example": "SUCCESS"
+    },
+    "sessionId": {
+      "type": "string",
+      "description": "Session ID for Authorization header"
+    },
+    "userId": {
+      "type": "int32"
+    },
+    "vaultId": {
+      "type": "int32"
+    },
+    "vaultIds": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

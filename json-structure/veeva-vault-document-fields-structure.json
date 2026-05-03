@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/json-structure/veeva-vault-document-fields-structure.json",
+  "name": "DocumentFields",
+  "description": "Document field values (field names end in __v for standard, __c for custom)",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "int32"
+    },
+    "name__v": {
+      "type": "string"
+    },
+    "type__v": {
+      "type": "string"
+    },
+    "subtype__v": {
+      "type": "string"
+    },
+    "classification__v": {
+      "type": "string"
+    },
+    "lifecycle__v": {
+      "type": "string"
+    },
+    "status__v": {
+      "type": "string"
+    },
+    "created_by__v": {
+      "type": "int32"
+    },
+    "last_modified_by__v": {
+      "type": "int32"
+    },
+    "created_date__v": {
+      "type": "datetime"
+    },
+    "last_modified_date__v": {
+      "type": "datetime"
+    },
+    "major_version_number__v": {
+      "type": "int32"
+    },
+    "minor_version_number__v": {
+      "type": "int32"
+    },
+    "document_number__v": {
+      "type": "string"
+    },
+    "description__v": {
+      "type": "string"
+    },
+    "size__v": {
+      "type": "int32"
+    },
+    "format__v": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

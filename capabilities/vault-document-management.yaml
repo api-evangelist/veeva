@@ -1,0 +1,390 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Veeva Vault Document Management"
+  description: >-
+    Customer workflow capability for life sciences document lifecycle management in Veeva Vault.
+    Combines document CRUD, lifecycle actions, VQL queries, and object management for
+    regulatory affairs teams, QMS coordinators, and clinical operations staff managing
+    controlled documents through approval and archival workflows.
+  tags:
+    - Veeva
+    - Vault
+    - Life Sciences
+    - Pharma
+    - Document Management
+    - Regulatory
+    - QMS
+    - Clinical
+  created: "2026-05-03"
+  modified: "2026-05-03"
+
+binds:
+  - namespace: env
+    keys:
+      VEEVA_VAULT_SESSION_ID: VEEVA_VAULT_SESSION_ID
+      VEEVA_VAULT_DOMAIN: VEEVA_VAULT_DOMAIN
+
+capability:
+  consumes:
+    - import: vault-api
+      location: ./shared/vault-api.yaml
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: vault-document-management-api
+      description: "Unified REST API for Veeva Vault document lifecycle management workflows."
+      resources:
+        - path: /v1/documents
+          name: documents
+          description: "List and create Vault documents"
+          operations:
+            - method: GET
+              name: list-documents
+              description: "List all Vault documents accessible to the authenticated user"
+              call: "vault-api.list-documents"
+              with:
+                limit: "rest.limit"
+                offset: "rest.offset"
+                sort: "rest.sort"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+            - method: POST
+              name: create-document
+              description: "Create a new Vault document record"
+              call: "vault-api.create-document"
+              with:
+                name__v: "rest.name__v"
+                type__v: "rest.type__v"
+                lifecycle__v: "rest.lifecycle__v"
+                status__v: "rest.status__v"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/documents/{documentId}
+          name: document
+          description: "Get, update, or delete a specific Vault document"
+          operations:
+            - method: GET
+              name: get-document
+              description: "Retrieve metadata for a specific Vault document"
+              call: "vault-api.get-document"
+              with:
+                documentId: "rest.documentId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+            - method: PUT
+              name: update-document
+              description: "Update a Vault document's field values"
+              call: "vault-api.update-document"
+              with:
+                documentId: "rest.documentId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+            - method: DELETE
+              name: delete-document
+              description: "Delete a Vault document and all its versions"
+              call: "vault-api.delete-document"
+              with:
+                documentId: "rest.documentId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/documents/{documentId}/actions/{actionName}
+          name: document-actions
+          description: "Perform lifecycle actions on a Vault document"
+          operations:
+            - method: POST
+              name: perform-document-action
+              description: "Execute a lifecycle action (Approve, Submit for Review, Archive)"
+              call: "vault-api.perform-document-action"
+              with:
+                documentId: "rest.documentId"
+                actionName: "rest.actionName"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/objects/{objectName}
+          name: objects
+          description: "List and create Vault object records (studies, products, sites)"
+          operations:
+            - method: GET
+              name: list-object-records
+              description: "List records for a Vault business object"
+              call: "vault-api.list-object-records"
+              with:
+                objectName: "rest.objectName"
+                limit: "rest.limit"
+                offset: "rest.offset"
+                fields: "rest.fields"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+            - method: POST
+              name: create-object-record
+              description: "Create a new Vault object record"
+              call: "vault-api.create-object-record"
+              with:
+                objectName: "rest.objectName"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/objects/{objectName}/{recordId}
+          name: object-record
+          description: "Get, update, or delete a specific Vault object record"
+          operations:
+            - method: GET
+              name: get-object-record
+              description: "Retrieve a single Vault object record"
+              call: "vault-api.get-object-record"
+              with:
+                objectName: "rest.objectName"
+                recordId: "rest.recordId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+            - method: PUT
+              name: update-object-record
+              description: "Update fields on a Vault object record"
+              call: "vault-api.update-object-record"
+              with:
+                objectName: "rest.objectName"
+                recordId: "rest.recordId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+            - method: DELETE
+              name: delete-object-record
+              description: "Delete a Vault object record"
+              call: "vault-api.delete-object-record"
+              with:
+                objectName: "rest.objectName"
+                recordId: "rest.recordId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/query
+          name: query
+          description: "Execute VQL queries across Vault data"
+          operations:
+            - method: GET
+              name: execute-vql-query
+              description: "Run a VQL query to retrieve documents, objects, or user data"
+              call: "vault-api.execute-vql-query"
+              with:
+                q: "rest.q"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/users
+          name: users
+          description: "List Vault users"
+          operations:
+            - method: GET
+              name: list-users
+              description: "List all active users in the Vault"
+              call: "vault-api.list-users"
+              with:
+                limit: "rest.limit"
+                offset: "rest.offset"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9090
+      namespace: vault-document-management-mcp
+      transport: http
+      description: "MCP server for AI-assisted Veeva Vault document lifecycle management."
+      tools:
+        - name: list-documents
+          description: "List all Vault documents accessible to the authenticated user"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "vault-api.list-documents"
+          with:
+            limit: "tools.limit"
+            offset: "tools.offset"
+            sort: "tools.sort"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: create-document
+          description: "Create a new controlled document in Vault with lifecycle and type"
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: false
+          call: "vault-api.create-document"
+          with:
+            name__v: "tools.name__v"
+            type__v: "tools.type__v"
+            lifecycle__v: "tools.lifecycle__v"
+            status__v: "tools.status__v"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-document
+          description: "Retrieve metadata and properties for a specific Vault document by ID"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "vault-api.get-document"
+          with:
+            documentId: "tools.documentId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: update-document
+          description: "Update field values on an existing Vault document"
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: true
+          call: "vault-api.update-document"
+          with:
+            documentId: "tools.documentId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: delete-document
+          description: "Permanently delete a Vault document and all its versions"
+          hints:
+            readOnly: false
+            destructive: true
+            idempotent: true
+          call: "vault-api.delete-document"
+          with:
+            documentId: "tools.documentId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: perform-document-action
+          description: "Execute a lifecycle action on a document (Approve, Submit for Review, Archive)"
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: false
+          call: "vault-api.perform-document-action"
+          with:
+            documentId: "tools.documentId"
+            actionName: "tools.actionName"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-object-records
+          description: "List records for a Vault business object (studies, products, sites, etc.)"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "vault-api.list-object-records"
+          with:
+            objectName: "tools.objectName"
+            limit: "tools.limit"
+            offset: "tools.offset"
+            fields: "tools.fields"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: create-object-record
+          description: "Create a new Vault object record for studies, products, sites, or custom objects"
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: false
+          call: "vault-api.create-object-record"
+          with:
+            objectName: "tools.objectName"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-object-record
+          description: "Retrieve a single Vault object record by object type and record ID"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "vault-api.get-object-record"
+          with:
+            objectName: "tools.objectName"
+            recordId: "tools.recordId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: update-object-record
+          description: "Update field values on a Vault object record"
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: true
+          call: "vault-api.update-object-record"
+          with:
+            objectName: "tools.objectName"
+            recordId: "tools.recordId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: delete-object-record
+          description: "Delete a Vault object record"
+          hints:
+            readOnly: false
+            destructive: true
+            idempotent: true
+          call: "vault-api.delete-object-record"
+          with:
+            objectName: "tools.objectName"
+            recordId: "tools.recordId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: execute-vql-query
+          description: "Run a VQL query to search documents, objects, users, or workflows in Vault"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "vault-api.execute-vql-query"
+          with:
+            q: "tools.q"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-users
+          description: "List all active users in the Vault"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "vault-api.list-users"
+          with:
+            limit: "tools.limit"
+            offset: "tools.offset"
+          outputParameters:
+            - type: object
+              mapping: "$."

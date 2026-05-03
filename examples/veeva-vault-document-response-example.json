@@ -1,0 +1,11 @@
+{
+  "responseStatus": "active",
+  "document": "sample_value",
+  "versions": [
+    {
+      "number": "sample_value",
+      "value": "sample_value",
+      "format": "uri"
+    }
+  ]
+}

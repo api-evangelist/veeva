@@ -1,0 +1,17 @@
+{
+  "id": 537,
+  "name__v": "sample_value__v",
+  "type__v": "active__c",
+  "subtype__v": "active__c",
+  "classification__v": "active__c",
+  "lifecycle__v": "active__c",
+  "status__v": "active__c",
+  "document_number__v": "sample_value__v",
+  "major_version_number__v": 83,
+  "minor_version_number__v": 64,
+  "created_by__v": 545,
+  "last_modified_by__v": 499,
+  "created_date__v": "2025-03-15T14:30:00Z",
+  "last_modified_date__v": "2025-03-15T14:30:00Z",
+  "description__v": "sample_value__v"
+}

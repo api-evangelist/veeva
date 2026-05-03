@@ -1,0 +1,13 @@
+{
+  "responseStatus": "SUCCESS",
+  "sessionId": "A8E4F3B2C1D0E9F8A7B6C5D4E3F2A1B0",
+  "userId": 332,
+  "vaultId": 274,
+  "vaultIds": [
+    {
+      "id": 989,
+      "name": "Sample Vault Document",
+      "url": "https://myvault.veevavault.com/api/v25.3"
+    }
+  ]
+}

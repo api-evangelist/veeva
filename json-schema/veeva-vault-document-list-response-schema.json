@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/json-schema/veeva-vault-document-list-response-schema.json",
+  "title": "DocumentListResponse",
+  "description": "DocumentListResponse schema from Veeva Vault REST API",
+  "type": "object",
+  "properties": {
+    "responseStatus": {
+      "type": "string"
+    },
+    "documents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "document": {
+            "$ref": "#/components/schemas/DocumentFields"
+          }
+        }
+      }
+    },
+    "size": {
+      "type": "integer"
+    },
+    "start": {
+      "type": "integer"
+    }
+  }
+}

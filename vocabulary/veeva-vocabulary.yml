@@ -1,0 +1,350 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: "Veeva"
+  description: >-
+    Unified vocabulary for the Veeva Vault REST API covering operational dimensions
+    (documents, objects, users, queries, lifecycle actions) and capability dimensions
+    (document management workflows for life sciences regulatory, QMS, and clinical teams).
+  created: "2026-05-03"
+  modified: "2026-05-03"
+
+operational:
+  apis:
+    - name: Veeva Vault REST API
+      namespace: vault-api
+      version: "25.3"
+      baseUrl: "https://myvault.veevavault.com/api/v25.3"
+      status: active
+    - name: Veeva Vault VQL API
+      namespace: vault-vql
+      version: "25.3"
+      baseUrl: "https://myvault.veevavault.com/api/v25.3/query"
+      status: active
+    - name: Veeva Vault Direct Data API
+      namespace: vault-direct-data
+      version: "25.3"
+      baseUrl: "https://myvault.veevavault.com/api/v25.3"
+      status: active
+
+  resources:
+    - name: documents
+      api: vault-api
+      description: "Controlled documents with lifecycle, version history, and audit trail"
+      actions:
+        - list
+        - create
+        - get
+        - update
+        - delete
+        - download
+        - perform-action
+    - name: objects
+      api: vault-api
+      description: "Configurable Vault business entities (studies, products, sites, etc.)"
+      actions:
+        - list
+        - create
+        - get
+        - update
+        - delete
+    - name: users
+      api: vault-api
+      description: "Vault user accounts and profiles"
+      actions:
+        - list
+    - name: query
+      api: vault-api
+      description: "VQL query execution engine for cross-entity data retrieval"
+      actions:
+        - execute
+    - name: sessions
+      api: vault-api
+      description: "Vault session authentication tokens"
+      actions:
+        - create
+
+  actions:
+    - name: list
+      httpMethod: GET
+      pattern: read
+      description: "Retrieve a collection of Vault entities with optional filtering and pagination"
+    - name: create
+      httpMethod: POST
+      pattern: write
+      description: "Create a new Vault entity (document or object record)"
+    - name: get
+      httpMethod: GET
+      pattern: read
+      description: "Retrieve a single Vault entity by ID"
+    - name: update
+      httpMethod: PUT
+      pattern: write
+      description: "Update field values on an existing Vault entity"
+    - name: delete
+      httpMethod: DELETE
+      pattern: destructive
+      description: "Permanently delete a Vault entity"
+    - name: download
+      httpMethod: GET
+      pattern: read
+      description: "Download the source file associated with a Vault document"
+    - name: perform-action
+      httpMethod: POST
+      pattern: write
+      description: "Execute a lifecycle action (Approve, Submit for Review, Archive) on a document"
+    - name: execute
+      httpMethod: GET
+      pattern: query
+      description: "Execute a VQL SELECT query across Vault data"
+    - name: authenticate
+      httpMethod: POST
+      pattern: write
+      description: "Authenticate with username/password to obtain a Vault session ID"
+
+  schemas:
+    core:
+      - name: DocumentFields
+        description: "All field values for a Vault document including lifecycle, version, and metadata"
+        key_properties:
+          - id
+          - name__v
+          - type__v
+          - lifecycle__v
+          - status__v
+          - major_version_number__v
+          - minor_version_number__v
+      - name: AuthResponse
+        description: "Session authentication response including session ID and vault IDs"
+        key_properties:
+          - sessionId
+          - userId
+          - vaultId
+          - vaultIds
+    document_management:
+      - name: DocumentListResponse
+        description: "Paginated list of Vault documents"
+        key_properties:
+          - documents
+          - size
+          - start
+      - name: DocumentCreateResponse
+        description: "Response after creating a new document"
+        key_properties:
+          - id
+          - external_id__v
+          - major_version_number__v
+          - minor_version_number__v
+      - name: DocumentResponse
+        description: "Single document with metadata and version history"
+        key_properties:
+          - document
+          - versions
+    object_management:
+      - name: ObjectListResponse
+        description: "Paginated list of Vault object records"
+        key_properties:
+          - data
+          - size
+          - start
+      - name: ObjectRecordResponse
+        description: "Single object record with field values"
+        key_properties:
+          - data
+    query:
+      - name: QueryResponse
+        description: "VQL query results with pagination metadata"
+        key_properties:
+          - data
+          - responseDetails
+
+  parameters:
+    pagination:
+      - name: limit
+        type: integer
+        description: "Maximum number of records to return (default 200, max 1000)"
+        apis: [vault-api]
+      - name: offset
+        type: integer
+        description: "Zero-based pagination offset"
+        apis: [vault-api]
+    identifiers:
+      - name: documentId
+        type: integer
+        description: "Unique Vault document ID"
+        apis: [vault-api]
+      - name: objectName
+        type: string
+        description: "Vault object API name (e.g. study__v, product__v)"
+        apis: [vault-api]
+      - name: recordId
+        type: string
+        description: "Unique object record ID"
+        apis: [vault-api]
+      - name: actionName
+        type: string
+        description: "Document lifecycle action API name"
+        apis: [vault-api]
+    query:
+      - name: q
+        type: string
+        description: "VQL query string (SELECT ... FROM ... WHERE ...)"
+        apis: [vault-api]
+      - name: sort
+        type: string
+        description: "Sort field and direction (e.g. name__v asc)"
+        apis: [vault-api]
+      - name: fields
+        type: string
+        description: "Comma-separated field names to include in response"
+        apis: [vault-api]
+
+  enums:
+    lifecycle_states:
+      - draft__v
+      - in_review__c
+      - approved__c
+      - superseded__c
+      - obsolete__c
+    response_status:
+      - SUCCESS
+      - FAILURE
+    document_lifecycle_actions:
+      - Approve
+      - Submit for Review
+      - Send to Archive
+      - Obsolete
+
+  authentication:
+    schemes:
+      - name: VaultSession
+        type: apiKey
+        placement: header
+        headerName: Authorization
+        description: "Vault Session ID obtained from the /auth endpoint"
+        apis: [vault-api, vault-vql, vault-direct-data]
+    notes: >-
+      Session IDs are obtained by POSTing credentials to /auth. Sessions expire
+      after 20 minutes of inactivity. Multi-vault environments use the vaultDNS
+      parameter to target specific Vaults.
+
+capability:
+  workflows:
+    - name: Vault Document Management
+      file: capabilities/vault-document-management.yaml
+      description: >-
+        End-to-end document lifecycle workflow for life sciences regulatory, QMS,
+        and clinical teams. Combines document CRUD, lifecycle actions, object
+        management, and VQL queries into a unified REST and MCP interface.
+      apis_combined:
+        - vault-api
+      tool_count: 13
+      personas:
+        - Regulatory Affairs Specialist
+        - QMS Coordinator
+        - Clinical Operations Manager
+
+  personas:
+    - id: regulatory-affairs-specialist
+      name: Regulatory Affairs Specialist
+      description: >-
+        Manages regulatory submission documents, CTD/eCTD assemblies, and
+        submission lifecycle in Vault RIM. Uses document CRUD and lifecycle actions.
+      workflows:
+        - Vault Document Management
+    - id: qms-coordinator
+      name: QMS Coordinator
+      description: >-
+        Manages SOPs, CAPAs, deviations, and audit documents in Vault QMS.
+        Creates and routes documents through review and approval lifecycles.
+      workflows:
+        - Vault Document Management
+    - id: clinical-operations-manager
+      name: Clinical Operations Manager
+      description: >-
+        Manages study documents, protocols, amendments, and site activation
+        packages in Vault CTMS. Uses object records for study and site data.
+      workflows:
+        - Vault Document Management
+
+  domains:
+    - name: Document Lifecycle
+      description: "Controlled document creation, review, approval, and archival workflows"
+      resources: [documents]
+      workflows: [Vault Document Management]
+    - name: Object Management
+      description: "Vault business object records for studies, products, sites, and custom entities"
+      resources: [objects]
+      workflows: [Vault Document Management]
+    - name: Data Query
+      description: "VQL-based data retrieval across all Vault entities"
+      resources: [query]
+      workflows: [Vault Document Management]
+    - name: Identity
+      description: "User management and session authentication"
+      resources: [users, sessions]
+      workflows: [Vault Document Management]
+
+  namespaces:
+    consumed:
+      - vault-api
+    rest_exposed:
+      - name: vault-document-management-api
+        port: 8080
+    mcp_exposed:
+      - name: vault-document-management-mcp
+        port: 9090
+
+  binds:
+    - name: VEEVA_VAULT_SESSION_ID
+      description: "Vault Session ID from /auth endpoint"
+      workflows: [Vault Document Management]
+    - name: VEEVA_VAULT_DOMAIN
+      description: "Vault domain (e.g. myvault.veevavault.com)"
+      workflows: [Vault Document Management]
+
+crossReference:
+  - resource: documents
+    operations:
+      - listDocuments
+      - createDocument
+      - getDocument
+      - updateDocument
+      - deleteDocument
+      - downloadDocumentFile
+      - performDocumentAction
+    workflows:
+      - Vault Document Management
+    personas:
+      - Regulatory Affairs Specialist
+      - QMS Coordinator
+      - Clinical Operations Manager
+  - resource: objects
+    operations:
+      - listObjectRecords
+      - createObjectRecord
+      - getObjectRecord
+      - updateObjectRecord
+      - deleteObjectRecord
+    workflows:
+      - Vault Document Management
+    personas:
+      - Regulatory Affairs Specialist
+      - QMS Coordinator
+      - Clinical Operations Manager
+  - resource: query
+    operations:
+      - executeVQLQuery
+    workflows:
+      - Vault Document Management
+    personas:
+      - Regulatory Affairs Specialist
+      - QMS Coordinator
+      - Clinical Operations Manager
+  - resource: users
+    operations:
+      - listUsers
+    workflows:
+      - Vault Document Management
+    personas:
+      - QMS Coordinator

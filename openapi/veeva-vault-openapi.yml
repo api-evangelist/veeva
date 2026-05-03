@@ -14,41 +14,41 @@ info:
     name: Veeva Vault Terms of Service
     url: https://www.veeva.com/legal/
 servers:
-  - url: https://{vaultDomain}/api/v25.3
-    description: Veeva Vault API
-    variables:
-      vaultDomain:
-        description: Your Vault domain (e.g., myvault.veevavault.com)
-        default: myvault.veevavault.com
+- url: https://{vaultDomain}/api/v25.3
+  description: Veeva Vault API
+  variables:
+    vaultDomain:
+      description: Your Vault domain (e.g., myvault.veevavault.com)
+      default: myvault.veevavault.com
 
 security:
-  - VaultSession: []
+- VaultSession: []
 
 tags:
-  - name: Authentication
-    description: Session management
-  - name: Documents
-    description: Document lifecycle management
-  - name: Objects
-    description: Vault object CRUD operations
-  - name: Query
-    description: VQL query execution
+- name: Authentication
+  description: Session management
+- name: Documents
+  description: Document lifecycle management
+- name: Objects
+  description: Vault object CRUD operations
+- name: Query
+  description: VQL query execution
 
-  - name: Users
-    description: User management
-  - name: Workflows
-    description: Workflow and task management
+- name: Users
+  description: User management
+- name: Workflows
+  description: Workflow and task management
 paths:
   /auth:
     post:
       operationId: authenticateUser
-      summary: Authenticate and obtain session ID
+      summary: Veeva Authenticate and Obtain Session ID
       description: >-
         Authenticates a user with username and password and returns a session ID
         for use in subsequent API requests. Session IDs are included in the
         Authorization header for all API calls.
       tags:
-        - Authentication
+      - Authentication
       security: []
       requestBody:
         required: true
@@ -57,8 +57,8 @@ paths:
             schema:
               type: object
               required:
-                - username
-                - password
+              - username
+              - password
               properties:
                 username:
                   type: string
@@ -69,6 +69,14 @@ paths:
                 vaultDNS:
                   type: string
                   description: Target Vault DNS (for multi-vault environments)
+            examples:
+              AuthenticateUserRequestExample:
+                summary: Default authenticateUser request
+                x-microcks-default: true
+                value:
+                  username: john.smith@myvault.veevavault.com
+                  password: SecureP@ssword123
+                  vaultDNS: myvault.veevavault.com
       responses:
         '200':
           description: Authentication successful
@@ -76,6 +84,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuthResponse'
+              examples:
+                AuthenticateUser200Example:
+                  summary: Default authenticateUser 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    sessionId: A8E4F3B2C1D0E9F8A7B6C5D4E3F2A1B0
+                    userId: 12345
+                    vaultId: 1001
+                    vaultIds:
+                    - id: 1001
+                      name: My Vault
+                      url: https://myvault.veevavault.com
         '401':
           description: Authentication failed
           content:
@@ -83,32 +104,35 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /objects/documents:
     get:
       operationId: listDocuments
-      summary: List all documents
+      summary: Veeva List All Documents
       description: >-
         Returns a list of all documents accessible to the authenticated user.
         Supports filtering by document type, lifecycle state, and custom fields.
       tags:
-        - Documents
+      - Documents
       parameters:
-        - name: limit
-          in: query
-          schema:
-            type: integer
-            default: 200
-            maximum: 1000
-        - name: offset
-          in: query
-          schema:
-            type: integer
-            default: 0
-        - name: sort
-          in: query
-          schema:
-            type: string
-            example: "name__v asc"
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 200
+          maximum: 1000
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          default: 0
+      - name: sort
+        in: query
+        schema:
+          type: string
+          example: "name__v asc"
       responses:
         '200':
           description: Document list
@@ -116,17 +140,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DocumentListResponse'
+              examples:
+                ListDocuments200Example:
+                  summary: Default listDocuments 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    documents:
+                    - document:
+                        id: 100001
+                        name__v: Study Protocol v1.0
+                        type__v: study_protocol__c
+                        lifecycle__v: general_lifecycle__c
+                        status__v: approved__c
+                        major_version_number__v: 1
+                        minor_version_number__v: 0
+                    size: 1
+                    start: 0
         '401':
           description: Unauthorized
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     post:
       operationId: createDocument
-      summary: Create a document
+      summary: Veeva Create a Document
       description: >-
         Creates a new document record in Vault. Optionally uploads a file as the
         document source file in the same request using multipart/form-data.
       tags:
-        - Documents
+      - Documents
       requestBody:
         required: true
         content:
@@ -134,9 +178,9 @@ paths:
             schema:
               type: object
               required:
-                - name__v
-                - type__v
-                - lifecycle__v
+              - name__v
+              - type__v
+              - lifecycle__v
               properties:
                 name__v:
                   type: string
@@ -162,6 +206,16 @@ paths:
                 study__v:
                   type: string
                   description: Study object reference
+            examples:
+              CreateDocumentRequestExample:
+                summary: Default createDocument request
+                x-microcks-default: true
+                value:
+                  name__v: Study Protocol Amendment 1
+                  type__v: study_protocol__c
+                  lifecycle__v: general_lifecycle__c
+                  status__v: draft__v
+                  description__v: Protocol amendment for Phase 2 study
       responses:
         '200':
           description: Document created
@@ -169,18 +223,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DocumentCreateResponse'
+              examples:
+                CreateDocument200Example:
+                  summary: Default createDocument 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    id: 100002
+                    external_id__v: PROT-2025-001
+                    major_version_number__v: 0
+                    minor_version_number__v: 1
         '400':
           description: Validation error
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /objects/documents/{documentId}:
     get:
       operationId: getDocument
-      summary: Retrieve a document
+      summary: Veeva Retrieve a Document
       description: Returns metadata and properties for a specific document.
       tags:
-        - Documents
+      - Documents
       parameters:
-        - $ref: '#/components/parameters/DocumentId'
+      - $ref: '#/components/parameters/DocumentId'
       responses:
         '200':
           description: Document metadata
@@ -188,17 +255,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DocumentResponse'
+              examples:
+                GetDocument200Example:
+                  summary: Default getDocument 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    document:
+                      id: 100001
+                      name__v: Study Protocol v1.0
+                      type__v: study_protocol__c
+                      lifecycle__v: general_lifecycle__c
+                      status__v: approved__c
+                      major_version_number__v: 1
+                      minor_version_number__v: 0
+                      created_by__v: 12345
+                      created_date__v: '2025-03-15T10:30:00Z'
+                    versions:
+                    - number: '1.0'
+                      value: https://myvault.veevavault.com/api/v25.3/objects/documents/100001/versions/1/0
         '404':
           description: Document not found
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     put:
       operationId: updateDocument
-      summary: Update document metadata
+      summary: Veeva Update Document Metadata
       description: Updates document field values. Does not replace the document file.
       tags:
-        - Documents
+      - Documents
       parameters:
-        - $ref: '#/components/parameters/DocumentId'
+      - $ref: '#/components/parameters/DocumentId'
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -207,6 +296,13 @@ paths:
               additionalProperties:
                 type: string
               description: Document field name-value pairs
+            examples:
+              UpdateDocumentRequestExample:
+                summary: Default updateDocument request
+                x-microcks-default: true
+                value:
+                  description__v: Updated protocol description
+                  status__v: approved__c
       responses:
         '200':
           description: Document updated
@@ -215,14 +311,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/DocumentUpdateResponse'
 
+              examples:
+                UpdateDocument200Example:
+                  summary: Default updateDocument 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    id: 100001
+                    major_version_number__v: 1
+                    minor_version_number__v: 1
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     delete:
       operationId: deleteDocument
-      summary: Delete a document
+      summary: Veeva Delete a Document
       description: Deletes a document and all versions.
       tags:
-        - Documents
+      - Documents
       parameters:
-        - $ref: '#/components/parameters/DocumentId'
+      - $ref: '#/components/parameters/DocumentId'
       responses:
         '200':
           description: Document deleted
@@ -231,15 +339,25 @@ paths:
               schema:
                 $ref: '#/components/schemas/VaultResponse'
 
+              examples:
+                DeleteDocument200Example:
+                  summary: Default deleteDocument 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    id: 100001
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /objects/documents/{documentId}/file:
     get:
       operationId: downloadDocumentFile
-      summary: Download document source file
+      summary: Veeva Download Document Source File
       description: Downloads the source file for the latest version of a document.
       tags:
-        - Documents
+      - Documents
       parameters:
-        - $ref: '#/components/parameters/DocumentId'
+      - $ref: '#/components/parameters/DocumentId'
       responses:
         '200':
           description: Document file binary
@@ -249,25 +367,28 @@ paths:
                 type: string
                 format: binary
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /objects/documents/{documentId}/actions/{actionName}:
     post:
       operationId: performDocumentAction
-      summary: Perform a document lifecycle action
+      summary: Veeva Perform a Document Lifecycle Action
       description: >-
         Executes a user action on a document to change its lifecycle state.
         Common actions include Approve, Submit for Review, Send to Archive.
       tags:
-        - Documents
-        - Workflows
+      - Documents
+      - Workflows
       parameters:
-        - $ref: '#/components/parameters/DocumentId'
-        - name: actionName
-          in: path
-          required: true
-          description: Lifecycle action API name
-          schema:
-            type: string
-          example: "Approve"
+      - $ref: '#/components/parameters/DocumentId'
+      - name: actionName
+        in: path
+        required: true
+        description: Lifecycle action API name
+        schema:
+          type: string
+        example: "Approve"
       responses:
         '200':
           description: Action performed
@@ -276,38 +397,48 @@ paths:
               schema:
                 $ref: '#/components/schemas/VaultResponse'
 
+              examples:
+                PerformDocumentAction200Example:
+                  summary: Default performDocumentAction 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    id: 100001
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /vobjects/{objectName}:
     get:
       operationId: listObjectRecords
-      summary: List Vault object records
+      summary: Veeva List Vault Object Records
       description: >-
         Returns records for a Vault object. Vault objects are configurable
         business entities (studies, products, sites, etc.).
       tags:
-        - Objects
+      - Objects
       parameters:
-        - name: objectName
-          in: path
-          required: true
-          description: Vault object API name
-          schema:
-            type: string
-          example: "study__v"
-        - name: limit
-          in: query
-          schema:
-            type: integer
-            default: 200
-        - name: offset
-          in: query
-          schema:
-            type: integer
-            default: 0
-        - name: fields
-          in: query
-          description: Comma-separated list of field names to return
-          schema:
-            type: string
+      - name: objectName
+        in: path
+        required: true
+        description: Vault object API name
+        schema:
+          type: string
+        example: "study__v"
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 200
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          default: 0
+      - name: fields
+        in: query
+        description: Comma-separated list of field names to return
+        schema:
+          type: string
       responses:
         '200':
           description: Object records
@@ -316,18 +447,33 @@ paths:
               schema:
                 $ref: '#/components/schemas/ObjectListResponse'
 
+              examples:
+                ListObjectRecords200Example:
+                  summary: Default listObjectRecords 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    data:
+                    - id: 0VO000000000001
+                      name__v: STUDY-001
+                      status__v: active__c
+                    size: 1
+                    start: 0
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     post:
       operationId: createObjectRecord
-      summary: Create a Vault object record
+      summary: Veeva Create a Vault Object Record
       description: Creates a new record for the specified Vault object.
       tags:
-        - Objects
+      - Objects
       parameters:
-        - name: objectName
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: objectName
+        in: path
+        required: true
+        schema:
+          type: string
       requestBody:
         content:
           application/json:
@@ -335,6 +481,14 @@ paths:
               type: object
               additionalProperties: true
               description: Object field values keyed by API name
+            examples:
+              CreateObjectRecordRequestExample:
+                summary: Default createObjectRecord request
+                x-microcks-default: true
+                value:
+                  name__v: STUDY-002
+                  status__v: active__c
+                  therapeutic_area__c: Oncology
       responses:
         '200':
           description: Record created
@@ -343,24 +497,34 @@ paths:
               schema:
                 $ref: '#/components/schemas/ObjectCreateResponse'
 
+              examples:
+                CreateObjectRecord200Example:
+                  summary: Default createObjectRecord 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    id: 0VO000000000002
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /vobjects/{objectName}/{recordId}:
     get:
       operationId: getObjectRecord
-      summary: Get a Vault object record
+      summary: Veeva Get a Vault Object Record
       description: Returns a single record for a Vault object.
       tags:
-        - Objects
+      - Objects
       parameters:
-        - name: objectName
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: recordId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: objectName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: recordId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Object record
@@ -369,29 +533,49 @@ paths:
               schema:
                 $ref: '#/components/schemas/ObjectRecordResponse'
 
+              examples:
+                GetObjectRecord200Example:
+                  summary: Default getObjectRecord 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    data:
+                      id: 0VO000000000001
+                      name__v: STUDY-001
+                      status__v: active__c
+                      therapeutic_area__c: Oncology
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     put:
       operationId: updateObjectRecord
-      summary: Update a Vault object record
+      summary: Veeva Update a Vault Object Record
       description: Updates fields on an existing Vault object record.
       tags:
-        - Objects
+      - Objects
       parameters:
-        - name: objectName
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: recordId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: objectName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: recordId
+        in: path
+        required: true
+        schema:
+          type: string
       requestBody:
         content:
           application/json:
             schema:
               type: object
               additionalProperties: true
+            examples:
+              UpdateObjectRecordRequestExample:
+                summary: Default updateObjectRecord request
+                x-microcks-default: true
+                value:
+                  status__v: inactive__c
       responses:
         '200':
           description: Record updated
@@ -400,23 +584,32 @@ paths:
               schema:
                 $ref: '#/components/schemas/VaultResponse'
 
+              examples:
+                UpdateObjectRecord200Example:
+                  summary: Default updateObjectRecord 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     delete:
       operationId: deleteObjectRecord
-      summary: Delete a Vault object record
+      summary: Veeva Delete a Vault Object Record
       description: Deletes a specific Vault object record.
       tags:
-        - Objects
+      - Objects
       parameters:
-        - name: objectName
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: recordId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: objectName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: recordId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Record deleted
@@ -425,24 +618,33 @@ paths:
               schema:
                 $ref: '#/components/schemas/VaultResponse'
 
+              examples:
+                DeleteObjectRecord200Example:
+                  summary: Default deleteObjectRecord 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /query:
     get:
       operationId: executeVQLQuery
-      summary: Execute a VQL query
+      summary: Veeva Execute a VQL Query
       description: >-
         Executes a Vault Query Language (VQL) query to retrieve data from documents,
         objects, users, and system data. Supports SELECT, FROM, WHERE, ORDER BY,
         FIND, and relationship traversal.
       tags:
-        - Query
+      - Query
       parameters:
-        - name: q
-          in: query
-          required: true
-          description: VQL query string
-          schema:
-            type: string
-          example: "SELECT id, name__v, status__v FROM documents WHERE type__v = 'study_protocol__c'"
+      - name: q
+        in: query
+        required: true
+        description: VQL query string
+        schema:
+          type: string
+        example: "SELECT id, name__v, status__v FROM documents WHERE type__v = 'study_protocol__c'"
       responses:
         '200':
           description: Query results
@@ -450,6 +652,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/QueryResponse'
+              examples:
+                ExecuteVQLQuery200Example:
+                  summary: Default executeVQLQuery 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    responseDetails:
+                      limit: 200
+                      offset: 0
+                      size: 2
+                      total: 2
+                    data:
+                    - id: 100001
+                      name__v: Study Protocol v1.0
+                      status__v: approved__c
+                    - id: 100002
+                      name__v: Study Protocol Amendment 1
+                      status__v: draft__v
         '400':
           description: Invalid VQL syntax
           content:
@@ -457,24 +677,27 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /objects/users:
     get:
       operationId: listUsers
-      summary: List Vault users
+      summary: Veeva List Vault Users
       description: Returns all active users in the Vault.
       tags:
-        - Users
+      - Users
       parameters:
-        - name: limit
-          in: query
-          schema:
-            type: integer
-            default: 200
-        - name: offset
-          in: query
-          schema:
-            type: integer
-            default: 0
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 200
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          default: 0
       responses:
         '200':
           description: User list
@@ -483,6 +706,23 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserListResponse'
 
+              examples:
+                ListUsers200Example:
+                  summary: Default listUsers 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    users:
+                    - user:
+                        id: 12345
+                        user_name__v: john.smith@myvault.veevavault.com
+                        user_first_name__v: John
+                        user_last_name__v: Smith
+                        user_email__v: john.smith@company.com
+                        is_active__v: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
   securitySchemes:
     VaultSession:

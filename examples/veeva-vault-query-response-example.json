@@ -1,0 +1,13 @@
+{
+  "responseStatus": "active",
+  "responseDetails": {
+    "limit": 432,
+    "offset": 13,
+    "size": 103,
+    "total": 771,
+    "url": "https://myvault.veevavault.com/api/v25.3"
+  },
+  "data": [
+    {}
+  ]
+}

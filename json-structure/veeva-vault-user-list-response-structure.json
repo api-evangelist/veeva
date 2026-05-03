@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/json-structure/veeva-vault-user-list-response-structure.json",
+  "name": "UserListResponse",
+  "description": "UserListResponse schema from Veeva Vault REST API",
+  "type": "object",
+  "properties": {
+    "responseStatus": {
+      "type": "string"
+    },
+    "users": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "int32"
+              },
+              "user_name__v": {
+                "type": "string"
+              },
+              "user_first_name__v": {
+                "type": "string"
+              },
+              "user_last_name__v": {
+                "type": "string"
+              },
+              "user_email__v": {
+                "type": "string",
+                "format": "email"
+              },
+              "user_timezone__v": {
+                "type": "string"
+              },
+              "user_locale__v": {
+                "type": "string"
+              },
+              "is_active__v": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

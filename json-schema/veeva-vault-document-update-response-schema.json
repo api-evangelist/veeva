@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/json-schema/veeva-vault-document-update-response-schema.json",
+  "title": "DocumentUpdateResponse",
+  "description": "DocumentUpdateResponse schema from Veeva Vault REST API",
+  "type": "object",
+  "properties": {
+    "responseStatus": {
+      "type": "string"
+    },
+    "id": {
+      "type": "integer"
+    },
+    "major_version_number__v": {
+      "type": "integer"
+    },
+    "minor_version_number__v": {
+      "type": "integer"
+    }
+  }
+}
