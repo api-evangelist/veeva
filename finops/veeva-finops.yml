@@ -1,5 +1,6 @@
 specification: FinOps Framework
 specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
 alignedWith:
   framework: FinOps Foundation Framework
   frameworkUrl: https://www.finops.org/framework/
@@ -8,149 +9,60 @@ alignedWith:
   dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
 provider: veeva
 providerId: veeva
-publisherName: veeva
-serviceCategory: API
+publisherName: Veeva Systems Inc.
+serviceCategory: Life Sciences SaaS
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: false
 tags:
+  - Life Sciences
+  - SaaS
   - FinOps
-  - Cost Management
   - FOCUS
-description: FinOps framework definition for the veeva API surface. Provides a FOCUS-aligned mapping for
-  cost allocation, usage measurement, and unit-economics reporting across the provider's APIs.
-principles:
-  - name: Visibility
-    description: Make API consumption costs visible to engineering, product, and finance teams in near
-      real-time.
-  - name: Allocation
-    description: Tag every chargeable API call with the consuming team, environment, application, and
-      feature so cost can be allocated.
-  - name: Optimization
-    description: Continuously evaluate request patterns, caching, batching, and tier selection to reduce
-      cost per useful unit of work.
-  - name: Accountability
-    description: Establish budget owners and chargeback or showback flows for each consuming team.
-domains:
-  - name: Understand Usage and Cost
-    capabilities:
-      - Data Ingestion
-      - Allocation
-      - Reporting and Analytics
-      - Anomaly Management
-  - name: Quantify Business Value
-    capabilities:
-      - Planning and Estimating
-      - Forecasting
-      - Budgeting
-      - Benchmarking
-      - Unit Economics
-  - name: Optimize Usage and Cost
-    capabilities:
-      - Architecting for Cloud
-      - Rate Optimization
-      - Workload Optimization
-      - Cloud Sustainability
-      - Licensing and SaaS
-  - name: Manage the FinOps Practice
-    capabilities:
-      - FinOps Practice Operations
-      - FinOps Education and Enablement
-      - Invoicing and Chargeback
-      - Onboarding Workloads
-      - Intersecting Disciplines
+description: 'FOCUS-aligned FinOps stub for Veeva: enterprise life-sciences SaaS subscription with no public
+  pricing or usage/billing API. API access is bundled with the Vault / CRM subscription.'
+sources:
+  - https://www.veeva.com/products/
+  - https://developer.veevavault.com/api/26.1/
+notes: No public pricing. Meters not invented; API usage is observable per-tenant via API Usage Logs but
+  is not a billable line. Reconciliation deferred pending customer-portal billing API discovery.
 billingModel:
-  pricingCategory: Usage-Based
-  billingFrequency: Monthly
+  pricingCategory: Subscription
+  billingFrequency: Annual
   billingCurrency: USD
   chargeCategories:
-    - Usage
     - Purchase
-    - Tax
-    - Credit
-    - Adjustment
-  chargeFrequency: Recurring
 focusColumns:
-  ServiceName: veeva
-  ServiceCategory: Developer Tools / API
-  ProviderName: veeva
-  PublisherName: veeva
-  InvoiceIssuerName: veeva
-  PricingCategory: Usage-Based
-  PricingUnit: request
+  ServiceName: Veeva Vault / CRM
+  ServiceCategory: Life Sciences SaaS
+  ProviderName: Veeva
+  PublisherName: Veeva Systems Inc.
+  InvoiceIssuerName: Veeva Systems Inc.
   BillingCurrency: USD
-  ChargeCategory: Usage
 meters:
-  - name: api_requests
-    description: Count of billable API requests
+  - name: tenant_subscription
+    description: Annual Vault / CRM tenant subscription line; sub-meters not publicly published.
+    unit: varies
+    aggregation: sum
+  - name: api_usage_observed
+    description: Observed API call count from in-product API Usage Logs. Not a billable meter; provided
+      for capacity tracking and rate-limit insight.
     unit: request
     aggregation: sum
-    dimensions:
-      - api
-      - endpoint
-      - tier
-      - region
-      - consumer
-  - name: data_egress
-    description: Bytes returned over the network in API responses
-    unit: GB
-    aggregation: sum
-    dimensions:
-      - api
-      - region
-      - consumer
-  - name: compute_seconds
-    description: Server-side compute consumed by the request, where applicable
-    unit: second
-    aggregation: sum
-    dimensions:
-      - api
-      - endpoint
-      - tier
-apis:
-  - name: Veeva Vault Platform API
-    baseURL: https://myvault.veevavault.com/api/v25.3
-    tags:
-      - Clinical
-      - Life Sciences
-      - Pharma
-      - QMS
-      - Regulatory
-    serviceName: Veeva Vault Platform API
-    serviceCategory: API
-  - name: Veeva Vault Java SDK
-    baseURL: https://myvault.veevavault.com/api
-    tags:
-      - Java
-      - Life Sciences
-      - Pharma
-      - SDK
-    serviceName: Veeva Vault Java SDK
-    serviceCategory: API
-  - name: Veeva Vault Query Language (VQL) API
-    baseURL: https://myvault.veevavault.com/api
-    tags:
-      - Life Sciences
-      - Pharma
-      - Query Language
-      - SQL
-    serviceName: Veeva Vault Query Language (VQL) API
-    serviceCategory: API
-  - name: Veeva Vault Direct Data API
-    baseURL: https://myvault.veevavault.com/api
-    tags:
-      - Bulk Data
-      - Data Access
-      - Life Sciences
-      - Pharma
-    serviceName: Veeva Vault Direct Data API
-    serviceCategory: API
-unitEconomics:
-  - name: Cost per 1K Requests
-    metric: billed_cost / (api_requests / 1000)
-    target: TBD
-  - name: Cost per Active Consumer
-    metric: billed_cost / active_consumers
-    target: TBD
+principles:
+  - name: Visibility
+    description: Veeva exposes per-tenant API call telemetry through Admin > Settings > Logs > API Usage
+      Logs and rate-limit response headers; cost telemetry is invoice-level only.
+  - name: Allocation
+    description: Allocation is contract-level (per Vault / CRM tenant); internal chargeback rides on
+      seat / module / data-volume scoping in the order form.
+  - name: Optimization
+    description: 'Optimization levers are scope-driven: which Vaults are licensed, seat counts, and integration
+      patterns (batch vs interactive). Renewal is the primary optimization checkpoint.'
+  - name: Accountability
+    description: Accountability sits with the platform owner team that holds the Veeva tenant agreement;
+      finance owns the annual subscription line.
 maintainers:
-  - name: Kin Lane
+  - FN: Kin Lane
     email: kin@apievangelist.com
+    url: https://apievangelist.com
