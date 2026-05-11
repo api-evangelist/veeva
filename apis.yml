@@ -259,6 +259,10 @@ common:
           Deploy Vault integrations on Azure using Logic Apps, Azure Functions, or
           Azure Data Factory with Vault REST API support.
 
+  - type: Integrations
+    url: https://www.veeva.com/meet-veeva/partners/
+integrations:
+  - name: Veeva
 maintainers:
   - name: Kin Lane
     email: kin@apievangelist.com
