@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Veeva Vault REST API — Authentication
+  description: 'Veeva Vault REST API — Authentication. 1 operations. Lead operation: Veeva Authenticate and Obtain Session
+    ID. Self-contained Naftiko capability covering one Veeva business surface.'
+  tags:
+  - Veeva
+  - Authentication
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    VEEVA_API_KEY: VEEVA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: vault-authentication
+    baseUri: https://{vaultDomain}/api/v25.3
+    description: Veeva Vault REST API — Authentication business capability. Self-contained, no shared references.
+    resources:
+    - name: auth
+      path: /auth
+      operations:
+      - name: authenticateuser
+        method: POST
+        description: Veeva Authenticate and Obtain Session ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.VEEVA_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: vault-authentication-rest
+    port: 8080
+    description: REST adapter for Veeva Vault REST API — Authentication. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/auth
+      name: auth
+      description: REST surface for auth.
+      operations:
+      - method: POST
+        name: authenticateuser
+        description: Veeva Authenticate and Obtain Session ID
+        call: vault-authentication.authenticateuser
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: vault-authentication-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Veeva Vault REST API — Authentication. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: veeva-authenticate-and-obtain-session
+      description: Veeva Authenticate and Obtain Session ID
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: vault-authentication.authenticateuser
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

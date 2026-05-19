@@ -1,0 +1,291 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Veeva Vault REST API — Documents
+  description: 'Veeva Vault REST API — Documents. 7 operations. Lead operation: Veeva List All Documents. Self-contained Naftiko
+    capability covering one Veeva business surface.'
+  tags:
+  - Veeva
+  - Documents
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    VEEVA_API_KEY: VEEVA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: vault-documents
+    baseUri: https://{vaultDomain}/api/v25.3
+    description: Veeva Vault REST API — Documents business capability. Self-contained, no shared references.
+    resources:
+    - name: objects-documents
+      path: /objects/documents
+      operations:
+      - name: listdocuments
+        method: GET
+        description: Veeva List All Documents
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: limit
+          in: query
+          type: integer
+        - name: offset
+          in: query
+          type: integer
+        - name: sort
+          in: query
+          type: string
+      - name: createdocument
+        method: POST
+        description: Veeva Create a Document
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: objects-documents-documentId
+      path: /objects/documents/{documentId}
+      operations:
+      - name: getdocument
+        method: GET
+        description: Veeva Retrieve a Document
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatedocument
+        method: PUT
+        description: Veeva Update Document Metadata
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletedocument
+        method: DELETE
+        description: Veeva Delete a Document
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: objects-documents-documentId-actions-actionName
+      path: /objects/documents/{documentId}/actions/{actionName}
+      operations:
+      - name: performdocumentaction
+        method: POST
+        description: Veeva Perform a Document Lifecycle Action
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: actionName
+          in: path
+          type: string
+          description: Lifecycle action API name
+          required: true
+    - name: objects-documents-documentId-file
+      path: /objects/documents/{documentId}/file
+      operations:
+      - name: downloaddocumentfile
+        method: GET
+        description: Veeva Download Document Source File
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.VEEVA_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: vault-documents-rest
+    port: 8080
+    description: REST adapter for Veeva Vault REST API — Documents. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/objects/documents
+      name: objects-documents
+      description: REST surface for objects-documents.
+      operations:
+      - method: GET
+        name: listdocuments
+        description: Veeva List All Documents
+        call: vault-documents.listdocuments
+        with:
+          limit: rest.limit
+          offset: rest.offset
+          sort: rest.sort
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createdocument
+        description: Veeva Create a Document
+        call: vault-documents.createdocument
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/objects/documents/{documentid}
+      name: objects-documents-documentid
+      description: REST surface for objects-documents-documentId.
+      operations:
+      - method: GET
+        name: getdocument
+        description: Veeva Retrieve a Document
+        call: vault-documents.getdocument
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatedocument
+        description: Veeva Update Document Metadata
+        call: vault-documents.updatedocument
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletedocument
+        description: Veeva Delete a Document
+        call: vault-documents.deletedocument
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/objects/documents/{documentid}/actions/{actionname}
+      name: objects-documents-documentid-actions-actionname
+      description: REST surface for objects-documents-documentId-actions-actionName.
+      operations:
+      - method: POST
+        name: performdocumentaction
+        description: Veeva Perform a Document Lifecycle Action
+        call: vault-documents.performdocumentaction
+        with:
+          actionName: rest.actionName
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/objects/documents/{documentid}/file
+      name: objects-documents-documentid-file
+      description: REST surface for objects-documents-documentId-file.
+      operations:
+      - method: GET
+        name: downloaddocumentfile
+        description: Veeva Download Document Source File
+        call: vault-documents.downloaddocumentfile
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: vault-documents-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Veeva Vault REST API — Documents. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: veeva-list-all-documents
+      description: Veeva List All Documents
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: vault-documents.listdocuments
+      with:
+        limit: tools.limit
+        offset: tools.offset
+        sort: tools.sort
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: veeva-create-document
+      description: Veeva Create a Document
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: vault-documents.createdocument
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: veeva-retrieve-document
+      description: Veeva Retrieve a Document
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: vault-documents.getdocument
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: veeva-update-document-metadata
+      description: Veeva Update Document Metadata
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: vault-documents.updatedocument
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: veeva-delete-document
+      description: Veeva Delete a Document
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: vault-documents.deletedocument
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: veeva-perform-document-lifecycle-action
+      description: Veeva Perform a Document Lifecycle Action
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: vault-documents.performdocumentaction
+      with:
+        actionName: tools.actionName
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: veeva-download-document-source-file
+      description: Veeva Download Document Source File
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: vault-documents.downloaddocumentfile
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Veeva Vault REST API — Workflows
+  description: 'Veeva Vault REST API — Workflows. 1 operations. Lead operation: Veeva Perform a Document Lifecycle Action.
+    Self-contained Naftiko capability covering one Veeva business surface.'
+  tags:
+  - Veeva
+  - Workflows
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    VEEVA_API_KEY: VEEVA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: vault-workflows
+    baseUri: https://{vaultDomain}/api/v25.3
+    description: Veeva Vault REST API — Workflows business capability. Self-contained, no shared references.
+    resources:
+    - name: objects-documents-documentId-actions-actionName
+      path: /objects/documents/{documentId}/actions/{actionName}
+      operations:
+      - name: performdocumentaction
+        method: POST
+        description: Veeva Perform a Document Lifecycle Action
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: actionName
+          in: path
+          type: string
+          description: Lifecycle action API name
+          required: true
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.VEEVA_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: vault-workflows-rest
+    port: 8080
+    description: REST adapter for Veeva Vault REST API — Workflows. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/objects/documents/{documentid}/actions/{actionname}
+      name: objects-documents-documentid-actions-actionname
+      description: REST surface for objects-documents-documentId-actions-actionName.
+      operations:
+      - method: POST
+        name: performdocumentaction
+        description: Veeva Perform a Document Lifecycle Action
+        call: vault-workflows.performdocumentaction
+        with:
+          actionName: rest.actionName
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: vault-workflows-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Veeva Vault REST API — Workflows. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: veeva-perform-document-lifecycle-action
+      description: Veeva Perform a Document Lifecycle Action
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: vault-workflows.performdocumentaction
+      with:
+        actionName: tools.actionName
+      outputParameters:
+      - type: object
+        mapping: $.

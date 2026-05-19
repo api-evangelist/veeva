@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Veeva Vault REST API — Query
+  description: 'Veeva Vault REST API — Query. 1 operations. Lead operation: Veeva Execute a VQL Query. Self-contained Naftiko
+    capability covering one Veeva business surface.'
+  tags:
+  - Veeva
+  - Query
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    VEEVA_API_KEY: VEEVA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: vault-query
+    baseUri: https://{vaultDomain}/api/v25.3
+    description: Veeva Vault REST API — Query business capability. Self-contained, no shared references.
+    resources:
+    - name: query
+      path: /query
+      operations:
+      - name: executevqlquery
+        method: GET
+        description: Veeva Execute a VQL Query
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: q
+          in: query
+          type: string
+          description: VQL query string
+          required: true
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.VEEVA_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: vault-query-rest
+    port: 8080
+    description: REST adapter for Veeva Vault REST API — Query. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/query
+      name: query
+      description: REST surface for query.
+      operations:
+      - method: GET
+        name: executevqlquery
+        description: Veeva Execute a VQL Query
+        call: vault-query.executevqlquery
+        with:
+          q: rest.q
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: vault-query-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Veeva Vault REST API — Query. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: veeva-execute-vql-query
+      description: Veeva Execute a VQL Query
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: vault-query.executevqlquery
+      with:
+        q: tools.q
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,273 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Veeva Vault REST API — Objects
+  description: 'Veeva Vault REST API — Objects. 5 operations. Lead operation: Veeva List Vault Object Records. Self-contained
+    Naftiko capability covering one Veeva business surface.'
+  tags:
+  - Veeva
+  - Objects
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    VEEVA_API_KEY: VEEVA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: vault-objects
+    baseUri: https://{vaultDomain}/api/v25.3
+    description: Veeva Vault REST API — Objects business capability. Self-contained, no shared references.
+    resources:
+    - name: vobjects-objectName
+      path: /vobjects/{objectName}
+      operations:
+      - name: listobjectrecords
+        method: GET
+        description: Veeva List Vault Object Records
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: objectName
+          in: path
+          type: string
+          description: Vault object API name
+          required: true
+        - name: limit
+          in: query
+          type: integer
+        - name: offset
+          in: query
+          type: integer
+        - name: fields
+          in: query
+          type: string
+          description: Comma-separated list of field names to return
+      - name: createobjectrecord
+        method: POST
+        description: Veeva Create a Vault Object Record
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: objectName
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: vobjects-objectName-recordId
+      path: /vobjects/{objectName}/{recordId}
+      operations:
+      - name: getobjectrecord
+        method: GET
+        description: Veeva Get a Vault Object Record
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: objectName
+          in: path
+          type: string
+          required: true
+        - name: recordId
+          in: path
+          type: string
+          required: true
+      - name: updateobjectrecord
+        method: PUT
+        description: Veeva Update a Vault Object Record
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: objectName
+          in: path
+          type: string
+          required: true
+        - name: recordId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deleteobjectrecord
+        method: DELETE
+        description: Veeva Delete a Vault Object Record
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: objectName
+          in: path
+          type: string
+          required: true
+        - name: recordId
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.VEEVA_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: vault-objects-rest
+    port: 8080
+    description: REST adapter for Veeva Vault REST API — Objects. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/vobjects/{objectname}
+      name: vobjects-objectname
+      description: REST surface for vobjects-objectName.
+      operations:
+      - method: GET
+        name: listobjectrecords
+        description: Veeva List Vault Object Records
+        call: vault-objects.listobjectrecords
+        with:
+          objectName: rest.objectName
+          limit: rest.limit
+          offset: rest.offset
+          fields: rest.fields
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createobjectrecord
+        description: Veeva Create a Vault Object Record
+        call: vault-objects.createobjectrecord
+        with:
+          objectName: rest.objectName
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/vobjects/{objectname}/{recordid}
+      name: vobjects-objectname-recordid
+      description: REST surface for vobjects-objectName-recordId.
+      operations:
+      - method: GET
+        name: getobjectrecord
+        description: Veeva Get a Vault Object Record
+        call: vault-objects.getobjectrecord
+        with:
+          objectName: rest.objectName
+          recordId: rest.recordId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateobjectrecord
+        description: Veeva Update a Vault Object Record
+        call: vault-objects.updateobjectrecord
+        with:
+          objectName: rest.objectName
+          recordId: rest.recordId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteobjectrecord
+        description: Veeva Delete a Vault Object Record
+        call: vault-objects.deleteobjectrecord
+        with:
+          objectName: rest.objectName
+          recordId: rest.recordId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: vault-objects-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Veeva Vault REST API — Objects. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: veeva-list-vault-object-records
+      description: Veeva List Vault Object Records
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: vault-objects.listobjectrecords
+      with:
+        objectName: tools.objectName
+        limit: tools.limit
+        offset: tools.offset
+        fields: tools.fields
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: veeva-create-vault-object-record
+      description: Veeva Create a Vault Object Record
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: vault-objects.createobjectrecord
+      with:
+        objectName: tools.objectName
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: veeva-get-vault-object-record
+      description: Veeva Get a Vault Object Record
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: vault-objects.getobjectrecord
+      with:
+        objectName: tools.objectName
+        recordId: tools.recordId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: veeva-update-vault-object-record
+      description: Veeva Update a Vault Object Record
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: vault-objects.updateobjectrecord
+      with:
+        objectName: tools.objectName
+        recordId: tools.recordId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: veeva-delete-vault-object-record
+      description: Veeva Delete a Vault Object Record
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: vault-objects.deleteobjectrecord
+      with:
+        objectName: tools.objectName
+        recordId: tools.recordId
+      outputParameters:
+      - type: object
+        mapping: $.
