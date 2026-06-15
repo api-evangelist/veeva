@@ -1,0 +1,1200 @@
+"""
+Veeva Systems Vault GraphQL Schema
+Conceptual schema derived from the Veeva Vault REST API covering document management,
+quality management, clinical data, regulatory submissions, medical content, and CRM data.
+"""
+
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+# ─────────────────────────────────────────────
+# Root Query
+# ─────────────────────────────────────────────
+
+type Query {
+  # Documents
+  document(id: ID!): Document
+  documents(filter: DocumentFilter, page: Int, pageSize: Int): DocumentConnection
+  documentVersions(documentId: ID!): [DocumentVersion!]!
+  documentFields: [DocumentField!]!
+
+  # Vault Objects
+  vaultObject(type: String!, id: ID!): VaultObject
+  vaultObjects(type: String!, filter: ObjectFilter, page: Int, pageSize: Int): VaultObjectConnection
+  objectMetadata(type: String!): ObjectMetadata
+
+  # Users
+  user(id: ID!): User
+  users(filter: UserFilter, page: Int, pageSize: Int): UserConnection
+
+  # Groups
+  group(id: ID!): Group
+  groups(page: Int, pageSize: Int): GroupConnection
+
+  # Workflows
+  workflow(id: ID!): Workflow
+  workflows(filter: WorkflowFilter, page: Int, pageSize: Int): WorkflowConnection
+  workflowTask(id: ID!): WorkflowTask
+  workflowTasks(filter: WorkflowTaskFilter, page: Int, pageSize: Int): WorkflowTaskConnection
+
+  # Query (VQL)
+  vqlQuery(query: String!): VqlQueryResult
+
+  # Picklists
+  picklist(name: String!): Picklist
+  picklists: [Picklist!]!
+
+  # Audit Trails
+  auditTrail(filter: AuditTrailFilter, page: Int, pageSize: Int): AuditTrailConnection
+  documentAuditTrail(documentId: ID!, majorVersion: Int, minorVersion: Int): [AuditEntry!]!
+
+  # Lifecycle
+  lifecycle(name: String!): Lifecycle
+  lifecycles: [Lifecycle!]!
+
+  # Roles
+  role(name: String!): Role
+  roles: [Role!]!
+
+  # Studies (Clinical)
+  study(id: ID!): Study
+  studies(filter: StudyFilter, page: Int, pageSize: Int): StudyConnection
+
+  # Sites
+  site(id: ID!): Site
+  sites(studyId: ID, filter: SiteFilter, page: Int, pageSize: Int): SiteConnection
+
+  # Products
+  product(id: ID!): Product
+  products(filter: ProductFilter, page: Int, pageSize: Int): ProductConnection
+
+  # Submissions
+  submission(id: ID!): RegulatorySubmission
+  submissions(filter: SubmissionFilter, page: Int, pageSize: Int): SubmissionConnection
+
+  # Quality Events
+  qualityEvent(id: ID!): QualityEvent
+  qualityEvents(filter: QualityEventFilter, page: Int, pageSize: Int): QualityEventConnection
+
+  # CAPAs
+  capa(id: ID!): CAPA
+  capas(filter: CAPAFilter, page: Int, pageSize: Int): CAPAConnection
+
+  # Deviations
+  deviation(id: ID!): Deviation
+  deviations(filter: DeviationFilter, page: Int, pageSize: Int): DeviationConnection
+
+  # Vault information
+  vaultInfo: VaultInfo
+  apiVersion: APIVersion
+}
+
+# ─────────────────────────────────────────────
+# Root Mutation
+# ─────────────────────────────────────────────
+
+type Mutation {
+  # Documents
+  createDocument(input: CreateDocumentInput!): DocumentMutationResponse!
+  updateDocument(id: ID!, input: UpdateDocumentInput!): DocumentMutationResponse!
+  deleteDocument(id: ID!): MutationResponse!
+  createDocumentVersion(documentId: ID!, input: CreateDocumentVersionInput!): DocumentMutationResponse!
+  updateDocumentVersion(documentId: ID!, majorVersion: Int!, minorVersion: Int!, input: UpdateDocumentInput!): DocumentMutationResponse!
+
+  # Document lifecycle actions
+  changeDocumentState(documentId: ID!, state: String!, comment: String): MutationResponse!
+  lockDocument(documentId: ID!): MutationResponse!
+  unlockDocument(documentId: ID!): MutationResponse!
+
+  # Vault Objects
+  createObject(type: String!, input: ObjectInput!): ObjectMutationResponse!
+  updateObject(type: String!, id: ID!, input: ObjectInput!): ObjectMutationResponse!
+  deleteObject(type: String!, id: ID!): MutationResponse!
+
+  # Users
+  createUser(input: CreateUserInput!): UserMutationResponse!
+  updateUser(id: ID!, input: UpdateUserInput!): UserMutationResponse!
+  deactivateUser(id: ID!): MutationResponse!
+
+  # Workflows
+  initiateWorkflow(documentId: ID!, workflowName: String!, input: WorkflowInitiateInput): WorkflowMutationResponse!
+  completeWorkflowTask(taskId: ID!, verdict: String!, comment: String): MutationResponse!
+  reassignWorkflowTask(taskId: ID!, userId: ID!, comment: String): MutationResponse!
+  cancelWorkflow(workflowId: ID!, comment: String): MutationResponse!
+
+  # Quality Events
+  createQualityEvent(input: CreateQualityEventInput!): QualityEventMutationResponse!
+  updateQualityEvent(id: ID!, input: UpdateQualityEventInput!): QualityEventMutationResponse!
+  closeQualityEvent(id: ID!, resolution: String!): MutationResponse!
+
+  # CAPAs
+  createCAPA(input: CreateCAPAInput!): CAPAMutationResponse!
+  updateCAPA(id: ID!, input: UpdateCAPAInput!): CAPAMutationResponse!
+
+  # Deviations
+  createDeviation(input: CreateDeviationInput!): DeviationMutationResponse!
+  updateDeviation(id: ID!, input: UpdateDeviationInput!): DeviationMutationResponse!
+}
+
+# ─────────────────────────────────────────────
+# Core Vault Types
+# ─────────────────────────────────────────────
+
+"""A document stored in the Veeva Vault"""
+type Document {
+  id: ID!
+  name: String!
+  title: String
+  type: DocumentType
+  subtype: DocumentSubtype
+  classification: String
+  status: String
+  lifecycleState: String
+  lifecycle: String
+  majorVersionNumber: Int!
+  minorVersionNumber: Int!
+  createdBy: User
+  createdDate: String
+  modifiedBy: User
+  modifiedDate: String
+  size: Int
+  format: String
+  filename: String
+  crossLinkBinding: CrossLinkBinding
+  locked: Boolean
+  approvalDate: String
+  expirationDate: String
+  description: String
+  annotations: [Annotation!]
+  renditions: [Rendition!]
+  roles: [DocumentRole!]
+  versions: [DocumentVersion!]
+  relatedDocuments: [RelatedDocument!]
+  fields: [FieldValue!]
+  tags: [String!]
+}
+
+"""Pagination connection for documents"""
+type DocumentConnection {
+  data: [Document!]!
+  responseDetails: ResponseDetails!
+}
+
+"""A specific version of a document"""
+type DocumentVersion {
+  id: ID!
+  documentId: ID!
+  majorVersionNumber: Int!
+  minorVersionNumber: Int!
+  status: String
+  lifecycleState: String
+  createdBy: User
+  createdDate: String
+  modifiedBy: User
+  modifiedDate: String
+  filename: String
+  size: Int
+  format: String
+  checksum: String
+}
+
+"""A field definition on a document"""
+type DocumentField {
+  name: String!
+  label: String
+  type: FieldType
+  required: Boolean
+  editable: Boolean
+  multivalue: Boolean
+  section: String
+  sectionPosition: Int
+  order: Int
+  helpContent: String
+  picklistName: String
+}
+
+"""A concrete field value on a document"""
+type FieldValue {
+  name: String!
+  value: String
+  values: [String!]
+}
+
+type DocumentType {
+  name: String!
+  label: String
+  value: String
+}
+
+type DocumentSubtype {
+  name: String!
+  label: String
+  value: String
+}
+
+type CrossLinkBinding {
+  boundDocumentId: ID
+  bindingType: String
+}
+
+type Annotation {
+  id: ID!
+  author: User
+  comment: String
+  type: String
+  placedAt: String
+  color: String
+  pageNumber: Int
+}
+
+type Rendition {
+  type: String!
+  format: String
+  size: Int
+  url: String
+}
+
+type DocumentRole {
+  name: String!
+  label: String
+  assignees: [User!]
+}
+
+type RelatedDocument {
+  relationship: String!
+  targetDocumentId: ID!
+  targetDocument: Document
+}
+
+# ─────────────────────────────────────────────
+# Vault Object Types
+# ─────────────────────────────────────────────
+
+"""A generic Vault business object record"""
+type VaultObject {
+  id: ID!
+  type: String!
+  name: String
+  label: String
+  status: String
+  createdBy: User
+  createdDate: String
+  modifiedBy: User
+  modifiedDate: String
+  fields: [FieldValue!]
+}
+
+"""Pagination connection for Vault objects"""
+type VaultObjectConnection {
+  data: [VaultObject!]!
+  responseDetails: ResponseDetails!
+}
+
+"""Metadata describing a Vault object type"""
+type ObjectMetadata {
+  name: String!
+  label: String
+  plural: String
+  fields: [ObjectField!]!
+  relationships: [ObjectRelationship!]
+  lifecycles: [String!]
+}
+
+type ObjectField {
+  name: String!
+  label: String
+  type: FieldType
+  required: Boolean
+  editable: Boolean
+  multivalue: Boolean
+  unique: Boolean
+  maxLength: Int
+  picklistName: String
+}
+
+type ObjectRelationship {
+  name: String!
+  label: String
+  relationshipType: String
+  targetObject: String
+  field: String
+}
+
+# ─────────────────────────────────────────────
+# User & Group Types
+# ─────────────────────────────────────────────
+
+"""A Vault user"""
+type User {
+  id: ID!
+  userName: String!
+  firstName: String
+  lastName: String
+  email: String
+  title: String
+  department: String
+  company: String
+  office: String
+  active: Boolean
+  locale: String
+  timezone: String
+  roles: [Role!]
+  groups: [Group!]
+  createdDate: String
+  modifiedDate: String
+  lastLogin: String
+  securityProfile: String
+  licenseType: String
+}
+
+"""Pagination connection for users"""
+type UserConnection {
+  data: [User!]!
+  responseDetails: ResponseDetails!
+}
+
+"""A Vault user group"""
+type Group {
+  id: ID!
+  name: String!
+  label: String
+  type: String
+  active: Boolean
+  allowDelegation: Boolean
+  users: [User!]
+  impliedGroups: [Group!]
+  systemGroup: Boolean
+}
+
+"""Pagination connection for groups"""
+type GroupConnection {
+  data: [Group!]!
+  responseDetails: ResponseDetails!
+}
+
+"""A Vault security role"""
+type Role {
+  name: String!
+  label: String
+  permissions: [Permission!]
+  assignedUsers: [User!]
+}
+
+type Permission {
+  name: String!
+  label: String
+  type: String
+}
+
+# ─────────────────────────────────────────────
+# Workflow Types
+# ─────────────────────────────────────────────
+
+"""A Vault workflow instance"""
+type Workflow {
+  id: ID!
+  name: String!
+  label: String
+  type: String
+  status: String
+  initiatedBy: User
+  initiatedDate: String
+  completedDate: String
+  dueDate: String
+  documents: [Document!]
+  tasks: [WorkflowTask!]
+  participants: [WorkflowParticipant!]
+  controls: [WorkflowControl!]
+}
+
+"""Pagination connection for workflows"""
+type WorkflowConnection {
+  data: [Workflow!]!
+  responseDetails: ResponseDetails!
+}
+
+"""A task within a workflow"""
+type WorkflowTask {
+  id: ID!
+  workflowId: ID!
+  name: String!
+  label: String
+  type: String
+  status: String
+  assignee: User
+  instructions: String
+  dueDate: String
+  completedDate: String
+  verdict: String
+  comment: String
+  documentId: ID
+  document: Document
+}
+
+"""Pagination connection for workflow tasks"""
+type WorkflowTaskConnection {
+  data: [WorkflowTask!]!
+  responseDetails: ResponseDetails!
+}
+
+type WorkflowParticipant {
+  role: String!
+  user: User
+  group: Group
+}
+
+type WorkflowControl {
+  name: String!
+  label: String
+  value: String
+}
+
+# ─────────────────────────────────────────────
+# Lifecycle Types
+# ─────────────────────────────────────────────
+
+"""A document or object lifecycle definition"""
+type Lifecycle {
+  name: String!
+  label: String
+  type: String
+  states: [LifecycleState!]!
+  transitions: [LifecycleTransition!]!
+  roles: [LifecycleRole!]
+}
+
+type LifecycleState {
+  name: String!
+  label: String
+  type: String
+  entryActions: [LifecycleAction!]
+  exitActions: [LifecycleAction!]
+  userActions: [LifecycleAction!]
+}
+
+type LifecycleTransition {
+  name: String!
+  label: String
+  fromState: String!
+  toState: String!
+  conditions: [String!]
+}
+
+type LifecycleAction {
+  name: String!
+  label: String
+  type: String
+}
+
+type LifecycleRole {
+  name: String!
+  label: String
+  assignmentType: String
+}
+
+# ─────────────────────────────────────────────
+# Audit Trail Types
+# ─────────────────────────────────────────────
+
+type AuditTrailConnection {
+  data: [AuditEntry!]!
+  responseDetails: ResponseDetails!
+}
+
+"""A single audit trail entry"""
+type AuditEntry {
+  id: ID!
+  timestamp: String!
+  eventType: String
+  action: String
+  user: User
+  fieldName: String
+  oldValue: String
+  newValue: String
+  documentId: ID
+  objectType: String
+  objectId: ID
+  details: String
+  ipAddress: String
+}
+
+# ─────────────────────────────────────────────
+# Picklist Types
+# ─────────────────────────────────────────────
+
+"""A Vault picklist definition"""
+type Picklist {
+  name: String!
+  label: String
+  values: [PicklistValue!]!
+}
+
+type PicklistValue {
+  name: String!
+  label: String
+  active: Boolean
+  order: Int
+}
+
+# ─────────────────────────────────────────────
+# VQL Query Result
+# ─────────────────────────────────────────────
+
+"""Result set from a VQL query"""
+type VqlQueryResult {
+  responseStatus: String!
+  responseMessage: String
+  responseDetails: ResponseDetails
+  data: [VqlRecord!]!
+  queryDescribe: QueryDescribe
+}
+
+type VqlRecord {
+  fields: [FieldValue!]!
+}
+
+type QueryDescribe {
+  object: String
+  fields: [String!]
+}
+
+# ─────────────────────────────────────────────
+# Clinical Types
+# ─────────────────────────────────────────────
+
+"""A clinical study"""
+type Study {
+  id: ID!
+  name: String!
+  label: String
+  protocolNumber: String
+  phase: String
+  therapeuticArea: String
+  indication: String
+  status: String
+  sponsorId: ID
+  startDate: String
+  endDate: String
+  sites: [Site!]
+  documents: [Document!]
+  products: [Product!]
+  createdBy: User
+  createdDate: String
+  modifiedDate: String
+}
+
+"""Pagination connection for studies"""
+type StudyConnection {
+  data: [Study!]!
+  responseDetails: ResponseDetails!
+}
+
+"""A clinical trial site"""
+type Site {
+  id: ID!
+  name: String!
+  number: String
+  status: String
+  country: String
+  city: String
+  state: String
+  principalInvestigator: User
+  studyId: ID
+  study: Study
+  activationDate: String
+  closeDate: String
+  createdDate: String
+  modifiedDate: String
+}
+
+"""Pagination connection for sites"""
+type SiteConnection {
+  data: [Site!]!
+  responseDetails: ResponseDetails!
+}
+
+# ─────────────────────────────────────────────
+# Product Types
+# ─────────────────────────────────────────────
+
+"""A pharmaceutical/biotech product"""
+type Product {
+  id: ID!
+  name: String!
+  label: String
+  genericName: String
+  therapeuticArea: String
+  indication: String
+  dosageForm: String
+  strength: String
+  status: String
+  owner: User
+  approvalDate: String
+  submissionIds: [ID!]
+  createdDate: String
+  modifiedDate: String
+}
+
+"""Pagination connection for products"""
+type ProductConnection {
+  data: [Product!]!
+  responseDetails: ResponseDetails!
+}
+
+# ─────────────────────────────────────────────
+# Regulatory Submission Types
+# ─────────────────────────────────────────────
+
+"""A regulatory submission (IND, NDA, MAA, etc.)"""
+type RegulatorySubmission {
+  id: ID!
+  name: String!
+  type: SubmissionType
+  subtype: String
+  sequence: String
+  status: String
+  agency: String
+  country: String
+  productId: ID
+  product: Product
+  submissionDate: String
+  approvalDate: String
+  dueDate: String
+  owner: User
+  documents: [Document!]
+  createdDate: String
+  modifiedDate: String
+}
+
+"""Pagination connection for submissions"""
+type SubmissionConnection {
+  data: [RegulatorySubmission!]!
+  responseDetails: ResponseDetails!
+}
+
+enum SubmissionType {
+  IND
+  NDA
+  BLA
+  ANDA
+  MAA
+  CTD
+  ECTD
+  OTHER
+}
+
+# ─────────────────────────────────────────────
+# Quality Management Types
+# ─────────────────────────────────────────────
+
+"""A quality event (deviation, OOS, complaint, etc.)"""
+type QualityEvent {
+  id: ID!
+  name: String!
+  type: QualityEventType
+  category: String
+  status: String
+  severity: Severity
+  description: String
+  detectedDate: String
+  reportedDate: String
+  closedDate: String
+  owner: User
+  assignee: User
+  site: Site
+  product: Product
+  capas: [CAPA!]
+  deviations: [Deviation!]
+  documents: [Document!]
+  rootCause: String
+  impact: String
+  createdDate: String
+  modifiedDate: String
+}
+
+"""Pagination connection for quality events"""
+type QualityEventConnection {
+  data: [QualityEvent!]!
+  responseDetails: ResponseDetails!
+}
+
+enum QualityEventType {
+  DEVIATION
+  OOS
+  COMPLAINT
+  AUDIT_FINDING
+  CHANGE_CONTROL
+  NON_CONFORMANCE
+  OTHER
+}
+
+enum Severity {
+  CRITICAL
+  MAJOR
+  MINOR
+  INFORMATIONAL
+}
+
+"""A Corrective and Preventive Action"""
+type CAPA {
+  id: ID!
+  name: String!
+  type: String
+  status: String
+  priority: Priority
+  description: String
+  rootCause: String
+  correctiveAction: String
+  preventiveAction: String
+  effectiveness: String
+  dueDate: String
+  completedDate: String
+  owner: User
+  assignee: User
+  qualityEventId: ID
+  qualityEvent: QualityEvent
+  documents: [Document!]
+  createdDate: String
+  modifiedDate: String
+}
+
+"""Pagination connection for CAPAs"""
+type CAPAConnection {
+  data: [CAPA!]!
+  responseDetails: ResponseDetails!
+}
+
+enum Priority {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+"""A deviation record"""
+type Deviation {
+  id: ID!
+  name: String!
+  type: DeviationType
+  status: String
+  severity: Severity
+  description: String
+  detectedDate: String
+  closedDate: String
+  owner: User
+  site: Site
+  product: Product
+  batch: String
+  impact: String
+  immediateAction: String
+  rootCause: String
+  qualityEventId: ID
+  qualityEvent: QualityEvent
+  documents: [Document!]
+  createdDate: String
+  modifiedDate: String
+}
+
+"""Pagination connection for deviations"""
+type DeviationConnection {
+  data: [Deviation!]!
+  responseDetails: ResponseDetails!
+}
+
+enum DeviationType {
+  PLANNED
+  UNPLANNED
+  REPEAT
+}
+
+# ─────────────────────────────────────────────
+# Vault Information Types
+# ─────────────────────────────────────────────
+
+"""Vault instance information"""
+type VaultInfo {
+  id: Int!
+  name: String!
+  url: String!
+  dns: String!
+  color: String
+  sandbox: Boolean
+  vaultType: String
+  status: String
+  buildVersion: String
+}
+
+"""API version information"""
+type APIVersion {
+  version: String!
+  supportedVersions: [String!]!
+}
+
+# ─────────────────────────────────────────────
+# Common Supporting Types
+# ─────────────────────────────────────────────
+
+"""Pagination and result details"""
+type ResponseDetails {
+  total: Int
+  pageOffset: Int
+  pageSize: Int
+  url: String
+  morePages: Boolean
+  totalPages: Int
+  currentPage: Int
+}
+
+# ─────────────────────────────────────────────
+# Mutation Response Types
+# ─────────────────────────────────────────────
+
+type MutationResponse {
+  responseStatus: String!
+  responseMessage: String
+  errors: [VaultError!]
+}
+
+type DocumentMutationResponse {
+  responseStatus: String!
+  responseMessage: String
+  id: ID
+  majorVersionNumber: Int
+  minorVersionNumber: Int
+  errors: [VaultError!]
+}
+
+type ObjectMutationResponse {
+  responseStatus: String!
+  responseMessage: String
+  id: ID
+  errors: [VaultError!]
+}
+
+type UserMutationResponse {
+  responseStatus: String!
+  responseMessage: String
+  id: ID
+  errors: [VaultError!]
+}
+
+type WorkflowMutationResponse {
+  responseStatus: String!
+  responseMessage: String
+  id: ID
+  errors: [VaultError!]
+}
+
+type QualityEventMutationResponse {
+  responseStatus: String!
+  responseMessage: String
+  id: ID
+  errors: [VaultError!]
+}
+
+type CAPAMutationResponse {
+  responseStatus: String!
+  responseMessage: String
+  id: ID
+  errors: [VaultError!]
+}
+
+type DeviationMutationResponse {
+  responseStatus: String!
+  responseMessage: String
+  id: ID
+  errors: [VaultError!]
+}
+
+type VaultError {
+  type: String
+  message: String
+  field: String
+}
+
+# ─────────────────────────────────────────────
+# Enums
+# ─────────────────────────────────────────────
+
+enum FieldType {
+  ID
+  String
+  Number
+  Date
+  DateTime
+  Boolean
+  Picklist
+  MultiPicklist
+  LongText
+  RichText
+  URL
+  Email
+  Object
+  Document
+  User
+}
+
+# ─────────────────────────────────────────────
+# Input Types
+# ─────────────────────────────────────────────
+
+input DocumentFilter {
+  type: String
+  subtype: String
+  status: String
+  lifecycleState: String
+  lifecycle: String
+  createdBy: ID
+  modifiedDateStart: String
+  modifiedDateEnd: String
+  name: String
+  titleContains: String
+}
+
+input ObjectFilter {
+  status: String
+  name: String
+  createdBy: ID
+  modifiedDateStart: String
+  modifiedDateEnd: String
+}
+
+input UserFilter {
+  active: Boolean
+  name: String
+  email: String
+  securityProfile: String
+  licenseType: String
+}
+
+input WorkflowFilter {
+  status: String
+  type: String
+  initiatedBy: ID
+  dueDateBefore: String
+  dueDateAfter: String
+}
+
+input WorkflowTaskFilter {
+  status: String
+  assignee: ID
+  type: String
+  dueDateBefore: String
+}
+
+input AuditTrailFilter {
+  eventType: String
+  userId: ID
+  documentId: ID
+  objectType: String
+  objectId: ID
+  startDate: String
+  endDate: String
+}
+
+input StudyFilter {
+  phase: String
+  status: String
+  therapeuticArea: String
+  indication: String
+}
+
+input SiteFilter {
+  status: String
+  country: String
+  principalInvestigator: ID
+}
+
+input ProductFilter {
+  status: String
+  therapeuticArea: String
+  indication: String
+}
+
+input SubmissionFilter {
+  type: SubmissionType
+  status: String
+  agency: String
+  country: String
+  productId: ID
+}
+
+input QualityEventFilter {
+  type: QualityEventType
+  status: String
+  severity: Severity
+  owner: ID
+  siteId: ID
+  productId: ID
+  detectedDateStart: String
+  detectedDateEnd: String
+}
+
+input CAPAFilter {
+  status: String
+  priority: Priority
+  owner: ID
+  qualityEventId: ID
+  dueDateBefore: String
+}
+
+input DeviationFilter {
+  type: DeviationType
+  status: String
+  severity: Severity
+  owner: ID
+  siteId: ID
+  productId: ID
+}
+
+input CreateDocumentInput {
+  name: String!
+  type: String!
+  subtype: String
+  classification: String
+  lifecycle: String
+  title: String
+  description: String
+  filename: String
+  fields: [FieldInput!]
+}
+
+input UpdateDocumentInput {
+  name: String
+  title: String
+  description: String
+  fields: [FieldInput!]
+}
+
+input CreateDocumentVersionInput {
+  filename: String!
+  description: String
+  createDraftVersion: Boolean
+}
+
+input ObjectInput {
+  name: String
+  status: String
+  fields: [FieldInput!]
+}
+
+input FieldInput {
+  name: String!
+  value: String
+  values: [String!]
+}
+
+input CreateUserInput {
+  userName: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+  title: String
+  department: String
+  company: String
+  licenseType: String!
+  securityProfile: String!
+  locale: String
+  timezone: String
+}
+
+input UpdateUserInput {
+  firstName: String
+  lastName: String
+  email: String
+  title: String
+  department: String
+  company: String
+  active: Boolean
+  locale: String
+  timezone: String
+}
+
+input WorkflowInitiateInput {
+  description: String
+  dueDate: String
+  participants: [WorkflowParticipantInput!]
+  controls: [WorkflowControlInput!]
+}
+
+input WorkflowParticipantInput {
+  role: String!
+  userId: ID
+  groupId: ID
+}
+
+input WorkflowControlInput {
+  name: String!
+  value: String!
+}
+
+input CreateQualityEventInput {
+  name: String!
+  type: QualityEventType!
+  category: String
+  severity: Severity
+  description: String
+  detectedDate: String
+  siteId: ID
+  productId: ID
+  owner: ID
+}
+
+input UpdateQualityEventInput {
+  name: String
+  category: String
+  severity: Severity
+  description: String
+  rootCause: String
+  impact: String
+  owner: ID
+  assignee: ID
+}
+
+input CreateCAPAInput {
+  name: String!
+  type: String
+  priority: Priority
+  description: String
+  dueDate: String
+  owner: ID!
+  qualityEventId: ID
+}
+
+input UpdateCAPAInput {
+  name: String
+  priority: Priority
+  description: String
+  rootCause: String
+  correctiveAction: String
+  preventiveAction: String
+  effectiveness: String
+  dueDate: String
+  owner: ID
+  assignee: ID
+}
+
+input CreateDeviationInput {
+  name: String!
+  type: DeviationType!
+  severity: Severity
+  description: String
+  detectedDate: String
+  siteId: ID
+  productId: ID
+  batch: String
+  owner: ID!
+  qualityEventId: ID
+}
+
+input UpdateDeviationInput {
+  name: String
+  severity: Severity
+  description: String
+  impact: String
+  immediateAction: String
+  rootCause: String
+  owner: ID
+  batch: String
+}
