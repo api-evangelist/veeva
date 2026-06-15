@@ -1,0 +1,442 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Veeva Vault REST API",
+    "version": "25.3"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Veeva Authenticate and Obtain Session ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{vaultDomain}/api/v25.3/auth",
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "username",
+                  "value": ""
+                },
+                {
+                  "name": "password",
+                  "value": ""
+                },
+                {
+                  "name": "vaultDNS",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Authenticates a user with username and password and returns a session ID for use in subsequent API requests. Session IDs are included in the Authorization header for all API calls."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Documents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Veeva List All Documents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{vaultDomain}/api/v25.3/objects/documents",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of all documents accessible to the authenticated user. Supports filtering by document type, lifecycle state, and custom fields."
+        },
+        {
+          "info": {
+            "name": "Veeva Create a Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{vaultDomain}/api/v25.3/objects/documents",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "name__v",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "type__v",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "lifecycle__v",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "status__v",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "description__v",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "study__v",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Creates a new document record in Vault. Optionally uploads a file as the document source file in the same request using multipart/form-data."
+        },
+        {
+          "info": {
+            "name": "Veeva Retrieve a Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{vaultDomain}/api/v25.3/objects/documents/:documentId",
+            "params": [
+              {
+                "name": "documentId",
+                "value": "12345",
+                "type": "path",
+                "description": "Vault document ID"
+              }
+            ]
+          },
+          "docs": "Returns metadata and properties for a specific document."
+        },
+        {
+          "info": {
+            "name": "Veeva Update Document Metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{vaultDomain}/api/v25.3/objects/documents/:documentId",
+            "params": [
+              {
+                "name": "documentId",
+                "value": "12345",
+                "type": "path",
+                "description": "Vault document ID"
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Updates document field values. Does not replace the document file."
+        },
+        {
+          "info": {
+            "name": "Veeva Delete a Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{vaultDomain}/api/v25.3/objects/documents/:documentId",
+            "params": [
+              {
+                "name": "documentId",
+                "value": "12345",
+                "type": "path",
+                "description": "Vault document ID"
+              }
+            ]
+          },
+          "docs": "Deletes a document and all versions."
+        },
+        {
+          "info": {
+            "name": "Veeva Download Document Source File",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{vaultDomain}/api/v25.3/objects/documents/:documentId/file",
+            "params": [
+              {
+                "name": "documentId",
+                "value": "12345",
+                "type": "path",
+                "description": "Vault document ID"
+              }
+            ]
+          },
+          "docs": "Downloads the source file for the latest version of a document."
+        },
+        {
+          "info": {
+            "name": "Veeva Perform a Document Lifecycle Action",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{vaultDomain}/api/v25.3/objects/documents/:documentId/actions/:actionName",
+            "params": [
+              {
+                "name": "documentId",
+                "value": "12345",
+                "type": "path",
+                "description": "Vault document ID"
+              },
+              {
+                "name": "actionName",
+                "value": "Approve",
+                "type": "path",
+                "description": "Lifecycle action API name"
+              }
+            ]
+          },
+          "docs": "Executes a user action on a document to change its lifecycle state. Common actions include Approve, Submit for Review, Send to Archive."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Objects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Veeva List Vault Object Records",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{vaultDomain}/api/v25.3/vobjects/:objectName",
+            "params": [
+              {
+                "name": "objectName",
+                "value": "study__v",
+                "type": "path",
+                "description": "Vault object API name"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of field names to return"
+              }
+            ]
+          },
+          "docs": "Returns records for a Vault object. Vault objects are configurable business entities (studies, products, sites, etc.)."
+        },
+        {
+          "info": {
+            "name": "Veeva Create a Vault Object Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{vaultDomain}/api/v25.3/vobjects/:objectName",
+            "params": [
+              {
+                "name": "objectName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new record for the specified Vault object."
+        },
+        {
+          "info": {
+            "name": "Veeva Get a Vault Object Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{vaultDomain}/api/v25.3/vobjects/:objectName/:recordId",
+            "params": [
+              {
+                "name": "objectName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns a single record for a Vault object."
+        },
+        {
+          "info": {
+            "name": "Veeva Update a Vault Object Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{vaultDomain}/api/v25.3/vobjects/:objectName/:recordId",
+            "params": [
+              {
+                "name": "objectName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates fields on an existing Vault object record."
+        },
+        {
+          "info": {
+            "name": "Veeva Delete a Vault Object Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{vaultDomain}/api/v25.3/vobjects/:objectName/:recordId",
+            "params": [
+              {
+                "name": "objectName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes a specific Vault object record."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Query",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Veeva Execute a VQL Query",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{vaultDomain}/api/v25.3/query",
+            "params": [
+              {
+                "name": "q",
+                "value": "SELECT id, name__v, status__v FROM documents WHERE type__v = 'study_protocol__c'",
+                "type": "query",
+                "description": "VQL query string"
+              }
+            ]
+          },
+          "docs": "Executes a Vault Query Language (VQL) query to retrieve data from documents, objects, users, and system data. Supports SELECT, FROM, WHERE, ORDER BY, FIND, and relationship traversal."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Veeva List Vault Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{vaultDomain}/api/v25.3/objects/users",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns all active users in the Vault."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
