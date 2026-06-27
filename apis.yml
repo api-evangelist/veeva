@@ -73,16 +73,16 @@ apis:
     type: JSONStructure
     title: Query Response Structure
   - url: examples/veeva-vault-auth-response-example.json
-    type: Example
+    type: Examples
     title: Auth Response Example
   - url: examples/veeva-vault-document-fields-example.json
-    type: Example
+    type: Examples
     title: Document Fields Example
   - url: examples/veeva-vault-document-list-response-example.json
-    type: Example
+    type: Examples
     title: Document List Response Example
   - url: examples/veeva-vault-query-response-example.json
-    type: Example
+    type: Examples
     title: Query Response Example
   - url: graphql/veeva-graphql.md
     type: GraphQL
