@@ -148,6 +148,10 @@ apis:
     access to Vault data for integration, analytics, and reporting purposes. Supports
     bulk export of documents, objects, and attachment field files for up to 500 records.
 common:
+- type: DomainSecurity
+  url: security/veeva-domain-security.yml
+- type: Authentication
+  url: authentication/veeva-authentication.yml
 - type: LinkedIn
   url: https://www.linkedin.com/company/veeva-systems
 - url: https://www.veeva.com/
