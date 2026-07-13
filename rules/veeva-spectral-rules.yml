@@ -1,313 +1,321 @@
+# veeva — Spectral ruleset (strengthened)
+# Plain Spectral. Existing hand-authored rules preserved; measured rules added
+# from this provider's own OpenAPI conventions by strengthen_ruleset.py,
+# then self-validated against the spec.
+#
+# Provenance:
+#   - servers-https-only: 100% of servers already https (error)
+#   - path-params-casing: camel @ 100% (n=14)
+#   - query-params-casing: snake @ 100% (n=9)
+#   - operationid-casing: camel @ 100% (n=15)
+#   - schema-names-casing: pascal @ 100% (n=13)
+#   - security: global (root) — NOT emitting operation-security-required
+#   - error-schema-defined: ErrorResponse
+#   - pagination params observed: ['limit', 'offset']
+#   - merge: kept 34 existing, added 4 measured, upgraded 0
+#   - added: path-params-casing, query-params-casing, schema-names-casing, error-schema-defined
+extends:
+  - spectral:oas
 rules:
-
-  # INFO / METADATA
   info-title-required:
     description: Info title must be defined.
     severity: error
-    given: "$.info"
+    given: $.info
     then:
       field: title
       function: truthy
-
   info-title-prefix:
     description: Info title must start with "Veeva".
     severity: warn
-    given: "$.info.title"
+    given: $.info.title
     then:
       function: pattern
       functionOptions:
-        match: "^Veeva"
-
+        match: ^Veeva
   info-description-required:
     description: Info description must be defined and non-empty.
     severity: warn
-    given: "$.info"
+    given: $.info
     then:
       field: description
       function: truthy
-
   info-version-required:
     description: API version must be defined.
     severity: error
-    given: "$.info"
+    given: $.info
     then:
       field: version
       function: truthy
-
   info-contact-required:
     description: Contact information must be defined.
     severity: warn
-    given: "$.info"
+    given: $.info
     then:
       field: contact
       function: truthy
-
-  # OPENAPI VERSION
   openapi-version-3:
     description: Must use OpenAPI 3.x.
     severity: error
-    given: "$"
+    given: $
     then:
       field: openapi
       function: pattern
       functionOptions:
-        match: "^3\\."
-
-  # SERVERS
+        match: ^3\.
   servers-defined:
     description: At least one server must be defined.
     severity: error
-    given: "$"
+    given: $
     then:
       field: servers
       function: truthy
-
   servers-https:
     description: Server URLs must use HTTPS.
     severity: error
-    given: "$.servers[*].url"
+    given: $.servers[*].url
     then:
       function: pattern
       functionOptions:
-        match: "^https://"
-
+        match: ^https://
   servers-description:
     description: Each server must have a description.
     severity: warn
-    given: "$.servers[*]"
+    given: $.servers[*]
     then:
       field: description
       function: truthy
-
-  # PATHS — NAMING CONVENTIONS
   paths-kebab-case:
     description: Path segments must use kebab-case (lowercase with hyphens, not underscores or camelCase).
     severity: warn
-    given: "$.paths[*]~"
+    given: $.paths[*]~
     then:
       function: pattern
       functionOptions:
-        match: "^(/[a-z0-9{}_-]+)+$"
-
+        match: ^(/[a-z0-9{}_-]+)+$
   paths-no-trailing-slash:
     description: Paths must not end with a trailing slash.
     severity: warn
-    given: "$.paths[*]~"
+    given: $.paths[*]~
     then:
       function: pattern
       functionOptions:
-        notMatch: "/$"
-
-  # OPERATIONS
+        notMatch: /$
   operation-summary-required:
     description: Every operation must have a summary.
     severity: error
-    given: "$.paths[*][get,post,put,delete,patch]"
+    given: $.paths[*][get,post,put,delete,patch]
     then:
       field: summary
       function: truthy
-
   operation-summary-title-case:
     description: Operation summaries must start with "Veeva" (company name prefix).
     severity: warn
-    given: "$.paths[*][get,post,put,delete,patch].summary"
+    given: $.paths[*][get,post,put,delete,patch].summary
     then:
       function: pattern
       functionOptions:
-        match: "^Veeva "
-
+        match: '^Veeva '
   operation-description-required:
     description: Every operation must have a description.
     severity: warn
-    given: "$.paths[*][get,post,put,delete,patch]"
+    given: $.paths[*][get,post,put,delete,patch]
     then:
       field: description
       function: truthy
-
   operation-operationid-required:
     description: Every operation must have an operationId.
     severity: error
-    given: "$.paths[*][get,post,put,delete,patch]"
+    given: $.paths[*][get,post,put,delete,patch]
     then:
       field: operationId
       function: truthy
-
   operation-operationid-camelcase:
     description: operationId must use camelCase.
     severity: warn
-    given: "$.paths[*][get,post,put,delete,patch].operationId"
+    given: $.paths[*][get,post,put,delete,patch].operationId
     then:
       function: pattern
       functionOptions:
-        match: "^[a-z][a-zA-Z0-9]+$"
-
+        match: ^[a-z][a-zA-Z0-9]+$
   operation-tags-required:
     description: Every operation must have at least one tag.
     severity: warn
-    given: "$.paths[*][get,post,put,delete,patch]"
+    given: $.paths[*][get,post,put,delete,patch]
     then:
       field: tags
       function: truthy
-
-  # TAGS
   tags-defined:
     description: Global tags array should be defined.
     severity: warn
-    given: "$"
+    given: $
     then:
       field: tags
       function: truthy
-
   tag-description-required:
     description: Each tag must have a description.
     severity: warn
-    given: "$.tags[*]"
+    given: $.tags[*]
     then:
       field: description
       function: truthy
-
-  # PARAMETERS
   parameter-description-required:
     description: All parameters must have a description.
     severity: warn
-    given: "$..parameters[*]"
+    given: $..parameters[*]
     then:
       field: description
       function: truthy
-
   parameter-schema-type:
     description: All parameters must have a schema with a type.
     severity: warn
-    given: "$..parameters[*].schema"
+    given: $..parameters[*].schema
     then:
       field: type
       function: truthy
-
-  # REQUEST BODIES
   requestbody-description-required:
     description: Request bodies should have a description.
     severity: info
-    given: "$.paths[*][post,put,patch].requestBody"
+    given: $.paths[*][post,put,patch].requestBody
     then:
       field: description
       function: truthy
-
-  # RESPONSES
   response-success-required:
     description: Every operation must have at least one success (2xx) response.
     severity: error
-    given: "$.paths[*][get,post,put,delete,patch].responses"
+    given: $.paths[*][get,post,put,delete,patch].responses
     then:
       function: schema
       functionOptions:
         schema:
           type: object
           anyOf:
-            - required: ["200"]
-            - required: ["201"]
-            - required: ["204"]
-
+          - required:
+            - '200'
+          - required:
+            - '201'
+          - required:
+            - '204'
   response-description-required:
     description: All responses must have a description.
     severity: error
-    given: "$.paths[*][get,post,put,delete,patch].responses[*]"
+    given: $.paths[*][get,post,put,delete,patch].responses[*]
     then:
       field: description
       function: truthy
-
   response-401-defined:
     description: Authenticated operations should define a 401 response.
     severity: warn
-    given: "$.paths[*][get,post,put,delete,patch].responses"
+    given: $.paths[*][get,post,put,delete,patch].responses
     then:
       function: schema
       functionOptions:
         schema:
           type: object
-          required: ["401"]
-
-  # SCHEMAS — PROPERTY NAMING
+          required:
+          - '401'
   schema-description-required:
     description: Top-level component schemas must have a description.
     severity: warn
-    given: "$.components.schemas[*]"
+    given: $.components.schemas[*]
     then:
       field: description
       function: truthy
-
   schema-properties-snake-case:
     description: Schema property names should use snake_case (Vault convention with __v/__c suffixes).
     severity: info
-    given: "$.components.schemas[*].properties[*]~"
+    given: $.components.schemas[*].properties[*]~
     then:
       function: pattern
       functionOptions:
-        match: "^[a-z][a-z0-9_]*(__v|__c)?$"
-
-  # SECURITY
+        match: ^[a-z][a-z0-9_]*(__v|__c)?$
   security-schemes-defined:
     description: Security schemes must be defined in components.
     severity: error
-    given: "$.components"
+    given: $.components
     then:
       field: securitySchemes
       function: truthy
-
   security-global-defined:
     description: Global security must be defined.
     severity: warn
-    given: "$"
+    given: $
     then:
       field: security
       function: truthy
-
-  # HTTP METHOD CONVENTIONS
   get-no-request-body:
     description: GET operations must not have a request body.
     severity: error
-    given: "$.paths[*].get"
+    given: $.paths[*].get
     then:
       field: requestBody
       function: falsy
-
   delete-no-request-body:
     description: DELETE operations should not have a request body.
     severity: warn
-    given: "$.paths[*].delete"
+    given: $.paths[*].delete
     then:
       field: requestBody
       function: falsy
-
-  # VAULT-SPECIFIC RULES
   vault-session-auth:
     description: Vault operations should use VaultSession security scheme.
     severity: info
-    given: "$.paths[*][get,post,put,delete,patch]"
+    given: $.paths[*][get,post,put,delete,patch]
     then:
       function: schema
       functionOptions:
         schema:
           type: object
           anyOf:
-            - required: ["security"]
-            - {}
-
+          - required:
+            - security
+          - {}
   vault-response-status:
     description: Vault API responses should include responseStatus in schemas.
     severity: info
-    given: "$.components.schemas[*].properties"
+    given: $.components.schemas[*].properties
     then:
       function: schema
       functionOptions:
         schema:
           type: object
-
-  # GENERAL QUALITY
   no-empty-descriptions:
     description: Descriptions must not be empty strings.
     severity: warn
-    given: "$..description"
+    given: $..description
     then:
       function: pattern
       functionOptions:
-        match: ".+"
+        match: .+
+  path-params-casing:
+    description: Path parameters should be camelCase (the dominant convention in this API).
+    severity: warn
+    given: $.paths[*].parameters[?(@.in=='path')].name
+    then:
+      function: casing
+      functionOptions:
+        type: camel
+  query-params-casing:
+    description: Query parameters should be snake_case (the dominant convention in this API).
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].parameters[?(@.in=='query')]
+    then:
+      field: name
+      function: casing
+      functionOptions:
+        type: snake
+  schema-names-casing:
+    description: Component schema names should be PascalCase (the dominant convention in this API).
+    severity: warn
+    given: $.components.schemas
+    then:
+      field: '@key'
+      function: casing
+      functionOptions:
+        type: pascal
+  error-schema-defined:
+    description: A shared error schema (ErrorResponse) should be defined for error payloads.
+    severity: warn
+    given: $.components.schemas
+    then:
+      field: ErrorResponse
+      function: truthy
