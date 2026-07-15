@@ -148,6 +148,8 @@ apis:
     access to Vault data for integration, analytics, and reporting purposes. Supports
     bulk export of documents, objects, and attachment field files for up to 500 records.
 common:
+- type: AgenticAccess
+  url: agentic-access/veeva-agentic-access.yml
 - type: DomainSecurity
   url: security/veeva-domain-security.yml
 - type: Authentication
