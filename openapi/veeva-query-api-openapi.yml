@@ -1,0 +1,120 @@
+openapi: 3.1.0
+info:
+  title: Veeva Vault REST Authentication Query API
+  description: Veeva Vault provides life sciences cloud platform APIs for regulatory document management, quality management (QMS), clinical operations, and commercial content management. REST APIs enable document lifecycle management, workflow automation, object CRUD operations, and compliance-validated data exchange. API version v25.3.
+  version: '25.3'
+  contact:
+    name: Veeva Developer Support
+    url: https://developer.veevavault.com/
+  license:
+    name: Veeva Vault Terms of Service
+    url: https://www.veeva.com/legal/
+servers:
+- url: https://{vaultDomain}/api/v25.3
+  description: Veeva Vault API
+  variables:
+    vaultDomain:
+      description: Your Vault domain (e.g., myvault.veevavault.com)
+      default: myvault.veevavault.com
+security:
+- VaultSession: []
+tags:
+- name: Query
+  description: VQL query execution
+paths:
+  /query:
+    get:
+      operationId: executeVQLQuery
+      summary: Veeva Execute a VQL Query
+      description: Executes a Vault Query Language (VQL) query to retrieve data from documents, objects, users, and system data. Supports SELECT, FROM, WHERE, ORDER BY, FIND, and relationship traversal.
+      tags:
+      - Query
+      parameters:
+      - name: q
+        in: query
+        required: true
+        description: VQL query string
+        schema:
+          type: string
+        example: SELECT id, name__v, status__v FROM documents WHERE type__v = 'study_protocol__c'
+      responses:
+        '200':
+          description: Query results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+              examples:
+                ExecuteVQLQuery200Example:
+                  summary: Default executeVQLQuery 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    responseDetails:
+                      limit: 200
+                      offset: 0
+                      size: 2
+                      total: 2
+                    data:
+                    - id: 100001
+                      name__v: Study Protocol v1.0
+                      status__v: approved__c
+                    - id: 100002
+                      name__v: Study Protocol Amendment 1
+                      status__v: draft__v
+        '400':
+          description: Invalid VQL syntax
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    QueryResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        responseDetails:
+          type: object
+          properties:
+            limit:
+              type: integer
+            offset:
+              type: integer
+            size:
+              type: integer
+            total:
+              type: integer
+            url:
+              type: string
+              format: uri
+        data:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+    ErrorResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+          example: FAILURE
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              message:
+                type: string
+  securitySchemes:
+    VaultSession:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Vault Session ID from /auth endpoint

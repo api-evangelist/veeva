@@ -1,0 +1,104 @@
+openapi: 3.1.0
+info:
+  title: Veeva Vault REST Authentication Users API
+  description: Veeva Vault provides life sciences cloud platform APIs for regulatory document management, quality management (QMS), clinical operations, and commercial content management. REST APIs enable document lifecycle management, workflow automation, object CRUD operations, and compliance-validated data exchange. API version v25.3.
+  version: '25.3'
+  contact:
+    name: Veeva Developer Support
+    url: https://developer.veevavault.com/
+  license:
+    name: Veeva Vault Terms of Service
+    url: https://www.veeva.com/legal/
+servers:
+- url: https://{vaultDomain}/api/v25.3
+  description: Veeva Vault API
+  variables:
+    vaultDomain:
+      description: Your Vault domain (e.g., myvault.veevavault.com)
+      default: myvault.veevavault.com
+security:
+- VaultSession: []
+tags:
+- name: Users
+  description: User management
+paths:
+  /objects/users:
+    get:
+      operationId: listUsers
+      summary: Veeva List Vault Users
+      description: Returns all active users in the Vault.
+      tags:
+      - Users
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 200
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          default: 0
+      responses:
+        '200':
+          description: User list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListResponse'
+              examples:
+                ListUsers200Example:
+                  summary: Default listUsers 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    users:
+                    - user:
+                        id: 12345
+                        user_name__v: john.smith@myvault.veevavault.com
+                        user_first_name__v: John
+                        user_last_name__v: Smith
+                        user_email__v: john.smith@company.com
+                        is_active__v: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    UserListResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        users:
+          type: array
+          items:
+            type: object
+            properties:
+              user:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  user_name__v:
+                    type: string
+                  user_first_name__v:
+                    type: string
+                  user_last_name__v:
+                    type: string
+                  user_email__v:
+                    type: string
+                    format: email
+                  user_timezone__v:
+                    type: string
+                  user_locale__v:
+                    type: string
+                  is_active__v:
+                    type: boolean
+  securitySchemes:
+    VaultSession:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Vault Session ID from /auth endpoint

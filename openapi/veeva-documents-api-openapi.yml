@@ -1,0 +1,445 @@
+openapi: 3.1.0
+info:
+  title: Veeva Vault REST Authentication Documents API
+  description: Veeva Vault provides life sciences cloud platform APIs for regulatory document management, quality management (QMS), clinical operations, and commercial content management. REST APIs enable document lifecycle management, workflow automation, object CRUD operations, and compliance-validated data exchange. API version v25.3.
+  version: '25.3'
+  contact:
+    name: Veeva Developer Support
+    url: https://developer.veevavault.com/
+  license:
+    name: Veeva Vault Terms of Service
+    url: https://www.veeva.com/legal/
+servers:
+- url: https://{vaultDomain}/api/v25.3
+  description: Veeva Vault API
+  variables:
+    vaultDomain:
+      description: Your Vault domain (e.g., myvault.veevavault.com)
+      default: myvault.veevavault.com
+security:
+- VaultSession: []
+tags:
+- name: Documents
+  description: Document lifecycle management
+paths:
+  /objects/documents:
+    get:
+      operationId: listDocuments
+      summary: Veeva List All Documents
+      description: Returns a list of all documents accessible to the authenticated user. Supports filtering by document type, lifecycle state, and custom fields.
+      tags:
+      - Documents
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 200
+          maximum: 1000
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          default: 0
+      - name: sort
+        in: query
+        schema:
+          type: string
+          example: name__v asc
+      responses:
+        '200':
+          description: Document list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentListResponse'
+              examples:
+                ListDocuments200Example:
+                  summary: Default listDocuments 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    documents:
+                    - document:
+                        id: 100001
+                        name__v: Study Protocol v1.0
+                        type__v: study_protocol__c
+                        lifecycle__v: general_lifecycle__c
+                        status__v: approved__c
+                        major_version_number__v: 1
+                        minor_version_number__v: 0
+                    size: 1
+                    start: 0
+        '401':
+          description: Unauthorized
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      operationId: createDocument
+      summary: Veeva Create a Document
+      description: Creates a new document record in Vault. Optionally uploads a file as the document source file in the same request using multipart/form-data.
+      tags:
+      - Documents
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - name__v
+              - type__v
+              - lifecycle__v
+              properties:
+                name__v:
+                  type: string
+                  description: Document name
+                type__v:
+                  type: string
+                  description: Document type API name
+                  example: study_protocol__c
+                lifecycle__v:
+                  type: string
+                  description: Document lifecycle API name
+                  example: general_lifecycle__c
+                status__v:
+                  type: string
+                  description: Initial lifecycle state
+                  example: draft__v
+                file:
+                  type: string
+                  format: binary
+                  description: Source file (optional)
+                description__v:
+                  type: string
+                study__v:
+                  type: string
+                  description: Study object reference
+            examples:
+              CreateDocumentRequestExample:
+                summary: Default createDocument request
+                x-microcks-default: true
+                value:
+                  name__v: Study Protocol Amendment 1
+                  type__v: study_protocol__c
+                  lifecycle__v: general_lifecycle__c
+                  status__v: draft__v
+                  description__v: Protocol amendment for Phase 2 study
+      responses:
+        '200':
+          description: Document created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentCreateResponse'
+              examples:
+                CreateDocument200Example:
+                  summary: Default createDocument 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    id: 100002
+                    external_id__v: PROT-2025-001
+                    major_version_number__v: 0
+                    minor_version_number__v: 1
+        '400':
+          description: Validation error
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /objects/documents/{documentId}:
+    get:
+      operationId: getDocument
+      summary: Veeva Retrieve a Document
+      description: Returns metadata and properties for a specific document.
+      tags:
+      - Documents
+      parameters:
+      - $ref: '#/components/parameters/DocumentId'
+      responses:
+        '200':
+          description: Document metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentResponse'
+              examples:
+                GetDocument200Example:
+                  summary: Default getDocument 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    document:
+                      id: 100001
+                      name__v: Study Protocol v1.0
+                      type__v: study_protocol__c
+                      lifecycle__v: general_lifecycle__c
+                      status__v: approved__c
+                      major_version_number__v: 1
+                      minor_version_number__v: 0
+                      created_by__v: 12345
+                      created_date__v: '2025-03-15T10:30:00Z'
+                    versions:
+                    - number: '1.0'
+                      value: https://myvault.veevavault.com/api/v25.3/objects/documents/100001/versions/1/0
+        '404':
+          description: Document not found
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    put:
+      operationId: updateDocument
+      summary: Veeva Update Document Metadata
+      description: Updates document field values. Does not replace the document file.
+      tags:
+      - Documents
+      parameters:
+      - $ref: '#/components/parameters/DocumentId'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+              description: Document field name-value pairs
+            examples:
+              UpdateDocumentRequestExample:
+                summary: Default updateDocument request
+                x-microcks-default: true
+                value:
+                  description__v: Updated protocol description
+                  status__v: approved__c
+      responses:
+        '200':
+          description: Document updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentUpdateResponse'
+              examples:
+                UpdateDocument200Example:
+                  summary: Default updateDocument 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    id: 100001
+                    major_version_number__v: 1
+                    minor_version_number__v: 1
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    delete:
+      operationId: deleteDocument
+      summary: Veeva Delete a Document
+      description: Deletes a document and all versions.
+      tags:
+      - Documents
+      parameters:
+      - $ref: '#/components/parameters/DocumentId'
+      responses:
+        '200':
+          description: Document deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaultResponse'
+              examples:
+                DeleteDocument200Example:
+                  summary: Default deleteDocument 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    id: 100001
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /objects/documents/{documentId}/file:
+    get:
+      operationId: downloadDocumentFile
+      summary: Veeva Download Document Source File
+      description: Downloads the source file for the latest version of a document.
+      tags:
+      - Documents
+      parameters:
+      - $ref: '#/components/parameters/DocumentId'
+      responses:
+        '200':
+          description: Document file binary
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /objects/documents/{documentId}/actions/{actionName}:
+    post:
+      operationId: performDocumentAction
+      summary: Veeva Perform a Document Lifecycle Action
+      description: Executes a user action on a document to change its lifecycle state. Common actions include Approve, Submit for Review, Send to Archive.
+      tags:
+      - Documents
+      parameters:
+      - $ref: '#/components/parameters/DocumentId'
+      - name: actionName
+        in: path
+        required: true
+        description: Lifecycle action API name
+        schema:
+          type: string
+        example: Approve
+      responses:
+        '200':
+          description: Action performed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaultResponse'
+              examples:
+                PerformDocumentAction200Example:
+                  summary: Default performDocumentAction 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    id: 100001
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    DocumentUpdateResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        id:
+          type: integer
+        major_version_number__v:
+          type: integer
+        minor_version_number__v:
+          type: integer
+    VaultResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+          enum:
+          - SUCCESS
+          - FAILURE
+        id:
+          type: integer
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              message:
+                type: string
+    DocumentListResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        documents:
+          type: array
+          items:
+            type: object
+            properties:
+              document:
+                $ref: '#/components/schemas/DocumentFields'
+        size:
+          type: integer
+        start:
+          type: integer
+    DocumentFields:
+      type: object
+      description: Document field values (field names end in __v for standard, __c for custom)
+      properties:
+        id:
+          type: integer
+        name__v:
+          type: string
+        type__v:
+          type: string
+        subtype__v:
+          type: string
+        classification__v:
+          type: string
+        lifecycle__v:
+          type: string
+        status__v:
+          type: string
+        created_by__v:
+          type: integer
+        last_modified_by__v:
+          type: integer
+        created_date__v:
+          type: string
+          format: date-time
+        last_modified_date__v:
+          type: string
+          format: date-time
+        major_version_number__v:
+          type: integer
+        minor_version_number__v:
+          type: integer
+        document_number__v:
+          type: string
+        description__v:
+          type: string
+        size__v:
+          type: integer
+        format__v:
+          type: string
+      additionalProperties: true
+    DocumentResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        document:
+          $ref: '#/components/schemas/DocumentFields'
+        versions:
+          type: array
+          items:
+            type: object
+            properties:
+              number:
+                type: string
+              value:
+                type: string
+              format: uri
+    DocumentCreateResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        id:
+          type: integer
+          description: New document ID
+        external_id__v:
+          type: string
+        major_version_number__v:
+          type: integer
+        minor_version_number__v:
+          type: integer
+  parameters:
+    DocumentId:
+      name: documentId
+      in: path
+      required: true
+      description: Vault document ID
+      schema:
+        type: integer
+      example: 12345
+  securitySchemes:
+    VaultSession:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Vault Session ID from /auth endpoint

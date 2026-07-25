@@ -1,0 +1,293 @@
+openapi: 3.1.0
+info:
+  title: Veeva Vault REST Authentication Objects API
+  description: Veeva Vault provides life sciences cloud platform APIs for regulatory document management, quality management (QMS), clinical operations, and commercial content management. REST APIs enable document lifecycle management, workflow automation, object CRUD operations, and compliance-validated data exchange. API version v25.3.
+  version: '25.3'
+  contact:
+    name: Veeva Developer Support
+    url: https://developer.veevavault.com/
+  license:
+    name: Veeva Vault Terms of Service
+    url: https://www.veeva.com/legal/
+servers:
+- url: https://{vaultDomain}/api/v25.3
+  description: Veeva Vault API
+  variables:
+    vaultDomain:
+      description: Your Vault domain (e.g., myvault.veevavault.com)
+      default: myvault.veevavault.com
+security:
+- VaultSession: []
+tags:
+- name: Objects
+  description: Vault object CRUD operations
+paths:
+  /vobjects/{objectName}:
+    get:
+      operationId: listObjectRecords
+      summary: Veeva List Vault Object Records
+      description: Returns records for a Vault object. Vault objects are configurable business entities (studies, products, sites, etc.).
+      tags:
+      - Objects
+      parameters:
+      - name: objectName
+        in: path
+        required: true
+        description: Vault object API name
+        schema:
+          type: string
+        example: study__v
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 200
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          default: 0
+      - name: fields
+        in: query
+        description: Comma-separated list of field names to return
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Object records
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectListResponse'
+              examples:
+                ListObjectRecords200Example:
+                  summary: Default listObjectRecords 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    data:
+                    - id: 0VO000000000001
+                      name__v: STUDY-001
+                      status__v: active__c
+                    size: 1
+                    start: 0
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      operationId: createObjectRecord
+      summary: Veeva Create a Vault Object Record
+      description: Creates a new record for the specified Vault object.
+      tags:
+      - Objects
+      parameters:
+      - name: objectName
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+              description: Object field values keyed by API name
+            examples:
+              CreateObjectRecordRequestExample:
+                summary: Default createObjectRecord request
+                x-microcks-default: true
+                value:
+                  name__v: STUDY-002
+                  status__v: active__c
+                  therapeutic_area__c: Oncology
+      responses:
+        '200':
+          description: Record created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectCreateResponse'
+              examples:
+                CreateObjectRecord200Example:
+                  summary: Default createObjectRecord 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    id: 0VO000000000002
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /vobjects/{objectName}/{recordId}:
+    get:
+      operationId: getObjectRecord
+      summary: Veeva Get a Vault Object Record
+      description: Returns a single record for a Vault object.
+      tags:
+      - Objects
+      parameters:
+      - name: objectName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: recordId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Object record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectRecordResponse'
+              examples:
+                GetObjectRecord200Example:
+                  summary: Default getObjectRecord 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    data:
+                      id: 0VO000000000001
+                      name__v: STUDY-001
+                      status__v: active__c
+                      therapeutic_area__c: Oncology
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    put:
+      operationId: updateObjectRecord
+      summary: Veeva Update a Vault Object Record
+      description: Updates fields on an existing Vault object record.
+      tags:
+      - Objects
+      parameters:
+      - name: objectName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: recordId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+            examples:
+              UpdateObjectRecordRequestExample:
+                summary: Default updateObjectRecord request
+                x-microcks-default: true
+                value:
+                  status__v: inactive__c
+      responses:
+        '200':
+          description: Record updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaultResponse'
+              examples:
+                UpdateObjectRecord200Example:
+                  summary: Default updateObjectRecord 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    delete:
+      operationId: deleteObjectRecord
+      summary: Veeva Delete a Vault Object Record
+      description: Deletes a specific Vault object record.
+      tags:
+      - Objects
+      parameters:
+      - name: objectName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: recordId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Record deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaultResponse'
+              examples:
+                DeleteObjectRecord200Example:
+                  summary: Default deleteObjectRecord 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    ObjectCreateResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        id:
+          type: string
+    ObjectRecordResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        data:
+          type: object
+          additionalProperties: true
+    VaultResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+          enum:
+          - SUCCESS
+          - FAILURE
+        id:
+          type: integer
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              message:
+                type: string
+    ObjectListResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        size:
+          type: integer
+        start:
+          type: integer
+  securitySchemes:
+    VaultSession:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Vault Session ID from /auth endpoint

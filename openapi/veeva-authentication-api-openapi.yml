@@ -1,0 +1,135 @@
+openapi: 3.1.0
+info:
+  title: Veeva Vault REST Authentication API
+  description: Veeva Vault provides life sciences cloud platform APIs for regulatory document management, quality management (QMS), clinical operations, and commercial content management. REST APIs enable document lifecycle management, workflow automation, object CRUD operations, and compliance-validated data exchange. API version v25.3.
+  version: '25.3'
+  contact:
+    name: Veeva Developer Support
+    url: https://developer.veevavault.com/
+  license:
+    name: Veeva Vault Terms of Service
+    url: https://www.veeva.com/legal/
+servers:
+- url: https://{vaultDomain}/api/v25.3
+  description: Veeva Vault API
+  variables:
+    vaultDomain:
+      description: Your Vault domain (e.g., myvault.veevavault.com)
+      default: myvault.veevavault.com
+security:
+- VaultSession: []
+tags:
+- name: Authentication
+  description: Session management
+paths:
+  /auth:
+    post:
+      operationId: authenticateUser
+      summary: Veeva Authenticate and Obtain Session ID
+      description: Authenticates a user with username and password and returns a session ID for use in subsequent API requests. Session IDs are included in the Authorization header for all API calls.
+      tags:
+      - Authentication
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+              - username
+              - password
+              properties:
+                username:
+                  type: string
+                  description: Vault username (email address)
+                password:
+                  type: string
+                  format: password
+                vaultDNS:
+                  type: string
+                  description: Target Vault DNS (for multi-vault environments)
+            examples:
+              AuthenticateUserRequestExample:
+                summary: Default authenticateUser request
+                x-microcks-default: true
+                value:
+                  username: john.smith@myvault.veevavault.com
+                  password: SecureP@ssword123
+                  vaultDNS: myvault.veevavault.com
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+              examples:
+                AuthenticateUser200Example:
+                  summary: Default authenticateUser 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    sessionId: A8E4F3B2C1D0E9F8A7B6C5D4E3F2A1B0
+                    userId: 12345
+                    vaultId: 1001
+                    vaultIds:
+                    - id: 1001
+                      name: My Vault
+                      url: https://myvault.veevavault.com
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    AuthResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+          example: SUCCESS
+        sessionId:
+          type: string
+          description: Session ID for Authorization header
+        userId:
+          type: integer
+        vaultId:
+          type: integer
+        vaultIds:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              url:
+                type: string
+    ErrorResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+          example: FAILURE
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              message:
+                type: string
+  securitySchemes:
+    VaultSession:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Vault Session ID from /auth endpoint

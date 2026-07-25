@@ -1,0 +1,93 @@
+openapi: 3.1.0
+info:
+  title: Veeva Vault REST Authentication Workflows API
+  description: Veeva Vault provides life sciences cloud platform APIs for regulatory document management, quality management (QMS), clinical operations, and commercial content management. REST APIs enable document lifecycle management, workflow automation, object CRUD operations, and compliance-validated data exchange. API version v25.3.
+  version: '25.3'
+  contact:
+    name: Veeva Developer Support
+    url: https://developer.veevavault.com/
+  license:
+    name: Veeva Vault Terms of Service
+    url: https://www.veeva.com/legal/
+servers:
+- url: https://{vaultDomain}/api/v25.3
+  description: Veeva Vault API
+  variables:
+    vaultDomain:
+      description: Your Vault domain (e.g., myvault.veevavault.com)
+      default: myvault.veevavault.com
+security:
+- VaultSession: []
+tags:
+- name: Workflows
+  description: Workflow and task management
+paths:
+  /objects/documents/{documentId}/actions/{actionName}:
+    post:
+      operationId: performDocumentAction
+      summary: Veeva Perform a Document Lifecycle Action
+      description: Executes a user action on a document to change its lifecycle state. Common actions include Approve, Submit for Review, Send to Archive.
+      tags:
+      - Workflows
+      parameters:
+      - $ref: '#/components/parameters/DocumentId'
+      - name: actionName
+        in: path
+        required: true
+        description: Lifecycle action API name
+        schema:
+          type: string
+        example: Approve
+      responses:
+        '200':
+          description: Action performed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VaultResponse'
+              examples:
+                PerformDocumentAction200Example:
+                  summary: Default performDocumentAction 200 response
+                  x-microcks-default: true
+                  value:
+                    responseStatus: SUCCESS
+                    id: 100001
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  parameters:
+    DocumentId:
+      name: documentId
+      in: path
+      required: true
+      description: Vault document ID
+      schema:
+        type: integer
+      example: 12345
+  schemas:
+    VaultResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+          enum:
+          - SUCCESS
+          - FAILURE
+        id:
+          type: integer
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              message:
+                type: string
+  securitySchemes:
+    VaultSession:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Vault Session ID from /auth endpoint
