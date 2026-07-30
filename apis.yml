@@ -1,95 +1,20 @@
 aid: veeva
+accessModel:
+  pricing: enterprise
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Enterprise · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/veeva.png
 url: https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/apis.yml
 apis:
-- aid: veeva:veeva-vault-api
-  name: Veeva Vault Platform API
-  tags:
-  - Clinical
-  - Life Sciences
-  - Pharma
-  - QMS
-  - Regulatory
-  image: https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/image.png
-  humanURL: https://developer.veevavault.com/
-  baseURL: https://myvault.veevavault.com/api/v25.3
-  properties:
-  - url: https://developer.veevavault.com/
-    type: Portal
-  - url: https://developer.veevavault.com/docs
-    type: Documentation
-  - url: https://developer.veevavault.com/api/25.3/
-    type: Reference
-  - url: https://developer.veevavault.com/api/25.3/
-    type: Authentication
-  - url: https://developer.veevavault.com/rn/25.3/
-    type: ChangeLog
-  - url: https://developer.veevavault.com/docs
-    type: GettingStarted
-  - url: openapi/veeva-vault-openapi.yml
-    type: OpenAPI
-  - url: json-schema/veeva-vault-auth-response-schema.json
-    type: JSONSchema
-    title: Auth Response Schema
-  - url: json-schema/veeva-vault-document-fields-schema.json
-    type: JSONSchema
-    title: Document Fields Schema
-  - url: json-schema/veeva-vault-document-list-response-schema.json
-    type: JSONSchema
-    title: Document List Response Schema
-  - url: json-schema/veeva-vault-document-create-response-schema.json
-    type: JSONSchema
-    title: Document Create Response Schema
-  - url: json-schema/veeva-vault-document-update-response-schema.json
-    type: JSONSchema
-    title: Document Update Response Schema
-  - url: json-schema/veeva-vault-document-response-schema.json
-    type: JSONSchema
-    title: Document Response Schema
-  - url: json-schema/veeva-vault-object-list-response-schema.json
-    type: JSONSchema
-    title: Object List Response Schema
-  - url: json-schema/veeva-vault-object-create-response-schema.json
-    type: JSONSchema
-    title: Object Create Response Schema
-  - url: json-schema/veeva-vault-object-record-response-schema.json
-    type: JSONSchema
-    title: Object Record Response Schema
-  - url: json-schema/veeva-vault-query-response-schema.json
-    type: JSONSchema
-    title: Query Response Schema
-  - url: json-schema/veeva-vault-user-list-response-schema.json
-    type: JSONSchema
-    title: User List Response Schema
-  - url: json-structure/veeva-vault-auth-response-structure.json
-    type: JSONStructure
-    title: Auth Response Structure
-  - url: json-structure/veeva-vault-document-fields-structure.json
-    type: JSONStructure
-    title: Document Fields Structure
-  - url: json-structure/veeva-vault-document-list-response-structure.json
-    type: JSONStructure
-    title: Document List Response Structure
-  - url: json-structure/veeva-vault-query-response-structure.json
-    type: JSONStructure
-    title: Query Response Structure
-  - url: examples/veeva-vault-auth-response-example.json
-    type: Examples
-    title: Auth Response Example
-  - url: examples/veeva-vault-document-fields-example.json
-    type: Examples
-    title: Document Fields Example
-  - url: examples/veeva-vault-document-list-response-example.json
-    type: Examples
-    title: Document List Response Example
-  - url: examples/veeva-vault-query-response-example.json
-    type: Examples
-    title: Query Response Example
-  - url: graphql/veeva-graphql.md
-    type: GraphQL
-  description: Veeva Vault provides life sciences cloud platform APIs for regulatory
-    document management, quality management (QMS), clinical operations, and commercial
-    content management. REST APIs enable document lifecycle management, workflow automation,
-    and compliance-validated data exchange.
 - aid: veeva:veeva-vault-java-sdk
   name: Veeva Vault Java SDK
   tags:
@@ -108,29 +33,10 @@ apis:
   - url: https://mvnrepository.com/artifact/com.veeva/vault-api-library
     type: SDKs
     title: Maven Central
-  description: The Veeva Vault Java SDK (VAPIL) is an open-source Java-based REST
-    API client for the Vault REST API. Provides type-safe access to all Vault API
-    operations including document management, object CRUD, workflow execution, and
-    administrative functions.
-- aid: veeva:veeva-vault-query-language
-  name: Veeva Vault Query Language (VQL) API
-  tags:
-  - Life Sciences
-  - Pharma
-  - Query Language
-  - SQL
-  image: https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/image.png
-  humanURL: https://developer.veevavault.com/vql/
-  baseURL: https://myvault.veevavault.com/api
-  properties:
-  - url: https://developer.veevavault.com/vql/
-    type: Documentation
-  - url: openapi/veeva-vault-openapi.yml
-    type: OpenAPI
-  description: Vault Query Language (VQL) provides SQL-like query capabilities for
-    accessing and retrieving Vault data. Supports SELECT, FROM, WHERE, ORDER BY, relationship
-    queries, and functions for querying documents, objects, users, workflows, and
-    system data.
+  description: >-
+    The Veeva Vault Java SDK (VAPIL) is an open-source Java-based REST API client for the Vault REST API.
+    Provides type-safe access to all Vault API operations including document management, object CRUD,
+    workflow execution, and administrative functions.
 - aid: veeva:veeva-vault-direct-data-api
   name: Veeva Vault Direct Data API
   tags:
@@ -144,10 +50,397 @@ apis:
   properties:
   - url: https://developer.veevavault.com/docs
     type: Documentation
-  description: The Veeva Vault Direct Data API provides high-speed, read-only bulk
-    access to Vault data for integration, analytics, and reporting purposes. Supports
-    bulk export of documents, objects, and attachment field files for up to 500 records.
+  description: >-
+    The Veeva Vault Direct Data API provides high-speed, read-only bulk access to Vault data for integration,
+    analytics, and reporting purposes. Supports bulk export of documents, objects, and attachment field
+    files for up to 500 records.
+- aid: veeva:veeva-authentication-api
+  name: veeva Authentication API
+  description: Session management
+  humanURL: https://developer.veevavault.com/
+  baseURL: https://myvault.veevavault.com/api/v25.3
+  tags:
+  - Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/veeva-authentication-api-openapi.yml
+  - type: Portal
+    url: https://developer.veevavault.com/
+  - type: Documentation
+    url: https://developer.veevavault.com/docs
+  - type: Reference
+    url: https://developer.veevavault.com/api/25.3/
+  - type: Authentication
+    url: https://developer.veevavault.com/api/25.3/
+  - type: ChangeLog
+    url: https://developer.veevavault.com/rn/25.3/
+  - type: GettingStarted
+    url: https://developer.veevavault.com/docs
+  - type: JSONSchema
+    url: json-schema/veeva-vault-auth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-fields-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-list-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-create-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-update-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-object-list-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-object-create-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-object-record-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-query-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-user-list-response-schema.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-auth-response-structure.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-document-fields-structure.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-document-list-response-structure.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-query-response-structure.json
+  - type: Examples
+    url: examples/veeva-vault-auth-response-example.json
+  - type: Examples
+    url: examples/veeva-vault-document-fields-example.json
+  - type: Examples
+    url: examples/veeva-vault-document-list-response-example.json
+  - type: Examples
+    url: examples/veeva-vault-query-response-example.json
+  - type: GraphQL
+    url: graphql/veeva-graphql.md
+  - type: Documentation
+    url: https://developer.veevavault.com/vql/
+- aid: veeva:veeva-documents-api
+  name: veeva Documents API
+  description: Document lifecycle management
+  humanURL: https://developer.veevavault.com/
+  baseURL: https://myvault.veevavault.com/api/v25.3
+  tags:
+  - Documents
+  properties:
+  - type: OpenAPI
+    url: openapi/veeva-documents-api-openapi.yml
+  - type: Portal
+    url: https://developer.veevavault.com/
+  - type: Documentation
+    url: https://developer.veevavault.com/docs
+  - type: Reference
+    url: https://developer.veevavault.com/api/25.3/
+  - type: Authentication
+    url: https://developer.veevavault.com/api/25.3/
+  - type: ChangeLog
+    url: https://developer.veevavault.com/rn/25.3/
+  - type: GettingStarted
+    url: https://developer.veevavault.com/docs
+  - type: JSONSchema
+    url: json-schema/veeva-vault-auth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-fields-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-list-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-create-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-update-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-object-list-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-object-create-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-object-record-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-query-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-user-list-response-schema.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-auth-response-structure.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-document-fields-structure.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-document-list-response-structure.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-query-response-structure.json
+  - type: Examples
+    url: examples/veeva-vault-auth-response-example.json
+  - type: Examples
+    url: examples/veeva-vault-document-fields-example.json
+  - type: Examples
+    url: examples/veeva-vault-document-list-response-example.json
+  - type: Examples
+    url: examples/veeva-vault-query-response-example.json
+  - type: GraphQL
+    url: graphql/veeva-graphql.md
+  - type: Documentation
+    url: https://developer.veevavault.com/vql/
+- aid: veeva:veeva-objects-api
+  name: veeva Objects API
+  description: Vault object CRUD operations
+  humanURL: https://developer.veevavault.com/
+  baseURL: https://myvault.veevavault.com/api/v25.3
+  tags:
+  - Objects
+  properties:
+  - type: OpenAPI
+    url: openapi/veeva-objects-api-openapi.yml
+  - type: Portal
+    url: https://developer.veevavault.com/
+  - type: Documentation
+    url: https://developer.veevavault.com/docs
+  - type: Reference
+    url: https://developer.veevavault.com/api/25.3/
+  - type: Authentication
+    url: https://developer.veevavault.com/api/25.3/
+  - type: ChangeLog
+    url: https://developer.veevavault.com/rn/25.3/
+  - type: GettingStarted
+    url: https://developer.veevavault.com/docs
+  - type: JSONSchema
+    url: json-schema/veeva-vault-auth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-fields-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-list-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-create-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-update-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-object-list-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-object-create-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-object-record-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-query-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-user-list-response-schema.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-auth-response-structure.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-document-fields-structure.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-document-list-response-structure.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-query-response-structure.json
+  - type: Examples
+    url: examples/veeva-vault-auth-response-example.json
+  - type: Examples
+    url: examples/veeva-vault-document-fields-example.json
+  - type: Examples
+    url: examples/veeva-vault-document-list-response-example.json
+  - type: Examples
+    url: examples/veeva-vault-query-response-example.json
+  - type: GraphQL
+    url: graphql/veeva-graphql.md
+  - type: Documentation
+    url: https://developer.veevavault.com/vql/
+- aid: veeva:veeva-query-api
+  name: veeva Query API
+  description: VQL query execution
+  humanURL: https://developer.veevavault.com/
+  baseURL: https://myvault.veevavault.com/api/v25.3
+  tags:
+  - Query
+  properties:
+  - type: OpenAPI
+    url: openapi/veeva-query-api-openapi.yml
+  - type: Portal
+    url: https://developer.veevavault.com/
+  - type: Documentation
+    url: https://developer.veevavault.com/docs
+  - type: Reference
+    url: https://developer.veevavault.com/api/25.3/
+  - type: Authentication
+    url: https://developer.veevavault.com/api/25.3/
+  - type: ChangeLog
+    url: https://developer.veevavault.com/rn/25.3/
+  - type: GettingStarted
+    url: https://developer.veevavault.com/docs
+  - type: JSONSchema
+    url: json-schema/veeva-vault-auth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-fields-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-list-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-create-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-update-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-object-list-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-object-create-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-object-record-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-query-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-user-list-response-schema.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-auth-response-structure.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-document-fields-structure.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-document-list-response-structure.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-query-response-structure.json
+  - type: Examples
+    url: examples/veeva-vault-auth-response-example.json
+  - type: Examples
+    url: examples/veeva-vault-document-fields-example.json
+  - type: Examples
+    url: examples/veeva-vault-document-list-response-example.json
+  - type: Examples
+    url: examples/veeva-vault-query-response-example.json
+  - type: GraphQL
+    url: graphql/veeva-graphql.md
+  - type: Documentation
+    url: https://developer.veevavault.com/vql/
+- aid: veeva:veeva-users-api
+  name: veeva Users API
+  description: User management
+  humanURL: https://developer.veevavault.com/
+  baseURL: https://myvault.veevavault.com/api/v25.3
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/veeva-users-api-openapi.yml
+  - type: Portal
+    url: https://developer.veevavault.com/
+  - type: Documentation
+    url: https://developer.veevavault.com/docs
+  - type: Reference
+    url: https://developer.veevavault.com/api/25.3/
+  - type: Authentication
+    url: https://developer.veevavault.com/api/25.3/
+  - type: ChangeLog
+    url: https://developer.veevavault.com/rn/25.3/
+  - type: GettingStarted
+    url: https://developer.veevavault.com/docs
+  - type: JSONSchema
+    url: json-schema/veeva-vault-auth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-fields-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-list-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-create-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-update-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-object-list-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-object-create-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-object-record-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-query-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-user-list-response-schema.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-auth-response-structure.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-document-fields-structure.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-document-list-response-structure.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-query-response-structure.json
+  - type: Examples
+    url: examples/veeva-vault-auth-response-example.json
+  - type: Examples
+    url: examples/veeva-vault-document-fields-example.json
+  - type: Examples
+    url: examples/veeva-vault-document-list-response-example.json
+  - type: Examples
+    url: examples/veeva-vault-query-response-example.json
+  - type: GraphQL
+    url: graphql/veeva-graphql.md
+  - type: Documentation
+    url: https://developer.veevavault.com/vql/
+- aid: veeva:veeva-workflows-api
+  name: veeva Workflows API
+  description: Workflow and task management
+  humanURL: https://developer.veevavault.com/
+  baseURL: https://myvault.veevavault.com/api/v25.3
+  tags:
+  - Workflows
+  properties:
+  - type: OpenAPI
+    url: openapi/veeva-workflows-api-openapi.yml
+  - type: Portal
+    url: https://developer.veevavault.com/
+  - type: Documentation
+    url: https://developer.veevavault.com/docs
+  - type: Reference
+    url: https://developer.veevavault.com/api/25.3/
+  - type: Authentication
+    url: https://developer.veevavault.com/api/25.3/
+  - type: ChangeLog
+    url: https://developer.veevavault.com/rn/25.3/
+  - type: GettingStarted
+    url: https://developer.veevavault.com/docs
+  - type: JSONSchema
+    url: json-schema/veeva-vault-auth-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-fields-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-list-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-create-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-update-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-document-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-object-list-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-object-create-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-object-record-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-query-response-schema.json
+  - type: JSONSchema
+    url: json-schema/veeva-vault-user-list-response-schema.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-auth-response-structure.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-document-fields-structure.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-document-list-response-structure.json
+  - type: JSONStructure
+    url: json-structure/veeva-vault-query-response-structure.json
+  - type: Examples
+    url: examples/veeva-vault-auth-response-example.json
+  - type: Examples
+    url: examples/veeva-vault-document-fields-example.json
+  - type: Examples
+    url: examples/veeva-vault-document-list-response-example.json
+  - type: Examples
+    url: examples/veeva-vault-query-response-example.json
+  - type: GraphQL
+    url: graphql/veeva-graphql.md
+  - type: Documentation
+    url: https://developer.veevavault.com/vql/
 common:
+- type: PostmanWorkspace
+  url: https://www.postman.com/kinlaneapi/veeva/overview
 - type: AgenticAccess
   url: agentic-access/veeva-agentic-access.yml
 - type: DomainSecurity
