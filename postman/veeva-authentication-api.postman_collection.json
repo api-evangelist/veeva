@@ -1,0 +1,240 @@
+{
+  "info": {
+    "_postman_id": "9c112f9f-0f6d-4b22-8ac7-1a4241adca89",
+    "name": "Veeva Vault REST Authentication API",
+    "description": "Veeva Vault provides life sciences cloud platform APIs for regulatory document management, quality management (QMS), clinical operations, and commercial content management. REST APIs enable document lifecycle management, workflow automation, object CRUD operations, and compliance-validated data exchange. API version v25.3.\n\nContact Support:\n Name: Veeva Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:26:46.000Z",
+    "updatedAt": "2026-07-28T03:26:46.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-9c112f9f-0f6d-4b22-8ac7-1a4241adca89"
+  },
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "Veeva Authenticate and Obtain Session ID",
+          "id": "23a1e053-4f15-443b-b994-1039e774618d",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "description": "(Required) Vault username (email address)",
+                  "key": "username",
+                  "value": "<string>"
+                },
+                {
+                  "description": "(Required) ",
+                  "key": "password",
+                  "value": "<string>"
+                },
+                {
+                  "description": "Target Vault DNS (for multi-vault environments)",
+                  "key": "vaultDNS",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth"
+              ]
+            },
+            "description": "Authenticates a user with username and password and returns a session ID for use in subsequent API requests. Session IDs are included in the Authorization header for all API calls."
+          },
+          "response": [
+            {
+              "id": "53b18b98-0e53-4536-9026-0c728a68f839",
+              "name": "Authentication successful",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "description": "(Required) Vault username (email address)",
+                      "key": "username",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "(Required) ",
+                      "key": "password",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Target Vault DNS (for multi-vault environments)",
+                      "key": "vaultDNS",
+                      "value": "<string>"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"responseStatus\": \"<string>\",\n  \"sessionId\": \"<string>\",\n  \"userId\": \"<integer>\",\n  \"vaultId\": \"<integer>\",\n  \"vaultIds\": [\n    {\n      \"id\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\"\n    },\n    {\n      \"id\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\"\n    }\n  ]\n}",
+              "createdAt": "2026-07-28T03:26:46.000Z",
+              "updatedAt": "2026-07-28T03:26:46.000Z",
+              "uid": "35240-53b18b98-0e53-4536-9026-0c728a68f839"
+            },
+            {
+              "id": "fa107cf5-b380-47e4-9181-0aed1536447a",
+              "name": "Authentication failed",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "description": "(Required) Vault username (email address)",
+                      "key": "username",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "(Required) ",
+                      "key": "password",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Target Vault DNS (for multi-vault environments)",
+                      "key": "vaultDNS",
+                      "value": "<string>"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"responseStatus\": \"<string>\",\n  \"errors\": [\n    {\n      \"type\": \"<string>\",\n      \"message\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"message\": \"<string>\"\n    }\n  ]\n}",
+              "createdAt": "2026-07-28T03:26:46.000Z",
+              "updatedAt": "2026-07-28T03:26:46.000Z",
+              "uid": "35240-fa107cf5-b380-47e4-9181-0aed1536447a"
+            }
+          ],
+          "createdAt": "2026-07-28T03:26:46.000Z",
+          "updatedAt": "2026-07-28T03:26:46.000Z",
+          "uid": "35240-23a1e053-4f15-443b-b994-1039e774618d"
+        }
+      ],
+      "id": "a0797518-a3b7-412d-b8d6-4c18c1a479cd",
+      "createdAt": "2026-07-28T03:26:46.000Z",
+      "updatedAt": "2026-07-28T03:26:46.000Z",
+      "uid": "35240-a0797518-a3b7-412d-b8d6-4c18c1a479cd"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "vaultDomain",
+      "value": "myvault.veevavault.com"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{vaultDomain}}/api/v25.3"
+    }
+  ]
+}

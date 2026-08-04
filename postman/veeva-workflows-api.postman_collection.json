@@ -1,0 +1,192 @@
+{
+  "info": {
+    "_postman_id": "937ac841-dcab-49d0-b857-b1f77ef734cd",
+    "name": "Veeva Vault REST Authentication Workflows API",
+    "description": "Veeva Vault provides life sciences cloud platform APIs for regulatory document management, quality management (QMS), clinical operations, and commercial content management. REST APIs enable document lifecycle management, workflow automation, object CRUD operations, and compliance-validated data exchange. API version v25.3.\n\nContact Support:\n Name: Veeva Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:26:50.000Z",
+    "updatedAt": "2026-07-28T03:26:50.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-937ac841-dcab-49d0-b857-b1f77ef734cd"
+  },
+  "item": [
+    {
+      "name": "objects",
+      "item": [
+        {
+          "name": "documents",
+          "item": [
+            {
+              "name": "{documentId}",
+              "item": [
+                {
+                  "name": "actions",
+                  "item": [
+                    {
+                      "name": "{actionName}",
+                      "item": [
+                        {
+                          "name": "Veeva Perform a Document Lifecycle Action",
+                          "id": "8d12cdcc-1fa5-4dab-872d-36fd51a0feb7",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/objects/documents/:documentId/actions/:actionName",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "objects",
+                                "documents",
+                                ":documentId",
+                                "actions",
+                                ":actionName"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "c082988a-beb6-4f5c-8e9e-ffb6dffac025",
+                                  "key": "documentId",
+                                  "value": "<integer>",
+                                  "description": "(Required) Vault document ID"
+                                },
+                                {
+                                  "id": "f055a814-0f39-4573-ac1a-bc70214c084f",
+                                  "key": "actionName",
+                                  "value": "<string>",
+                                  "description": "(Required) Lifecycle action API name"
+                                }
+                              ]
+                            },
+                            "description": "Executes a user action on a document to change its lifecycle state. Common actions include Approve, Submit for Review, Send to Archive."
+                          },
+                          "response": [
+                            {
+                              "id": "6c5d5ae9-c179-4b27-8d53-5fbbde2ef27d",
+                              "name": "Action performed",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/objects/documents/:documentId/actions/:actionName",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "objects",
+                                    "documents",
+                                    ":documentId",
+                                    "actions",
+                                    ":actionName"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "documentId"
+                                    },
+                                    {
+                                      "key": "actionName"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"responseStatus\": \"SUCCESS\",\n  \"id\": \"<integer>\",\n  \"errors\": [\n    {\n      \"type\": \"<string>\",\n      \"message\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"message\": \"<string>\"\n    }\n  ]\n}",
+                              "createdAt": "2026-07-28T03:26:51.000Z",
+                              "updatedAt": "2026-07-28T03:26:51.000Z",
+                              "uid": "35240-6c5d5ae9-c179-4b27-8d53-5fbbde2ef27d"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T03:26:51.000Z",
+                          "updatedAt": "2026-07-28T03:26:51.000Z",
+                          "uid": "35240-8d12cdcc-1fa5-4dab-872d-36fd51a0feb7"
+                        }
+                      ],
+                      "id": "1483994b-620a-4247-9672-4f3a704d127e",
+                      "createdAt": "2026-07-28T03:26:51.000Z",
+                      "updatedAt": "2026-07-28T03:26:51.000Z",
+                      "uid": "35240-1483994b-620a-4247-9672-4f3a704d127e"
+                    }
+                  ],
+                  "id": "356a94c7-0764-44b5-9467-07632b7ffd37",
+                  "createdAt": "2026-07-28T03:26:51.000Z",
+                  "updatedAt": "2026-07-28T03:26:51.000Z",
+                  "uid": "35240-356a94c7-0764-44b5-9467-07632b7ffd37"
+                }
+              ],
+              "id": "f93c4fdb-ed7d-4a18-b424-5a226e583d3c",
+              "createdAt": "2026-07-28T03:26:51.000Z",
+              "updatedAt": "2026-07-28T03:26:51.000Z",
+              "uid": "35240-f93c4fdb-ed7d-4a18-b424-5a226e583d3c"
+            }
+          ],
+          "id": "fa7d20c7-f66d-41f2-8af0-29306ec61010",
+          "createdAt": "2026-07-28T03:26:51.000Z",
+          "updatedAt": "2026-07-28T03:26:51.000Z",
+          "uid": "35240-fa7d20c7-f66d-41f2-8af0-29306ec61010"
+        }
+      ],
+      "id": "b33fb911-cd1e-4121-9a22-be6bb5a4b037",
+      "createdAt": "2026-07-28T03:26:51.000Z",
+      "updatedAt": "2026-07-28T03:26:51.000Z",
+      "uid": "35240-b33fb911-cd1e-4121-9a22-be6bb5a4b037"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "vaultDomain",
+      "value": "myvault.veevavault.com"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{vaultDomain}}/api/v25.3"
+    }
+  ]
+}

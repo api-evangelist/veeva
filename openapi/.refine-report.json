@@ -1,0 +1,24 @@
+{
+  "provider": "veeva",
+  "sources": [
+    "veeva-authentication-api-openapi.yml",
+    "veeva-documents-api-openapi.yml",
+    "veeva-objects-api-openapi.yml",
+    "veeva-query-api-openapi.yml",
+    "veeva-users-api-openapi.yml",
+    "veeva-workflows-api-openapi.yml"
+  ],
+  "outputs": [
+    "veeva-authentication-api-openapi.yml",
+    "veeva-documents-api-openapi.yml",
+    "veeva-objects-api-openapi.yml",
+    "veeva-query-api-openapi.yml",
+    "veeva-users-api-openapi.yml",
+    "veeva-workflows-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

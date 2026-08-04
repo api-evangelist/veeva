@@ -1,0 +1,157 @@
+{
+  "info": {
+    "_postman_id": "d25a6247-7543-4d69-b956-a196ce967677",
+    "name": "Veeva Vault REST Authentication Users API",
+    "description": "Veeva Vault provides life sciences cloud platform APIs for regulatory document management, quality management (QMS), clinical operations, and commercial content management. REST APIs enable document lifecycle management, workflow automation, object CRUD operations, and compliance-validated data exchange. API version v25.3.\n\nContact Support:\n Name: Veeva Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:26:49.000Z",
+    "updatedAt": "2026-07-28T03:26:49.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-d25a6247-7543-4d69-b956-a196ce967677"
+  },
+  "item": [
+    {
+      "name": "objects",
+      "item": [
+        {
+          "name": "users",
+          "item": [
+            {
+              "name": "Veeva List Vault Users",
+              "id": "7c587334-6a4f-4bdd-94e8-aab31d660d38",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/objects/users?limit=200&offset=0",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "objects",
+                    "users"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "200"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ]
+                },
+                "description": "Returns all active users in the Vault."
+              },
+              "response": [
+                {
+                  "id": "0db2ad9a-1798-4568-af29-8bf86cffdb37",
+                  "name": "User list",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/objects/users?limit=200&offset=0",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "objects",
+                        "users"
+                      ],
+                      "query": [
+                        {
+                          "key": "limit",
+                          "value": "200"
+                        },
+                        {
+                          "key": "offset",
+                          "value": "0"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"responseStatus\": \"<string>\",\n  \"users\": [\n    {\n      \"user\": {\n        \"id\": \"<integer>\",\n        \"user_name__v\": \"<string>\",\n        \"user_first_name__v\": \"<string>\",\n        \"user_last_name__v\": \"<string>\",\n        \"user_email__v\": \"<email>\",\n        \"user_timezone__v\": \"<string>\",\n        \"user_locale__v\": \"<string>\",\n        \"is_active__v\": \"<boolean>\"\n      }\n    },\n    {\n      \"user\": {\n        \"id\": \"<integer>\",\n        \"user_name__v\": \"<string>\",\n        \"user_first_name__v\": \"<string>\",\n        \"user_last_name__v\": \"<string>\",\n        \"user_email__v\": \"<email>\",\n        \"user_timezone__v\": \"<string>\",\n        \"user_locale__v\": \"<string>\",\n        \"is_active__v\": \"<boolean>\"\n      }\n    }\n  ]\n}",
+                  "createdAt": "2026-07-28T03:26:50.000Z",
+                  "updatedAt": "2026-07-28T03:26:50.000Z",
+                  "uid": "35240-0db2ad9a-1798-4568-af29-8bf86cffdb37"
+                }
+              ],
+              "createdAt": "2026-07-28T03:26:50.000Z",
+              "updatedAt": "2026-07-28T03:26:50.000Z",
+              "uid": "35240-7c587334-6a4f-4bdd-94e8-aab31d660d38"
+            }
+          ],
+          "id": "1a1d81df-3e6c-40e6-96fe-0cc7d7c8c6aa",
+          "createdAt": "2026-07-28T03:26:50.000Z",
+          "updatedAt": "2026-07-28T03:26:50.000Z",
+          "uid": "35240-1a1d81df-3e6c-40e6-96fe-0cc7d7c8c6aa"
+        }
+      ],
+      "id": "fc1ed867-436f-4d67-b804-1b4f931252de",
+      "createdAt": "2026-07-28T03:26:50.000Z",
+      "updatedAt": "2026-07-28T03:26:50.000Z",
+      "uid": "35240-fc1ed867-436f-4d67-b804-1b4f931252de"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "vaultDomain",
+      "value": "myvault.veevavault.com"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{vaultDomain}}/api/v25.3"
+    }
+  ]
+}

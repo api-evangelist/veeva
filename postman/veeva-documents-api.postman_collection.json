@@ -1,0 +1,1037 @@
+{
+  "info": {
+    "_postman_id": "4625e10c-bd6d-4d05-b33b-d3bfb7543dac",
+    "name": "Veeva Vault REST Authentication Documents API",
+    "description": "Veeva Vault provides life sciences cloud platform APIs for regulatory document management, quality management (QMS), clinical operations, and commercial content management. REST APIs enable document lifecycle management, workflow automation, object CRUD operations, and compliance-validated data exchange. API version v25.3.\n\nContact Support:\n Name: Veeva Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:26:46.000Z",
+    "updatedAt": "2026-07-28T03:26:47.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-4625e10c-bd6d-4d05-b33b-d3bfb7543dac"
+  },
+  "item": [
+    {
+      "name": "objects",
+      "item": [
+        {
+          "name": "documents",
+          "item": [
+            {
+              "name": "{documentId}",
+              "item": [
+                {
+                  "name": "file",
+                  "item": [
+                    {
+                      "name": "Veeva Download Document Source File",
+                      "id": "1e8330d1-1773-480e-8adc-1f659d4d7bc4",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/octet-stream"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/objects/documents/:documentId/file",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "objects",
+                            "documents",
+                            ":documentId",
+                            "file"
+                          ],
+                          "variable": [
+                            {
+                              "id": "a995ed0a-5269-4390-8ced-5e404a71b8a9",
+                              "key": "documentId",
+                              "value": "<integer>",
+                              "description": "(Required) Vault document ID"
+                            }
+                          ]
+                        },
+                        "description": "Downloads the source file for the latest version of a document."
+                      },
+                      "response": [
+                        {
+                          "id": "86b7efbc-ddaf-4508-953a-2092367de347",
+                          "name": "Document file binary",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/octet-stream"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/objects/documents/:documentId/file",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "objects",
+                                "documents",
+                                ":documentId",
+                                "file"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "documentId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/octet-stream"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "<binary>",
+                          "createdAt": "2026-07-28T03:26:47.000Z",
+                          "updatedAt": "2026-07-28T03:26:47.000Z",
+                          "uid": "35240-86b7efbc-ddaf-4508-953a-2092367de347"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:26:47.000Z",
+                      "updatedAt": "2026-07-28T03:26:47.000Z",
+                      "uid": "35240-1e8330d1-1773-480e-8adc-1f659d4d7bc4"
+                    }
+                  ],
+                  "id": "28bcfd86-3b6d-42b5-abce-7af4bc54b53b",
+                  "createdAt": "2026-07-28T03:26:47.000Z",
+                  "updatedAt": "2026-07-28T03:26:47.000Z",
+                  "uid": "35240-28bcfd86-3b6d-42b5-abce-7af4bc54b53b"
+                },
+                {
+                  "name": "actions",
+                  "item": [
+                    {
+                      "name": "{actionName}",
+                      "item": [
+                        {
+                          "name": "Veeva Perform a Document Lifecycle Action",
+                          "id": "c2aa2543-3397-4e3b-88be-9c3e5be2b28e",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/objects/documents/:documentId/actions/:actionName",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "objects",
+                                "documents",
+                                ":documentId",
+                                "actions",
+                                ":actionName"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "057601f2-44a5-4d97-8890-2ce1c04a9d0b",
+                                  "key": "documentId",
+                                  "value": "<integer>",
+                                  "description": "(Required) Vault document ID"
+                                },
+                                {
+                                  "id": "0e0946b7-bc71-4c8a-938f-bcff48679ec0",
+                                  "key": "actionName",
+                                  "value": "<string>",
+                                  "description": "(Required) Lifecycle action API name"
+                                }
+                              ]
+                            },
+                            "description": "Executes a user action on a document to change its lifecycle state. Common actions include Approve, Submit for Review, Send to Archive."
+                          },
+                          "response": [
+                            {
+                              "id": "f4dd845d-9088-4804-a450-56d9b4510dc0",
+                              "name": "Action performed",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/objects/documents/:documentId/actions/:actionName",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "objects",
+                                    "documents",
+                                    ":documentId",
+                                    "actions",
+                                    ":actionName"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "documentId"
+                                    },
+                                    {
+                                      "key": "actionName"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"responseStatus\": \"SUCCESS\",\n  \"id\": \"<integer>\",\n  \"errors\": [\n    {\n      \"type\": \"<string>\",\n      \"message\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"message\": \"<string>\"\n    }\n  ]\n}",
+                              "createdAt": "2026-07-28T03:26:47.000Z",
+                              "updatedAt": "2026-07-28T03:26:47.000Z",
+                              "uid": "35240-f4dd845d-9088-4804-a450-56d9b4510dc0"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T03:26:47.000Z",
+                          "updatedAt": "2026-07-28T03:26:47.000Z",
+                          "uid": "35240-c2aa2543-3397-4e3b-88be-9c3e5be2b28e"
+                        }
+                      ],
+                      "id": "8b991a66-b354-4e42-82c1-c3e32136b5d7",
+                      "createdAt": "2026-07-28T03:26:47.000Z",
+                      "updatedAt": "2026-07-28T03:26:47.000Z",
+                      "uid": "35240-8b991a66-b354-4e42-82c1-c3e32136b5d7"
+                    }
+                  ],
+                  "id": "c2ccdc83-1a33-48b5-be5d-25e41680556a",
+                  "createdAt": "2026-07-28T03:26:47.000Z",
+                  "updatedAt": "2026-07-28T03:26:47.000Z",
+                  "uid": "35240-c2ccdc83-1a33-48b5-be5d-25e41680556a"
+                },
+                {
+                  "name": "Veeva Retrieve a Document",
+                  "id": "8b567130-f003-4d5b-82c7-77991c986e5b",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/objects/documents/:documentId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "objects",
+                        "documents",
+                        ":documentId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "91bb66dc-1c33-4f52-904c-f99a8f4d1762",
+                          "key": "documentId",
+                          "value": "<integer>",
+                          "description": "(Required) Vault document ID"
+                        }
+                      ]
+                    },
+                    "description": "Returns metadata and properties for a specific document."
+                  },
+                  "response": [
+                    {
+                      "id": "8fab9fb7-c0ab-458d-a232-cacb113b6ee6",
+                      "name": "Document metadata",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/objects/documents/:documentId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "objects",
+                            "documents",
+                            ":documentId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "documentId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"responseStatus\": \"<string>\",\n  \"document\": {\n    \"id\": \"<integer>\",\n    \"name__v\": \"<string>\",\n    \"type__v\": \"<string>\",\n    \"subtype__v\": \"<string>\",\n    \"classification__v\": \"<string>\",\n    \"lifecycle__v\": \"<string>\",\n    \"status__v\": \"<string>\",\n    \"created_by__v\": \"<integer>\",\n    \"last_modified_by__v\": \"<integer>\",\n    \"created_date__v\": \"<dateTime>\",\n    \"last_modified_date__v\": \"<dateTime>\",\n    \"major_version_number__v\": \"<integer>\",\n    \"minor_version_number__v\": \"<integer>\",\n    \"document_number__v\": \"<string>\",\n    \"description__v\": \"<string>\",\n    \"size__v\": \"<integer>\",\n    \"format__v\": \"<string>\"\n  },\n  \"versions\": [\n    {\n      \"number\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"number\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-07-28T03:26:47.000Z",
+                      "updatedAt": "2026-07-28T03:26:47.000Z",
+                      "uid": "35240-8fab9fb7-c0ab-458d-a232-cacb113b6ee6"
+                    },
+                    {
+                      "id": "b8541772-dbcd-4cc3-b862-766e5ef47d23",
+                      "name": "Document not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/objects/documents/:documentId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "objects",
+                            "documents",
+                            ":documentId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "documentId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T03:26:47.000Z",
+                      "updatedAt": "2026-07-28T03:26:47.000Z",
+                      "uid": "35240-b8541772-dbcd-4cc3-b862-766e5ef47d23"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:26:47.000Z",
+                  "updatedAt": "2026-07-28T03:26:47.000Z",
+                  "uid": "35240-8b567130-f003-4d5b-82c7-77991c986e5b"
+                },
+                {
+                  "name": "Veeva Update Document Metadata",
+                  "id": "70ebcb70-ad37-43af-a6c8-7a6277c1222b",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/x-www-form-urlencoded"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "urlencoded",
+                      "urlencoded": [
+                        {
+                          "key": "sint_0bb",
+                          "value": "<string>"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/objects/documents/:documentId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "objects",
+                        "documents",
+                        ":documentId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "fb8577c3-bc03-4645-9d2b-977f2c068301",
+                          "key": "documentId",
+                          "value": "<integer>",
+                          "description": "(Required) Vault document ID"
+                        }
+                      ]
+                    },
+                    "description": "Updates document field values. Does not replace the document file."
+                  },
+                  "response": [
+                    {
+                      "id": "5b7450ba-f730-40fd-9c04-a6dcbd042a33",
+                      "name": "Document updated",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/x-www-form-urlencoded"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "urlencoded",
+                          "urlencoded": [
+                            {
+                              "key": "sint_0bb",
+                              "value": "<string>"
+                            }
+                          ]
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/objects/documents/:documentId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "objects",
+                            "documents",
+                            ":documentId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "documentId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"responseStatus\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"major_version_number__v\": \"<integer>\",\n  \"minor_version_number__v\": \"<integer>\"\n}",
+                      "createdAt": "2026-07-28T03:26:47.000Z",
+                      "updatedAt": "2026-07-28T03:26:47.000Z",
+                      "uid": "35240-5b7450ba-f730-40fd-9c04-a6dcbd042a33"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:26:47.000Z",
+                  "updatedAt": "2026-07-28T03:26:47.000Z",
+                  "uid": "35240-70ebcb70-ad37-43af-a6c8-7a6277c1222b"
+                },
+                {
+                  "name": "Veeva Delete a Document",
+                  "id": "6f8b3dc8-f5fb-4e55-a2a1-3a66b6d1ea24",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/objects/documents/:documentId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "objects",
+                        "documents",
+                        ":documentId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "96184e5b-d8f8-4c88-9063-ae99c08a3a61",
+                          "key": "documentId",
+                          "value": "<integer>",
+                          "description": "(Required) Vault document ID"
+                        }
+                      ]
+                    },
+                    "description": "Deletes a document and all versions."
+                  },
+                  "response": [
+                    {
+                      "id": "4e1cefdb-1b07-4ecd-be83-befb6b51dbaa",
+                      "name": "Document deleted",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/objects/documents/:documentId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "objects",
+                            "documents",
+                            ":documentId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "documentId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"responseStatus\": \"SUCCESS\",\n  \"id\": \"<integer>\",\n  \"errors\": [\n    {\n      \"type\": \"<string>\",\n      \"message\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"message\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-07-28T03:26:47.000Z",
+                      "updatedAt": "2026-07-28T03:26:47.000Z",
+                      "uid": "35240-4e1cefdb-1b07-4ecd-be83-befb6b51dbaa"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:26:47.000Z",
+                  "updatedAt": "2026-07-28T03:26:47.000Z",
+                  "uid": "35240-6f8b3dc8-f5fb-4e55-a2a1-3a66b6d1ea24"
+                }
+              ],
+              "id": "298161e3-e884-43f7-ad0b-07fb943cd10e",
+              "createdAt": "2026-07-28T03:26:47.000Z",
+              "updatedAt": "2026-07-28T03:26:47.000Z",
+              "uid": "35240-298161e3-e884-43f7-ad0b-07fb943cd10e"
+            },
+            {
+              "name": "Veeva List All Documents",
+              "id": "93eef6ba-46a1-4d19-95f7-5bba920e1085",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/objects/documents?limit=200&offset=0&sort=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "objects",
+                    "documents"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "200"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    }
+                  ]
+                },
+                "description": "Returns a list of all documents accessible to the authenticated user. Supports filtering by document type, lifecycle state, and custom fields."
+              },
+              "response": [
+                {
+                  "id": "026bd710-4f53-4ce8-ba96-86895cfd23d3",
+                  "name": "Document list",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/objects/documents?limit=200&offset=0&sort=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "objects",
+                        "documents"
+                      ],
+                      "query": [
+                        {
+                          "key": "limit",
+                          "value": "200"
+                        },
+                        {
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "key": "sort",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"responseStatus\": \"<string>\",\n  \"documents\": [\n    {\n      \"document\": {\n        \"id\": \"<integer>\",\n        \"name__v\": \"<string>\",\n        \"type__v\": \"<string>\",\n        \"subtype__v\": \"<string>\",\n        \"classification__v\": \"<string>\",\n        \"lifecycle__v\": \"<string>\",\n        \"status__v\": \"<string>\",\n        \"created_by__v\": \"<integer>\",\n        \"last_modified_by__v\": \"<integer>\",\n        \"created_date__v\": \"<dateTime>\",\n        \"last_modified_date__v\": \"<dateTime>\",\n        \"major_version_number__v\": \"<integer>\",\n        \"minor_version_number__v\": \"<integer>\",\n        \"document_number__v\": \"<string>\",\n        \"description__v\": \"<string>\",\n        \"size__v\": \"<integer>\",\n        \"format__v\": \"<string>\",\n        \"incididuntde\": false,\n        \"in_bc\": -78595571.87652352,\n        \"dolore84\": \"dolor quis\"\n      }\n    },\n    {\n      \"document\": {\n        \"id\": \"<integer>\",\n        \"name__v\": \"<string>\",\n        \"type__v\": \"<string>\",\n        \"subtype__v\": \"<string>\",\n        \"classification__v\": \"<string>\",\n        \"lifecycle__v\": \"<string>\",\n        \"status__v\": \"<string>\",\n        \"created_by__v\": \"<integer>\",\n        \"last_modified_by__v\": \"<integer>\",\n        \"created_date__v\": \"<dateTime>\",\n        \"last_modified_date__v\": \"<dateTime>\",\n        \"major_version_number__v\": \"<integer>\",\n        \"minor_version_number__v\": \"<integer>\",\n        \"document_number__v\": \"<string>\",\n        \"description__v\": \"<string>\",\n        \"size__v\": \"<integer>\",\n        \"format__v\": \"<string>\"\n      }\n    }\n  ],\n  \"size\": \"<integer>\",\n  \"start\": \"<integer>\"\n}",
+                  "createdAt": "2026-07-28T03:26:47.000Z",
+                  "updatedAt": "2026-07-28T03:26:47.000Z",
+                  "uid": "35240-026bd710-4f53-4ce8-ba96-86895cfd23d3"
+                },
+                {
+                  "id": "46e00f71-6e60-4a1a-ad68-ce07ad335929",
+                  "name": "Unauthorized",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/objects/documents?limit=200&offset=0&sort=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "objects",
+                        "documents"
+                      ],
+                      "query": [
+                        {
+                          "key": "limit",
+                          "value": "200"
+                        },
+                        {
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "key": "sort",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T03:26:47.000Z",
+                  "updatedAt": "2026-07-28T03:26:47.000Z",
+                  "uid": "35240-46e00f71-6e60-4a1a-ad68-ce07ad335929"
+                }
+              ],
+              "createdAt": "2026-07-28T03:26:47.000Z",
+              "updatedAt": "2026-07-28T03:26:47.000Z",
+              "uid": "35240-93eef6ba-46a1-4d19-95f7-5bba920e1085"
+            },
+            {
+              "name": "Veeva Create a Document",
+              "id": "4d5be3b3-2817-4668-90b8-300bd05b768c",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": "(Required) Document name",
+                      "key": "name__v",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": "(Required) Document type API name",
+                      "key": "type__v",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": "(Required) Document lifecycle API name",
+                      "key": "lifecycle__v",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": "Initial lifecycle state",
+                      "key": "status__v",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": "Source file (optional)",
+                      "key": "file",
+                      "type": "file",
+                      "value": null
+                    },
+                    {
+                      "key": "description__v",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": "Study object reference",
+                      "key": "study__v",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/objects/documents",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "objects",
+                    "documents"
+                  ]
+                },
+                "description": "Creates a new document record in Vault. Optionally uploads a file as the document source file in the same request using multipart/form-data."
+              },
+              "response": [
+                {
+                  "id": "ad216d64-4172-420a-9e29-57de62870234",
+                  "name": "Document created",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": "(Required) Document name",
+                          "key": "name__v",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "(Required) Document type API name",
+                          "key": "type__v",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "(Required) Document lifecycle API name",
+                          "key": "lifecycle__v",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Initial lifecycle state",
+                          "key": "status__v",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Source file (optional)",
+                          "key": "file",
+                          "type": "file"
+                        },
+                        {
+                          "key": "description__v",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Study object reference",
+                          "key": "study__v",
+                          "value": "<string>",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/objects/documents",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "objects",
+                        "documents"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"responseStatus\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"external_id__v\": \"<string>\",\n  \"major_version_number__v\": \"<integer>\",\n  \"minor_version_number__v\": \"<integer>\"\n}",
+                  "createdAt": "2026-07-28T03:26:47.000Z",
+                  "updatedAt": "2026-07-28T03:26:47.000Z",
+                  "uid": "35240-ad216d64-4172-420a-9e29-57de62870234"
+                },
+                {
+                  "id": "8c1bbe1f-ea6a-4e8c-aaab-0c895fd623b9",
+                  "name": "Validation error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": "(Required) Document name",
+                          "key": "name__v",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "(Required) Document type API name",
+                          "key": "type__v",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "(Required) Document lifecycle API name",
+                          "key": "lifecycle__v",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Initial lifecycle state",
+                          "key": "status__v",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Source file (optional)",
+                          "key": "file",
+                          "type": "file"
+                        },
+                        {
+                          "key": "description__v",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Study object reference",
+                          "key": "study__v",
+                          "value": "<string>",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/objects/documents",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "objects",
+                        "documents"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T03:26:47.000Z",
+                  "updatedAt": "2026-07-28T03:26:47.000Z",
+                  "uid": "35240-8c1bbe1f-ea6a-4e8c-aaab-0c895fd623b9"
+                }
+              ],
+              "createdAt": "2026-07-28T03:26:47.000Z",
+              "updatedAt": "2026-07-28T03:26:47.000Z",
+              "uid": "35240-4d5be3b3-2817-4668-90b8-300bd05b768c"
+            }
+          ],
+          "id": "c40115a2-cba4-4e29-a6fc-c9b7b450d7f5",
+          "createdAt": "2026-07-28T03:26:47.000Z",
+          "updatedAt": "2026-07-28T03:26:47.000Z",
+          "uid": "35240-c40115a2-cba4-4e29-a6fc-c9b7b450d7f5"
+        }
+      ],
+      "id": "7087ea65-2db4-440d-9609-311d5bd7a0ec",
+      "createdAt": "2026-07-28T03:26:47.000Z",
+      "updatedAt": "2026-07-28T03:26:47.000Z",
+      "uid": "35240-7087ea65-2db4-440d-9609-311d5bd7a0ec"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "vaultDomain",
+      "value": "myvault.veevavault.com"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{vaultDomain}}/api/v25.3"
+    }
+  ]
+}

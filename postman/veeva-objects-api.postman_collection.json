@@ -1,0 +1,630 @@
+{
+  "info": {
+    "_postman_id": "d5ee9116-c5ba-4bb1-a373-e9eafeaaa5c5",
+    "name": "Veeva Vault REST Authentication Objects API",
+    "description": "Veeva Vault provides life sciences cloud platform APIs for regulatory document management, quality management (QMS), clinical operations, and commercial content management. REST APIs enable document lifecycle management, workflow automation, object CRUD operations, and compliance-validated data exchange. API version v25.3.\n\nContact Support:\n Name: Veeva Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:26:47.000Z",
+    "updatedAt": "2026-07-28T03:26:48.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-d5ee9116-c5ba-4bb1-a373-e9eafeaaa5c5"
+  },
+  "item": [
+    {
+      "name": "vobjects",
+      "item": [
+        {
+          "name": "{objectName}",
+          "item": [
+            {
+              "name": "{recordId}",
+              "item": [
+                {
+                  "name": "Veeva Get a Vault Object Record",
+                  "id": "cbd1c49b-698a-4b25-8cff-6ee132bda903",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/vobjects/:objectName/:recordId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "vobjects",
+                        ":objectName",
+                        ":recordId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "4752e283-c908-45f9-98e7-7741bde7afb9",
+                          "key": "objectName",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        },
+                        {
+                          "id": "e5676c07-7f8c-45d5-98bf-2bd261c4569b",
+                          "key": "recordId",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Returns a single record for a Vault object."
+                  },
+                  "response": [
+                    {
+                      "id": "e169b597-e607-4ada-ad72-67461c9d2638",
+                      "name": "Object record",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/vobjects/:objectName/:recordId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "vobjects",
+                            ":objectName",
+                            ":recordId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "objectName"
+                            },
+                            {
+                              "key": "recordId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"responseStatus\": \"<string>\",\n  \"data\": {\n    \"ad_5\": 10386108.01138708,\n    \"sunt33\": false,\n    \"ex_d19\": -29285379\n  }\n}",
+                      "createdAt": "2026-07-28T03:26:48.000Z",
+                      "updatedAt": "2026-07-28T03:26:48.000Z",
+                      "uid": "35240-e169b597-e607-4ada-ad72-67461c9d2638"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:26:48.000Z",
+                  "updatedAt": "2026-07-28T03:26:48.000Z",
+                  "uid": "35240-cbd1c49b-698a-4b25-8cff-6ee132bda903"
+                },
+                {
+                  "name": "Veeva Update a Vault Object Record",
+                  "id": "3c38f290-33f2-4216-a1d4-7f96c9e03ff8",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"deserunt_064\": 72367883,\n  \"Excepteure\": -27707769,\n  \"culpaeb8\": true,\n  \"et_1\": \"tempor laborum\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/vobjects/:objectName/:recordId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "vobjects",
+                        ":objectName",
+                        ":recordId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "241255f4-3d44-4d6d-b7ee-3c03d8bcfbf8",
+                          "key": "objectName",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        },
+                        {
+                          "id": "056a03a5-8c64-4428-a0ba-5b5a797a2936",
+                          "key": "recordId",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Updates fields on an existing Vault object record."
+                  },
+                  "response": [
+                    {
+                      "id": "50969777-6439-485a-a269-34207c819e30",
+                      "name": "Record updated",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"deserunt_064\": 72367883,\n  \"Excepteure\": -27707769,\n  \"culpaeb8\": true,\n  \"et_1\": \"tempor laborum\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/vobjects/:objectName/:recordId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "vobjects",
+                            ":objectName",
+                            ":recordId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "objectName"
+                            },
+                            {
+                              "key": "recordId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"responseStatus\": \"FAILURE\",\n  \"id\": \"<integer>\",\n  \"errors\": [\n    {\n      \"type\": \"<string>\",\n      \"message\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"message\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-07-28T03:26:48.000Z",
+                      "updatedAt": "2026-07-28T03:26:48.000Z",
+                      "uid": "35240-50969777-6439-485a-a269-34207c819e30"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:26:48.000Z",
+                  "updatedAt": "2026-07-28T03:26:48.000Z",
+                  "uid": "35240-3c38f290-33f2-4216-a1d4-7f96c9e03ff8"
+                },
+                {
+                  "name": "Veeva Delete a Vault Object Record",
+                  "id": "6ac6054a-3959-4aea-aabb-186d579ce5a9",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/vobjects/:objectName/:recordId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "vobjects",
+                        ":objectName",
+                        ":recordId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "cccb36d3-3f1d-4a30-8b4a-430b9327df72",
+                          "key": "objectName",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        },
+                        {
+                          "id": "2e3d21ae-d2ac-410c-97f4-6c4995333048",
+                          "key": "recordId",
+                          "value": "<string>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Deletes a specific Vault object record."
+                  },
+                  "response": [
+                    {
+                      "id": "c1c9a094-a307-4acb-987b-d300a5f95784",
+                      "name": "Record deleted",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/vobjects/:objectName/:recordId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "vobjects",
+                            ":objectName",
+                            ":recordId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "objectName"
+                            },
+                            {
+                              "key": "recordId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"responseStatus\": \"FAILURE\",\n  \"id\": \"<integer>\",\n  \"errors\": [\n    {\n      \"type\": \"<string>\",\n      \"message\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"message\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-07-28T03:26:48.000Z",
+                      "updatedAt": "2026-07-28T03:26:48.000Z",
+                      "uid": "35240-c1c9a094-a307-4acb-987b-d300a5f95784"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:26:48.000Z",
+                  "updatedAt": "2026-07-28T03:26:48.000Z",
+                  "uid": "35240-6ac6054a-3959-4aea-aabb-186d579ce5a9"
+                }
+              ],
+              "id": "c7db4cba-0c59-484e-95d5-60a6c487212e",
+              "createdAt": "2026-07-28T03:26:48.000Z",
+              "updatedAt": "2026-07-28T03:26:48.000Z",
+              "uid": "35240-c7db4cba-0c59-484e-95d5-60a6c487212e"
+            },
+            {
+              "name": "Veeva List Vault Object Records",
+              "id": "2e790bab-520c-4cc0-961c-5c9d977f6b94",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/vobjects/:objectName?limit=200&offset=0&fields=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "vobjects",
+                    ":objectName"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "200"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "description": "Comma-separated list of field names to return",
+                      "key": "fields",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "id": "7f7fabc2-d46b-402e-8922-8d57c084e7ab",
+                      "key": "objectName",
+                      "value": "<string>",
+                      "description": "(Required) Vault object API name"
+                    }
+                  ]
+                },
+                "description": "Returns records for a Vault object. Vault objects are configurable business entities (studies, products, sites, etc.)."
+              },
+              "response": [
+                {
+                  "id": "c25c1574-7698-440d-8f4d-facba79f2b3b",
+                  "name": "Object records",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/vobjects/:objectName?limit=200&offset=0&fields=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "vobjects",
+                        ":objectName"
+                      ],
+                      "query": [
+                        {
+                          "key": "limit",
+                          "value": "200"
+                        },
+                        {
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Comma-separated list of field names to return",
+                          "key": "fields",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "objectName"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"responseStatus\": \"<string>\",\n  \"data\": [\n    {\n      \"sunt59\": \"qui sit\",\n      \"Excepteur_b\": -86800088.81789103,\n      \"esse_b\": \"eiusmod magna et\"\n    },\n    {\n      \"Excepteur_c2\": \"elit veniam\",\n      \"nonf\": 91278399\n    }\n  ],\n  \"size\": \"<integer>\",\n  \"start\": \"<integer>\"\n}",
+                  "createdAt": "2026-07-28T03:26:48.000Z",
+                  "updatedAt": "2026-07-28T03:26:48.000Z",
+                  "uid": "35240-c25c1574-7698-440d-8f4d-facba79f2b3b"
+                }
+              ],
+              "createdAt": "2026-07-28T03:26:48.000Z",
+              "updatedAt": "2026-07-28T03:26:48.000Z",
+              "uid": "35240-2e790bab-520c-4cc0-961c-5c9d977f6b94"
+            },
+            {
+              "name": "Veeva Create a Vault Object Record",
+              "id": "81fc78a2-19a6-4134-863e-4ba6063ad872",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sit_e\": \"culpa nulla officia\",\n  \"non_f_\": true\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/vobjects/:objectName",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "vobjects",
+                    ":objectName"
+                  ],
+                  "variable": [
+                    {
+                      "id": "bcfc4f73-1947-4f60-a9db-d0cfc7f6ab91",
+                      "key": "objectName",
+                      "value": "<string>",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "description": "Creates a new record for the specified Vault object."
+              },
+              "response": [
+                {
+                  "id": "32ca6ba5-edb7-4b90-86ba-f7883179bc28",
+                  "name": "Record created",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"sit_e\": \"culpa nulla officia\",\n  \"non_f_\": true\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/vobjects/:objectName",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "vobjects",
+                        ":objectName"
+                      ],
+                      "variable": [
+                        {
+                          "key": "objectName"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"responseStatus\": \"<string>\",\n  \"id\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:26:48.000Z",
+                  "updatedAt": "2026-07-28T03:26:48.000Z",
+                  "uid": "35240-32ca6ba5-edb7-4b90-86ba-f7883179bc28"
+                }
+              ],
+              "createdAt": "2026-07-28T03:26:48.000Z",
+              "updatedAt": "2026-07-28T03:26:48.000Z",
+              "uid": "35240-81fc78a2-19a6-4134-863e-4ba6063ad872"
+            }
+          ],
+          "id": "5d8025c5-2b13-4340-98be-ab9b40944274",
+          "createdAt": "2026-07-28T03:26:48.000Z",
+          "updatedAt": "2026-07-28T03:26:48.000Z",
+          "uid": "35240-5d8025c5-2b13-4340-98be-ab9b40944274"
+        }
+      ],
+      "id": "196fc6f6-9dc6-4621-a4e0-d5a84e440707",
+      "createdAt": "2026-07-28T03:26:48.000Z",
+      "updatedAt": "2026-07-28T03:26:48.000Z",
+      "uid": "35240-196fc6f6-9dc6-4621-a4e0-d5a84e440707"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "vaultDomain",
+      "value": "myvault.veevavault.com"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{vaultDomain}}/api/v25.3"
+    }
+  ]
+}

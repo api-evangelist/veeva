@@ -1,0 +1,189 @@
+{
+  "info": {
+    "_postman_id": "2ed7581e-2cc7-4d6a-9ee3-ef8ee7e990e6",
+    "name": "Veeva Vault REST Authentication Query API",
+    "description": "Veeva Vault provides life sciences cloud platform APIs for regulatory document management, quality management (QMS), clinical operations, and commercial content management. REST APIs enable document lifecycle management, workflow automation, object CRUD operations, and compliance-validated data exchange. API version v25.3.\n\nContact Support:\n Name: Veeva Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:26:48.000Z",
+    "updatedAt": "2026-07-28T03:26:48.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-2ed7581e-2cc7-4d6a-9ee3-ef8ee7e990e6"
+  },
+  "item": [
+    {
+      "name": "query",
+      "item": [
+        {
+          "name": "Veeva Execute a VQL Query",
+          "id": "f6704369-8d57-44d0-84c1-986e771431cb",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/query?q=<string>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "query"
+              ],
+              "query": [
+                {
+                  "description": "(Required) VQL query string",
+                  "key": "q",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "description": "Executes a Vault Query Language (VQL) query to retrieve data from documents, objects, users, and system data. Supports SELECT, FROM, WHERE, ORDER BY, FIND, and relationship traversal."
+          },
+          "response": [
+            {
+              "id": "790d5e74-71d6-4626-bb07-c0d4490605d0",
+              "name": "Query results",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/query?q=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "query"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) VQL query string",
+                      "key": "q",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"responseStatus\": \"<string>\",\n  \"responseDetails\": {\n    \"limit\": \"<integer>\",\n    \"offset\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"total\": \"<integer>\",\n    \"url\": \"<uri>\"\n  },\n  \"data\": [\n    {\n      \"Lorem_32\": 99436834,\n      \"tempor_c\": false\n    },\n    {\n      \"et_0\": -25998532.282849222,\n      \"ex0_\": true\n    }\n  ]\n}",
+              "createdAt": "2026-07-28T03:26:49.000Z",
+              "updatedAt": "2026-07-28T03:26:49.000Z",
+              "uid": "35240-790d5e74-71d6-4626-bb07-c0d4490605d0"
+            },
+            {
+              "id": "ba9fa645-2930-4c93-8c9c-8ba7bd36b8ce",
+              "name": "Invalid VQL syntax",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/query?q=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "query"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) VQL query string",
+                      "key": "q",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"responseStatus\": \"<string>\",\n  \"errors\": [\n    {\n      \"type\": \"<string>\",\n      \"message\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"message\": \"<string>\"\n    }\n  ]\n}",
+              "createdAt": "2026-07-28T03:26:49.000Z",
+              "updatedAt": "2026-07-28T03:26:49.000Z",
+              "uid": "35240-ba9fa645-2930-4c93-8c9c-8ba7bd36b8ce"
+            }
+          ],
+          "createdAt": "2026-07-28T03:26:49.000Z",
+          "updatedAt": "2026-07-28T03:26:49.000Z",
+          "uid": "35240-f6704369-8d57-44d0-84c1-986e771431cb"
+        }
+      ],
+      "id": "6ff4c032-340b-4eef-8460-5cd98789ffd7",
+      "createdAt": "2026-07-28T03:26:49.000Z",
+      "updatedAt": "2026-07-28T03:26:49.000Z",
+      "uid": "35240-6ff4c032-340b-4eef-8460-5cd98789ffd7"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "vaultDomain",
+      "value": "myvault.veevavault.com"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{vaultDomain}}/api/v25.3"
+    }
+  ]
+}
