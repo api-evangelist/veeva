@@ -30,13 +30,12 @@ apis:
     type: Documentation
   - url: https://github.com/veeva/vault-api-library
     type: SDKs
-  - url: https://mvnrepository.com/artifact/com.veeva/vault-api-library
+  - url: packages/veeva-packages.yml
     type: SDKs
-    title: Maven Central
-  description: >-
-    The Veeva Vault Java SDK (VAPIL) is an open-source Java-based REST API client for the Vault REST API.
-    Provides type-safe access to all Vault API operations including document management, object CRUD,
-    workflow execution, and administrative functions.
+    title: VAPIL — com.veeva.vault:vapil (repo.veevavault.com, NOT Maven Central)
+  description: The Veeva Vault Java SDK (VAPIL) is an open-source Java-based REST API client for the Vault
+    REST API. Provides type-safe access to all Vault API operations including document management, object
+    CRUD, workflow execution, and administrative functions.
 - aid: veeva:veeva-vault-direct-data-api
   name: Veeva Vault Direct Data API
   tags:
@@ -50,10 +49,9 @@ apis:
   properties:
   - url: https://developer.veevavault.com/docs
     type: Documentation
-  description: >-
-    The Veeva Vault Direct Data API provides high-speed, read-only bulk access to Vault data for integration,
-    analytics, and reporting purposes. Supports bulk export of documents, objects, and attachment field
-    files for up to 500 records.
+  description: The Veeva Vault Direct Data API provides high-speed, read-only bulk access to Vault data
+    for integration, analytics, and reporting purposes. Supports bulk export of documents, objects, and
+    attachment field files for up to 500 records.
 - aid: veeva:veeva-authentication-api
   name: veeva Authentication API
   description: Session management
@@ -118,6 +116,16 @@ apis:
     url: graphql/veeva-graphql.md
   - type: Documentation
     url: https://developer.veevavault.com/vql/
+  - type: Overlay
+    url: overlays/veeva-authentication-api-overlay.yaml
+  - type: APIReference
+    url: https://general.veevavault.dev/vault-api/api-reference/26.2
+  - type: MCPServer
+    url: mcp/veeva-mcp.yml
+  - type: ErrorCatalog
+    url: errors/veeva-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/veeva-rate-limits.yml
 - aid: veeva:veeva-documents-api
   name: veeva Documents API
   description: Document lifecycle management
@@ -182,6 +190,16 @@ apis:
     url: graphql/veeva-graphql.md
   - type: Documentation
     url: https://developer.veevavault.com/vql/
+  - type: Overlay
+    url: overlays/veeva-documents-api-overlay.yaml
+  - type: APIReference
+    url: https://general.veevavault.dev/vault-api/api-reference/26.2
+  - type: MCPServer
+    url: mcp/veeva-mcp.yml
+  - type: ErrorCatalog
+    url: errors/veeva-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/veeva-rate-limits.yml
 - aid: veeva:veeva-objects-api
   name: veeva Objects API
   description: Vault object CRUD operations
@@ -246,6 +264,16 @@ apis:
     url: graphql/veeva-graphql.md
   - type: Documentation
     url: https://developer.veevavault.com/vql/
+  - type: Overlay
+    url: overlays/veeva-objects-api-overlay.yaml
+  - type: APIReference
+    url: https://general.veevavault.dev/vault-api/api-reference/26.2
+  - type: MCPServer
+    url: mcp/veeva-mcp.yml
+  - type: ErrorCatalog
+    url: errors/veeva-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/veeva-rate-limits.yml
 - aid: veeva:veeva-query-api
   name: veeva Query API
   description: VQL query execution
@@ -310,6 +338,16 @@ apis:
     url: graphql/veeva-graphql.md
   - type: Documentation
     url: https://developer.veevavault.com/vql/
+  - type: Overlay
+    url: overlays/veeva-query-api-overlay.yaml
+  - type: APIReference
+    url: https://general.veevavault.dev/vault-api/api-reference/26.2
+  - type: MCPServer
+    url: mcp/veeva-mcp.yml
+  - type: ErrorCatalog
+    url: errors/veeva-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/veeva-rate-limits.yml
 - aid: veeva:veeva-users-api
   name: veeva Users API
   description: User management
@@ -374,6 +412,16 @@ apis:
     url: graphql/veeva-graphql.md
   - type: Documentation
     url: https://developer.veevavault.com/vql/
+  - type: Overlay
+    url: overlays/veeva-users-api-overlay.yaml
+  - type: APIReference
+    url: https://general.veevavault.dev/vault-api/api-reference/26.2
+  - type: MCPServer
+    url: mcp/veeva-mcp.yml
+  - type: ErrorCatalog
+    url: errors/veeva-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/veeva-rate-limits.yml
 - aid: veeva:veeva-workflows-api
   name: veeva Workflows API
   description: Workflow and task management
@@ -438,6 +486,47 @@ apis:
     url: graphql/veeva-graphql.md
   - type: Documentation
     url: https://developer.veevavault.com/vql/
+  - type: Overlay
+    url: overlays/veeva-workflows-api-overlay.yaml
+  - type: APIReference
+    url: https://general.veevavault.dev/vault-api/api-reference/26.2
+  - type: MCPServer
+    url: mcp/veeva-mcp.yml
+  - type: ErrorCatalog
+    url: errors/veeva-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/veeva-rate-limits.yml
+- aid: veeva:vault-mcp
+  name: Veeva Vault MCP
+  description: Veeva ships two first-party Model Context Protocol servers. The Vault Documentation MCP
+    at https://docs.veevavault.dev/mcp is public and anonymous, exposing one search_documentation tool
+    over the Vault Developer Portal, API reference, Vault Java SDK and VAPIL javadocs, and Vault Help.
+    The Vault MCP Server at https://{host}/api/ai/mcp is tenant-scoped, requires a Bearer Vault API access
+    token and the Vault AI entitlement, and exposes each Vault AI agent action the authenticated user
+    may execute as an MCP tool.
+  humanURL: https://general.veevavault.dev/mcp
+  baseURL: https://docs.veevavault.dev/mcp
+  tags:
+  - MCP
+  - Agents
+  - AI
+  - Life Sciences
+  - Documentation
+  properties:
+  - type: MCPServer
+    url: mcp/veeva-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/veeva-tool-crosswalk.yml
+  - type: Documentation
+    url: https://general.veevavault.dev/mcp
+  - type: Reference
+    url: https://general.veevavault.dev/mcp/vault-mcp-server/reference/tools
+  - type: Authentication
+    url: https://general.veevavault.dev/mcp/vault-mcp-server/getting-started/authentication
+  - type: ErrorCatalog
+    url: errors/veeva-problem-types.yml
+  - type: GettingStarted
+    url: https://general.veevavault.dev/mcp/vault-mcp-server/getting-started
 common:
 - type: PostmanWorkspace
   url: https://www.postman.com/kinlaneapi/veeva/overview
@@ -483,65 +572,169 @@ common:
 - type: Features
   data:
   - name: Document Lifecycle Management
-    description: Full lifecycle management for controlled documents including draft,
-      review, approval, and archival states with audit trails for regulatory compliance.
+    description: Full lifecycle management for controlled documents including draft, review, approval,
+      and archival states with audit trails for regulatory compliance.
   - name: Vault Query Language
-    description: SQL-like query engine for retrieving Vault data across documents,
-      objects, users, and workflows with support for relationship traversal.
+    description: SQL-like query engine for retrieving Vault data across documents, objects, users, and
+      workflows with support for relationship traversal.
   - name: Direct Data API
-    description: High-speed bulk data export for up to 500 records at a time for analytics,
-      reporting, and integration with downstream systems.
+    description: High-speed bulk data export for up to 500 records at a time for analytics, reporting,
+      and integration with downstream systems.
   - name: Vault Object CRUD
-    description: Create, read, update, and delete operations on configurable Vault
-      business objects (studies, products, sites, etc.) via REST API.
+    description: Create, read, update, and delete operations on configurable Vault business objects (studies,
+      products, sites, etc.) via REST API.
   - name: Session Authentication
-    description: Username/password authentication returning a session ID for subsequent
-      API calls, with multi-vault support for complex enterprise deployments.
+    description: Username/password authentication returning a session ID for subsequent API calls, with
+      multi-vault support for complex enterprise deployments.
   - name: Java SDK (VAPIL)
-    description: Open-source Java client library providing type-safe access to all
-      Vault REST API operations with automatic session management and error handling.
+    description: Open-source Java client library providing type-safe access to all Vault REST API operations
+      with automatic session management and error handling.
 - type: UseCases
   data:
   - name: Regulatory Document Submission
-    description: Automate the assembly and submission of regulatory dossiers (CTD,
-      eCTD) by programmatically managing document lifecycle, approvals, and publishing.
+    description: Automate the assembly and submission of regulatory dossiers (CTD, eCTD) by programmatically
+      managing document lifecycle, approvals, and publishing.
   - name: Clinical Trial Data Management
-    description: Integrate Vault with CTMS, EDC, and LIMS systems to automate study
-      document workflows, protocol amendments, and site activation packages.
+    description: Integrate Vault with CTMS, EDC, and LIMS systems to automate study document workflows,
+      protocol amendments, and site activation packages.
   - name: Quality Management Automation
-    description: Automate SOPs, CAPAs, deviations, and audit workflows in QMS Vault
-      through lifecycle actions, object creation, and workflow task assignment.
+    description: Automate SOPs, CAPAs, deviations, and audit workflows in QMS Vault through lifecycle
+      actions, object creation, and workflow task assignment.
   - name: Content Analytics
-    description: Export Vault document and object data in bulk for BI dashboards,
-      compliance reporting, and cross-Vault analytics using the Direct Data API.
+    description: Export Vault document and object data in bulk for BI dashboards, compliance reporting,
+      and cross-Vault analytics using the Direct Data API.
   - name: Enterprise Integration
-    description: Integrate Vault with SAP, Salesforce, Veeva CRM, and other enterprise
-      systems using REST APIs for bidirectional data synchronization.
+    description: Integrate Vault with SAP, Salesforce, Veeva CRM, and other enterprise systems using REST
+      APIs for bidirectional data synchronization.
 - type: Integrations
   data:
   - name: Veeva CRM
-    description: Bidirectional integration between Vault and Veeva CRM for commercial
-      content lifecycle management and promotional material approval workflows.
+    description: Bidirectional integration between Vault and Veeva CRM for commercial content lifecycle
+      management and promotional material approval workflows.
   - name: Salesforce
-    description: Connect Vault document approval workflows with Salesforce opportunities,
-      accounts, and contacts via REST API integration.
+    description: Connect Vault document approval workflows with Salesforce opportunities, accounts, and
+      contacts via REST API integration.
   - name: SAP
-    description: Synchronize quality events, deviations, and regulatory submissions
-      between Vault and SAP ERP using REST API and Direct Data API.
+    description: Synchronize quality events, deviations, and regulatory submissions between Vault and
+      SAP ERP using REST API and Direct Data API.
   - name: MuleSoft
-    description: Pre-built MuleSoft connectors for Vault REST API integration with
-      enterprise middleware platforms and iPaaS solutions.
+    description: Pre-built MuleSoft connectors for Vault REST API integration with enterprise middleware
+      platforms and iPaaS solutions.
   - name: Microsoft Azure
-    description: Deploy Vault integrations on Azure using Logic Apps, Azure Functions,
-      or Azure Data Factory with Vault REST API support.
+    description: Deploy Vault integrations on Azure using Logic Apps, Azure Functions, or Azure Data Factory
+      with Vault REST API support.
 - type: Integrations
+  url: https://www.veeva.com/meet-veeva/partners/
+- type: Packages
+  url: packages/veeva-packages.yml
+  title: Veeva first-party packages
+- type: SDKs
+  url: packages/veeva-packages.yml
+  title: Veeva SDK inventory
+- type: MCPServer
+  url: mcp/veeva-mcp.yml
+  title: Vault Documentation MCP + Vault MCP Server
+- type: ToolCrosswalk
+  url: mcp/veeva-tool-crosswalk.yml
+- type: LLMsTxt
+  url: llms/veeva-llms.txt
+- type: Conformance
+  url: conformance/veeva-conformance.yml
+- type: Compliance
+  url: conformance/veeva-conformance.yml
+  title: ISO 27001/27017/27018, ISO 9001, SOC 2 Type II
+- type: ErrorCatalog
+  url: errors/veeva-problem-types.yml
+  title: Vault API error types
+- type: Lifecycle
+  url: lifecycle/veeva-lifecycle.yml
+- type: StatusPage
+  url: https://trust.veeva.com/
+  title: Veeva Systems status page
+- type: TrustCenter
+  url: https://www.veeva.com/trust/
+  title: Veeva Security Program Overview
+- type: Sandbox
+  url: sandbox/veeva-sandbox.yml
+  title: Vault sandbox Vaults
+- type: Conventions
+  url: conventions/veeva-conventions.yml
+- type: ChangeLog
+  url: changelog/veeva-changelog.yml
+  title: Developer release notes, structured
+- type: Components
+  url: components/veeva-components.yml
+  title: Custom Pages, Vault Web SDK, Vault Toolbox
+- type: DataModel
+  url: data-model/veeva-data-model.yml
+- type: Webhooks
+  url: asyncapi/veeva-spark-messaging-webhooks.yml
+  title: Spark Messaging signed outbound events
+- type: AgentSkill
+  url: skills/_index.yml
+  title: API Evangelist agent skills for Vault
+- type: RateLimits
+  url: rate-limits/veeva-rate-limits.yml
+- type: Plans
+  url: plans/veeva-plans-pricing.yml
+- type: FinOps
+  url: finops/veeva-finops.yml
+- type: Overlay
+  url: overlays/veeva-documents-api-overlay.yaml
+  title: API Evangelist overlays for the Vault OpenAPIs
+- type: Postman
+  url: https://www.postman.com/veevavault
+  title: Veeva Vault public Postman workspace
+- type: DeveloperPortal
+  url: https://veevavault.dev
+  title: Vault Developer Portal
+- type: APIReference
+  url: https://general.veevavault.dev/vault-api/api-reference/26.2
+  title: Vault API Reference v26.2
+- type: Documentation
+  url: https://general.veevavault.dev/vault-api
+  title: Vault API documentation (current portal)
+- type: GettingStarted
+  url: https://general.veevavault.dev/vault-api/getting-started/prerequisites
+- type: TermsOfService
+  url: https://www.veeva.com/terms/
+- type: Blog
+  url: https://www.veeva.com/veeva-blog/
+- type: Community
+  url: http://devcommunity.veevavault.com/
+  title: Veeva Developer Community
+- type: Partners
   url: https://www.veeva.com/meet-veeva/partners/
 integrations:
 - name: Veeva
 maintainers:
 - name: Kin Lane
   email: kin@apievangelist.com
-modified: '2026-05-19'
-description: Veeva Systems is a leader in cloud-based software for the global life
-  sciences industry, providing solutions to help pharmaceutical and biotechnology
-  companies bring products to market more efficiently.
+modified: '2026-08-15'
+description: 'Veeva Systems is the leading cloud software provider for the global life sciences industry,
+  serving pharmaceutical, biotechnology, medical device and CRO customers across commercial, clinical,
+  quality, regulatory, medical and safety operations. Its Vault platform is a single content-and-data
+  cloud whose REST API covers documents, binders, configurable Vault objects, workflows, users, groups,
+  SCIM provisioning, sandbox management and the Direct Data API for high-speed bulk export, all queryable
+  with VQL and extensible through the Vault Java SDK, Custom Pages and Spark Messaging. Veeva also ships
+  two first-party MCP servers: a public Vault Documentation MCP and a tenant-scoped Vault MCP Server that
+  exposes Vault AI agent actions as MCP tools.'
+created: '2026-05-03'
+tags:
+- Life Sciences
+- Pharmaceutical
+- Clinical Trials
+- Regulatory
+- Quality Management
+- Document Management
+- Content Management
+- Healthcare
+- SaaS
+- Enterprise
+- MCP
+- Agents
+x-enrichment:
+  date: '2026-08-15'
+  status: enriched
+  artifacts_added: 27
+  pass: local-v1
