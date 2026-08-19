@@ -1,0 +1,94 @@
+generated: '2026-08-15'
+method: searched
+source: https://general.veevavault.dev/vault-api/api-reference/26.2/ + https://www.veeva.com/trust/
+standards:
+  - id: oauth2
+    conforms: true
+    evidence: >-
+      Vault accepts an OAuth 2.0 / OpenID Connect access token at
+      POST https://login.veevavault.com/auth/oauth/session/{oauth_oidc_profile_id} and exchanges
+      it for a Vault session ID, validating the token against the authorization server's
+      introspection endpoint using the supplied client_id.
+    docs: https://general.veevavault.dev/vault-api/api-reference/26.2/authentication/oauth-20-openid-connect
+  - id: oidc
+    conforms: true
+    evidence: Same endpoint; Vault documents OIDC profiles and supported signing algorithms in Vault Help.
+    docs: https://general.veevavault.dev/vault-api/api-reference/26.2/authentication/oauth-20-openid-connect
+  - id: scim
+    conforms: true
+    evidence: >-
+      Vault implements SCIM with discovery endpoints (Retrieve SCIM Provider, Retrieve All SCIM
+      Resource Types, Retrieve All SCIM Schema Information) plus SCIM Users resources.
+    docs: https://general.veevavault.dev/vault-api/api-reference/26.2/scim/discovery-endpoints
+  - id: rfc9457
+    conforms: false
+    evidence: >-
+      Vault uses its own error envelope — responseStatus plus errors[] of {type, message} with a
+      named type vocabulary (see errors/veeva-problem-types.yml). It does not emit
+      application/problem+json.
+  - id: json-api
+    conforms: false
+    evidence: Vault responses are a bespoke JSON envelope, not JSON:API.
+  - id: idempotency
+    conforms: false
+    evidence: >-
+      No Idempotency-Key header or equivalent replay-safe retry mechanism is documented anywhere
+      in the Vault API reference. RACE_CONDITION is a documented error type, and the guidance for
+      throttled responses is client-side backoff, not idempotent retry.
+  - id: pagination
+    conforms: true
+    evidence: >-
+      VQL and the bulk retrieval endpoints paginate through response-supplied next/previous page
+      URLs; bulk endpoints cap at 500 records per request.
+    docs: https://general.veevavault.dev/vql/
+  - id: rate-limit-headers
+    conforms: true
+    evidence: >-
+      Vault returns X-VaultAPI-BurstLimit, X-VaultAPI-BurstLimitRemaining and
+      X-VaultAPI-ResponseDelay. These are vendor-prefixed, not the IETF RateLimit-* draft headers.
+    docs: https://general.veevavault.dev/vault-api/references/api-rate-limits
+  - id: rfc4180
+    conforms: partial
+    evidence: Vault publishes an explicit list of its CSV deviations from RFC 4180.
+    docs: https://general.veevavault.dev/vault-api/references/csv-rfc-deviations
+  - id: tls
+    conforms: true
+    evidence: >-
+      Vault publishes its supported cipher suites and requires TLS 1.2 minimum
+      (TLSv1.3 AES-256-GCM-SHA384, CHACHA20-POLY1305, AES-128-GCM; TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384,
+      ECDHE-RSA-AES128-GCM-SHA256). SDK HttpService dropped TLS 1.0/1.1 in 26R2.
+    docs: https://general.veevavault.dev/vault-api/references/tls
+  - id: mcp
+    conforms: true
+    evidence: >-
+      Two first-party MCP servers over Streamable HTTP, protocol version 2024-11-05 and later.
+      tools/list verified live and anonymous on https://docs.veevavault.dev/mcp on 2026-08-15.
+    docs: https://general.veevavault.dev/mcp
+  - id: a2a
+    conforms: false
+    evidence: No A2A agent card served at /.well-known/agent-card.json or /.well-known/agent.json on any Veeva host (all 403/404, 2026-08-15).
+  - id: fhir
+    conforms: false
+    evidence: >-
+      Veeva is a life-sciences content and data platform (regulatory, clinical ops, quality,
+      safety); it is not an EHR/clinical-data-exchange vendor and publishes no FHIR surface.
+compliance:
+  published: true
+  source: https://www.veeva.com/trust/
+  certifications:
+    - name: ISO/IEC 27001
+      note: Audited at least annually by an accredited third-party certification body.
+    - name: ISO/IEC 27017
+    - name: ISO/IEC 27018
+    - name: ISO 9001
+      note: Quality Management Systems — named as a founding standard of the security program.
+    - name: SOC 2 Type II
+      note: System and Organization Controls.
+  frameworks:
+    - SEI Capability Maturity Model Integration (CMMI)
+    - IT Infrastructure Library (ITIL)
+    - ICH Q9 — Quality Risk Management
+  practices:
+    - AES-256 encryption at rest; TLS 1.2 minimum in transit.
+    - Internal vulnerability testing prior to release; annual third-party vulnerability and penetration testing.
+    - Formal documented incident response policy with a dedicated team.

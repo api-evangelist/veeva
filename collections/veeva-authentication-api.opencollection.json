@@ -1,0 +1,54 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Veeva Vault REST Authentication API",
+    "version": "25.3"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Veeva Authenticate and Obtain Session ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{vaultDomain}/api/v25.3/auth",
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "username",
+                  "value": ""
+                },
+                {
+                  "name": "password",
+                  "value": ""
+                },
+                {
+                  "name": "vaultDNS",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Authenticates a user with username and password and returns a session ID for use in subsequent API requests. Session IDs are included in the Authorization header for all API calls."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,52 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — Veeva Vault REST Authentication Users API
+  version: 1.0.0
+x-provenance:
+  generated: '2026-08-15'
+  method: generated
+  source: >-
+    openapi/veeva-users-api-openapi.yml + https://general.veevavault.dev/vault-api/references/ (rate limits, response
+    headers, TLS, client ID, reference ID) + https://general.veevavault.dev/rn/26r2
+  note: >-
+    This overlay carries API Evangelist enhancements only. It never mutates the underlying
+    document; apply it to openapi/veeva-users-api-openapi.yml to get the annotated view.
+extends: ../openapi/veeva-users-api-openapi.yml
+actions:
+  - target: $.info
+    description: Record the current GA API version and the authoritative reference location.
+    update:
+      x-api-evangelist-current-version: 'v26.2'
+      x-api-evangelist-reference: https://general.veevavault.dev/vault-api/api-reference/26.2/
+      x-api-evangelist-note: >-
+        Veeva publishes no OpenAPI. This document is an API Evangelist rendering of the
+        published Vault API reference; it is not a provider artifact.
+  - target: $
+    description: Attach the runtime semantics Veeva documents outside the reference pages.
+    update:
+      x-rate-limits:
+        artifact: rate-limits/veeva-rate-limits.yml
+        headers: [X-VaultAPI-BurstLimit, X-VaultAPI-BurstLimitRemaining, X-VaultAPI-ResponseDelay]
+        burst_window: 5 minutes
+        auth_window: 1 minute
+        on_exhaustion: delay (general) / fail (auth)
+      x-error-catalog:
+        artifact: errors/veeva-problem-types.yml
+        format: vendor
+        envelope: '{responseStatus, errors[{type, message}]}'
+      x-conventions:
+        artifact: conventions/veeva-conventions.yml
+        idempotency: unsupported
+        tracing: [X-VaultAPI-ClientID, X-VaultAPI-ReferenceId, X-VaultAPI-ExecutionId]
+      x-lifecycle:
+        artifact: lifecycle/veeva-lifecycle.yml
+        versioning: 'path-versioned vYY.N; only the newest (Beta) version changes'
+        status_page: https://trust.veeva.com/
+      x-transport:
+        min_tls: '1.2'
+        note: 'From 26R1.2 Vault returns a numeric-only HTTP status line; do not string-match the reason phrase.'
+  - target: $.paths['/objects/users'].get
+    description: Annotate listUsers with the documented Vault response headers.
+    update:
+      x-response-headers: [X-VaultAPI-ExecutionId, X-VaultAPI-Status, X-VaultAPI-BurstLimit, X-VaultAPI-BurstLimitRemaining]
+      x-idempotent: false

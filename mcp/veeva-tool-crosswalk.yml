@@ -1,0 +1,88 @@
+generated: '2026-08-15'
+method: derived
+source: mcp/veeva-mcp.yml + openapi/*.yml + https://general.veevavault.dev/mcp
+note: >-
+  Veeva's two MCP servers and its REST API are near-disjoint surfaces, which is the finding.
+  The Documentation MCP is a docs search tool with no REST counterpart at all. The Vault MCP
+  Server exposes Vault AI *agent actions*, not REST operations — so its tools are also MCP-only,
+  even though the underlying documents they act on are reachable over REST. Confidence is set
+  low/medium accordingly: nothing here is a 1:1 operation binding, and claiming otherwise
+  would misrepresent the surface.
+surfaces:
+  openapi:
+    files:
+      - openapi/veeva-authentication-api-openapi.yml
+      - openapi/veeva-documents-api-openapi.yml
+      - openapi/veeva-objects-api-openapi.yml
+      - openapi/veeva-query-api-openapi.yml
+      - openapi/veeva-users-api-openapi.yml
+      - openapi/veeva-workflows-api-openapi.yml
+    gated: true
+    note: >-
+      Veeva publishes no OpenAPI. These are API Evangelist documents covering a subset of the
+      Vault REST API (v25.3) written against the published reference; the authoritative
+      contract is the HTML/markdown reference at general.veevavault.dev/vault-api/api-reference/26.2.
+  graphql:
+    endpoint: null
+    note: Veeva publishes no GraphQL endpoint. graphql/veeva-schema.graphql is a conceptual model, not a served schema.
+  mcp:
+    - url: https://docs.veevavault.dev/mcp
+      gated: false
+      probed: '2026-08-15'
+    - url: https://{host}/api/ai/mcp
+      gated: true
+      note: Tenant-scoped; Bearer API access token + Vault AI entitlement required.
+crosswalk:
+  - tool: base_document_chat_agent__sys-summarize_document__sys
+    server: Vault MCP Server
+    category: documents
+    rest: [getDocument, downloadDocumentFile]
+    binding: semantic
+    confidence: low
+    note: >-
+      Shares the document_id key space with the REST document endpoints, but the tool runs a
+      Vault AI summarization agent action; there is no REST operation that returns a summary.
+      Mapped by subject, not by operation.
+  - tool: base_document_chat_agent__sys-ask_questions_on_document__sys
+    server: Vault MCP Server
+    category: documents
+    rest: [getDocument, downloadDocumentFile]
+    binding: semantic
+    confidence: low
+    note: Same key space, no REST equivalent for question answering over document content.
+mcp_only:
+  - tool: search_documentation
+    server: Vault Documentation MCP
+    reason: >-
+      Documentation search over the Vault Developer Portal, API reference, Vault Java SDK and
+      VAPIL javadocs, and Vault Help. Nothing in the Vault REST API serves documentation.
+  - tool: '{agent_name}-{action_name} (dynamic)'
+    server: Vault MCP Server
+    reason: >-
+      Tools are generated from Vault AI agent actions, including customer-configured custom
+      actions. There is no public REST catalog of agent actions to bind them to, and the list
+      differs per tenant and per user.
+rest_only:
+  - operationId: authenticateUser
+    reason: MCP servers authenticate with a Bearer API access token; no session-exchange tool exists.
+  - operationId: executeVQLQuery
+    reason: VQL query execution is REST/VAPIL only; no MCP tool runs VQL.
+  - operationId: listDocuments
+  - operationId: createDocument
+  - operationId: updateDocument
+  - operationId: deleteDocument
+  - operationId: listObjectRecords
+  - operationId: createObjectRecord
+  - operationId: getObjectRecord
+  - operationId: updateObjectRecord
+  - operationId: deleteObjectRecord
+  - operationId: listUsers
+  - operationId: performDocumentAction
+coverage:
+  mcp_tools_documented: 3
+  bound_to_rest: 2
+  mcp_only: 2
+  rest_only: 12
+  note: >-
+    Two of three documented tools map only semantically. The honest read is that Veeva's MCP
+    surface is an AI-agent surface layered beside the REST API, not a projection of it.

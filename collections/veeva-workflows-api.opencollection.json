@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Veeva Vault REST Authentication Workflows API",
+    "version": "25.3"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Workflows",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Veeva Perform a Document Lifecycle Action",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{vaultDomain}/api/v25.3/objects/documents/:documentId/actions/:actionName",
+            "params": [
+              {
+                "name": "documentId",
+                "value": "12345",
+                "type": "path",
+                "description": "Vault document ID"
+              },
+              {
+                "name": "actionName",
+                "value": "Approve",
+                "type": "path",
+                "description": "Lifecycle action API name"
+              }
+            ]
+          },
+          "docs": "Executes a user action on a document to change its lifecycle state. Common actions include Approve, Submit for Review, Send to Archive."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

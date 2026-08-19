@@ -1,0 +1,156 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Veeva Vault REST Authentication Objects API",
+    "version": "25.3"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Objects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Veeva List Vault Object Records",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{vaultDomain}/api/v25.3/vobjects/:objectName",
+            "params": [
+              {
+                "name": "objectName",
+                "value": "study__v",
+                "type": "path",
+                "description": "Vault object API name"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of field names to return"
+              }
+            ]
+          },
+          "docs": "Returns records for a Vault object. Vault objects are configurable business entities (studies, products, sites, etc.)."
+        },
+        {
+          "info": {
+            "name": "Veeva Create a Vault Object Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{vaultDomain}/api/v25.3/vobjects/:objectName",
+            "params": [
+              {
+                "name": "objectName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new record for the specified Vault object."
+        },
+        {
+          "info": {
+            "name": "Veeva Get a Vault Object Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{vaultDomain}/api/v25.3/vobjects/:objectName/:recordId",
+            "params": [
+              {
+                "name": "objectName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns a single record for a Vault object."
+        },
+        {
+          "info": {
+            "name": "Veeva Update a Vault Object Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{vaultDomain}/api/v25.3/vobjects/:objectName/:recordId",
+            "params": [
+              {
+                "name": "objectName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates fields on an existing Vault object record."
+        },
+        {
+          "info": {
+            "name": "Veeva Delete a Vault Object Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{vaultDomain}/api/v25.3/vobjects/:objectName/:recordId",
+            "params": [
+              {
+                "name": "objectName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes a specific Vault object record."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

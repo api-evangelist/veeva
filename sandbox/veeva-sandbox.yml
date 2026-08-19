@@ -1,0 +1,42 @@
+generated: '2026-08-15'
+method: searched
+source: https://general.veevavault.dev/vault-api/api-reference/26.2/sandbox-vaults
+model: provisioned-tenant
+note: >-
+  Veeva's sandbox is not a shared test mode with public test credentials — it is a separately
+  provisioned Vault instance a customer creates from production, managed through the Sandbox
+  Vaults API. There are therefore NO public test cards, magic identifiers, or shared test keys
+  to record, and none are invented here.
+public_test_credentials: false
+self_serve: false
+kinds:
+  - name: Sandbox Vault
+    detail: A copy of a production Vault used for configuration, development, and validation.
+  - name: Pre-Production Vault
+    detail: A staging Vault that can be built and then promoted to production.
+  - name: Limited Release sandbox
+    detail: >-
+      Sandbox running the limited release, used to test upcoming changes ahead of the general
+      release — Veeva points customers here to test new TLS cipher suites before rollout.
+    source: https://general.veevavault.dev/vault-api/references/tls
+operations:
+  - Retrieve Sandboxes
+  - Retrieve Sandbox Details by ID
+  - Create or Refresh Sandbox
+  - Refresh Sandbox from Snapshot
+  - Delete Sandbox
+  - Change Sandbox Size
+  - Set Sandbox Entitlements
+  - Recheck Sandbox Usage Limit
+  - Create / Retrieve / Update / Upgrade / Delete Sandbox Snapshot
+  - Generate API Access Token for Sandbox
+  - Build Production Vault (pre-production)
+  - Promote to Production (pre-production)
+credentials:
+  note: >-
+    API access tokens do NOT copy from production into a newly created sandbox and must be
+    regenerated with Generate API Access Token for Sandbox. Tokens DO copy when an existing
+    sandbox is refreshed. Tokens are not copied when a pre-production Vault is promoted to production.
+  source: https://general.veevavault.dev/vault-api/explanation/api-access-tokens
+console:
+  detail: Sandboxes are also created and managed from the Vault UI under Admin.

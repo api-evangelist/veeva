@@ -1,0 +1,78 @@
+generated: '2026-08-15'
+method: searched
+source: https://general.veevavault.dev/vault-sdk/sdk-integrations/spark-messaging
+spec_published: false
+note: >-
+  Veeva publishes NO AsyncAPI document. It does publish a real, signed, outbound event surface —
+  Spark Messaging — with a documented wire format, signature headers, delivery queues and an
+  allowlist. That is captured here as a webhook catalogue rather than fabricated into an
+  AsyncAPI. Emitting type Webhooks, not type AsyncAPI.
+surface:
+  name: Spark Messaging
+  kind: outbound-signed-http-message
+  description: >-
+    Loosely coupled, asynchronous, near real-time integration between Vaults or from a Vault to
+    an external application. Messages are small and signed; if the receiver needs more data it is
+    expected to call back into Vault API (or use HTTP Callout) to fetch it.
+  transport: "HTTPS POST from Vault's outbound proxy (regionxyz.its.proxy.veevavault.com)"
+  user_agent: Veeva Vault Spark Message Agent
+  content_type: application/json
+  delivery: >-
+    Queue-based for reliable delivery. Outbound messages sit in an outbound queue; delivered
+    messages enter the receiver's inbound queue and are handled by a Spark message processor.
+  producer: 'Vault Java SDK QueueService.putMessage(Message)'
+  docs: https://general.veevavault.dev/vault-sdk/sdk-integrations/spark-messaging
+security:
+  signing: true
+  scheme: >-
+    Each message is signed with Vault's private key. The receiver retrieves the matching public
+    key with the Retrieve Signing Certificate endpoint using X-VaultAPISignature-CertificateId,
+    then verifies X-VaultAPI-SignatureV2 (X-VaultAPI-Signature for 20R1.0 only).
+  replay_window: X-VaultAPISignature-RequestNotBefore / -RequestNotAfter bound the validity window.
+  allowlist: Message Delivery Allowlist restricts the destinations Vault will deliver to.
+  verification_docs: https://general.veevavault.dev/vault-sdk/sdk-integrations/spark-messaging/message-signing-verification
+  certificate_endpoint: 'GET /api/{version}/services/certificate/{cert_id} — Retrieve Signing Certificate. Unauthenticated: no Authorization header required, so a receiver can verify without Vault credentials.'
+headers:
+  - {name: Host, meaning: "Vault's outbound proxy host name."}
+  - {name: User-Agent, meaning: 'Always: Veeva Vault Spark Message Agent'}
+  - {name: X-VaultAPISignature-CertificateId, meaning: Certificate ID used to retrieve the public key for verification.}
+  - {name: X-VaultAPISignature-ExecutionId, meaning: Unique ID identifying the execution thread.}
+  - {name: X-VaultAPISignature-RequestId, meaning: Unique request ID, such as the message ID.}
+  - {name: X-VaultAPISignature-RequestDateTime, meaning: Time the message was sent.}
+  - {name: X-VaultAPISignature-RequestNotBefore, meaning: Earliest time the message is valid.}
+  - {name: X-VaultAPISignature-RequestNotAfter, meaning: Time after which the message is invalid.}
+  - {name: X-VaultAPISignature-RequestType, meaning: 'Either `spark_message` or `http_callout`.'}
+  - {name: X-VaultAPISignature-URL, meaning: Intended recipient URL from the putMessage call.}
+  - {name: X-VaultAPISignature-VaultId, meaning: ID of the Vault that sent the message.}
+  - {name: X-VaultAPI-Signature, meaning: Message signature (Vault 20R1.0 only).}
+  - {name: X-VaultAPI-SignatureV2, meaning: Message signature (Vault 20R1.2+).}
+  - {note: 'Headers may arrive in different case depending on the receiving host; treat them case-insensitively.'}
+payload:
+  fields:
+    - {name: vault_name, meaning: Name of the sending Vault.}
+    - {name: vault_host_name, meaning: DNS host name of the sending Vault.}
+    - {name: queue_name, meaning: The configured queue the message came from.}
+    - {name: enter_queue_timestamp, meaning: When the message entered the outbound queue.}
+    - {name: send_message_timestamp, meaning: When the message was sent.}
+    - {name: send_attempt, meaning: Delivery attempt number.}
+    - {name: message_id, meaning: UUID for this message.}
+    - {name: message.attributes, meaning: 'Developer-defined attributes (object, has_related, related_count, authorization).'}
+    - {name: message.items, meaning: Array of record or document IDs the message refers to.}
+  docs: https://general.veevavault.dev/vault-sdk/sdk-integrations/spark-messaging/message-format
+management_api:
+  base: '/api/{version}/services/queues'
+  operations:
+    - Retrieve All Queues
+    - Retrieve Queue Status
+    - Enable Delivery
+    - Disable Delivery
+    - Reset Queue
+    - Retrieve Signing Certificate
+  docs: https://general.veevavault.dev/vault-api/api-reference/26.2/managing-vault-java-sdk/queues
+related:
+  - name: HTTP Callout
+    detail: Outbound HTTP from Vault Java SDK code, signed with the same X-VaultAPISignature-* scheme (RequestType http_callout).
+    docs: https://general.veevavault.dev/vault-sdk/sdk-integrations/http-callout
+  - name: Document Events
+    detail: Vault records document events, retrievable over REST and queryable in VQL — a pull-side event log rather than a push surface.
+    docs: https://general.veevavault.dev/vault-api/api-reference/26.2/documents/document-events

@@ -1,0 +1,210 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Veeva Vault REST Authentication Documents API",
+    "version": "25.3"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Documents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Veeva List All Documents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{vaultDomain}/api/v25.3/objects/documents",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of all documents accessible to the authenticated user. Supports filtering by document type, lifecycle state, and custom fields."
+        },
+        {
+          "info": {
+            "name": "Veeva Create a Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{vaultDomain}/api/v25.3/objects/documents",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "name__v",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "type__v",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "lifecycle__v",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "status__v",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "description__v",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "study__v",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Creates a new document record in Vault. Optionally uploads a file as the document source file in the same request using multipart/form-data."
+        },
+        {
+          "info": {
+            "name": "Veeva Retrieve a Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{vaultDomain}/api/v25.3/objects/documents/:documentId",
+            "params": [
+              {
+                "name": "documentId",
+                "value": "12345",
+                "type": "path",
+                "description": "Vault document ID"
+              }
+            ]
+          },
+          "docs": "Returns metadata and properties for a specific document."
+        },
+        {
+          "info": {
+            "name": "Veeva Update Document Metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{vaultDomain}/api/v25.3/objects/documents/:documentId",
+            "params": [
+              {
+                "name": "documentId",
+                "value": "12345",
+                "type": "path",
+                "description": "Vault document ID"
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Updates document field values. Does not replace the document file."
+        },
+        {
+          "info": {
+            "name": "Veeva Delete a Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{vaultDomain}/api/v25.3/objects/documents/:documentId",
+            "params": [
+              {
+                "name": "documentId",
+                "value": "12345",
+                "type": "path",
+                "description": "Vault document ID"
+              }
+            ]
+          },
+          "docs": "Deletes a document and all versions."
+        },
+        {
+          "info": {
+            "name": "Veeva Download Document Source File",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{vaultDomain}/api/v25.3/objects/documents/:documentId/file",
+            "params": [
+              {
+                "name": "documentId",
+                "value": "12345",
+                "type": "path",
+                "description": "Vault document ID"
+              }
+            ]
+          },
+          "docs": "Downloads the source file for the latest version of a document."
+        },
+        {
+          "info": {
+            "name": "Veeva Perform a Document Lifecycle Action",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{vaultDomain}/api/v25.3/objects/documents/:documentId/actions/:actionName",
+            "params": [
+              {
+                "name": "documentId",
+                "value": "12345",
+                "type": "path",
+                "description": "Vault document ID"
+              },
+              {
+                "name": "actionName",
+                "value": "Approve",
+                "type": "path",
+                "description": "Lifecycle action API name"
+              }
+            ]
+          },
+          "docs": "Executes a user action on a document to change its lifecycle state. Common actions include Approve, Submit for Review, Send to Archive."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

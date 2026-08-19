@@ -1,0 +1,56 @@
+generated: '2026-08-15'
+method: searched
+source: https://general.veevavault.dev/custom-pages + https://general.veevavault.dev/vault-toolbox
+note: >-
+  Veeva ships client-side extension surfaces rather than a drop-in widget library: Custom Pages
+  runs your own JavaScript inside the Vault UI, and the Vault Web SDK is the JS package that
+  defines a page and talks to the Vault server. Distinct from the REST SDKs in packages/.
+families:
+  - name: Custom Pages
+    kind: embedded-ui-extension
+    docs: https://general.veevavault.dev/custom-pages/overview
+    detail: >-
+      Build custom UI inside Vault with JavaScript and your own framework. Client code is
+      deployed via Vault API, server code via the Vault Java SDK Maven plugin, and the page is
+      wired up in Vault by configuring a Page component (plus optional Tab or Pagelink).
+    runtime: >-
+      Runs in an isolated shadow DOM. @font-face is unsupported; stylesheets must be registered
+      in distribution-manifest.json rather than loaded in code.
+    api_surface:
+      - Add or Replace Single Client Code Distribution
+      - Delete Single Client Code Distribution
+    references:
+      - https://general.veevavault.dev/custom-pages/references/client-distributions
+      - https://general.veevavault.dev/custom-pages/guides/page-configuration
+  - name: Vault Web SDK
+    kind: javascript-loader-library
+    package: '@veeva/vault'
+    current_version: 26.2.0
+    versions: [26.2.0, 26.1.0, 25.3.0, 25.2.0, 25.1.2, 25.1.0, 24.3.4]
+    docs: https://general.veevavault.dev/custom-pages/vault-web-sdk
+    detail: >-
+      Provides definePage() to define a Custom Page, functions to validate and exchange data
+      with server code, and a JavaScript client for Vault API.
+    distribution: See packages/veeva-packages.yml — S3 tarball, not npm.
+  - name: Vault External Document Viewer
+    kind: embeddable-viewer
+    docs: https://general.veevavault.dev/commercial/library/guides/external-document-viewer
+    detail: Embed the Vault document viewer into your own website, or use it standalone.
+    app_family: commercial
+  - name: Vault Toolbox — Browser Extension
+    kind: developer-tool
+    docs: https://general.veevavault.dev/vault-toolbox/browser-extension
+    detail: Chrome and Microsoft Edge extension for Vault developers.
+    source: https://github.com/veeva/Vault-Toolbox
+  - name: Vault Toolbox — IntelliJ Plugin
+    kind: developer-tool
+    docs: https://general.veevavault.dev/vault-toolbox/intellij-plugin
+    detail: >-
+      IntelliJ plugin with project generators, MDL/SDK deployment, Vault comparison, and
+      developer log access (including API Usage Logs).
+    source: https://github.com/veeva/vault-toolbox-intellij
+  - name: Veeva CRM MyInsights
+    kind: embedded-visualization
+    package: '@veeva/myinsights'
+    docs: https://github.com/veeva/CRM-MyInsights-CDE-Examples
+    detail: JavaScript library for embedding custom visualizations in Veeva CRM. Last npm release 2019-04-25.

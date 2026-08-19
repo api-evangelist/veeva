@@ -1,0 +1,42 @@
+generated: '2026-08-15'
+method: searched
+source: https://www.veeva.com/trust/
+name: Veeva Security Program Overview
+url: https://www.veeva.com/trust/
+x-evidence:
+  fetched: '2026-08-15'
+  url: https://www.veeva.com/trust/
+  http_status: 200
+  title: Veeva Security Program Overview | Veeva
+certifications:
+  - {name: 'ISO/IEC 27001', detail: Information Security Management. Audited at least annually by an accredited third-party certification body.}
+  - {name: 'ISO/IEC 27017', detail: Cloud security controls; covered by the same annual third-party audit.}
+  - {name: 'ISO/IEC 27018', detail: Protection of PII in public clouds; covered by the same annual third-party audit.}
+  - {name: 'ISO 9001', detail: Quality Management Systems.}
+  - {name: 'SOC 2 Type II', detail: System and Organization Controls.}
+frameworks:
+  - SEI Capability Maturity Model Integration (CMMI)
+  - IT Infrastructure Library (ITIL)
+  - 'ICH Q9 — Quality Risk Management'
+controls:
+  encryption:
+    in_transit: 'TLS 1.2 minimum across untrusted networks.'
+    at_rest: 'AES-256 or equivalent.'
+  testing: >-
+    Internal vulnerability testing before every release; internal penetration testing systems;
+    automated and manual vulnerability assessments at least annually; third-party security
+    specialists engaged annually for vulnerability and penetration testing.
+  incident_response: >-
+    Dedicated team operating a formal incident response policy; all personnel trained to report
+    security incidents immediately.
+  access: Documented least-privilege access policies enforced by automated means; separation of duties between operators, admins, and developers.
+  training: Role-based security and annual security awareness training for all employees and contractors.
+status_page:
+  url: https://trust.veeva.com/
+  detail: >-
+    Veeva's security overview describes "a public 'trust' webpage that displays upcoming
+    maintenance downtimes, data center incidents". Confirmed live — see lifecycle/veeva-lifecycle.yml.
+gaps:
+  - No /.well-known/security.txt on any Veeva host (all probes 403/404, 2026-08-15).
+  - No published vulnerability disclosure policy, security contact address, or bug bounty programme found.
+  - No downloadable certificate/report portal; certifications are described in prose rather than served as artifacts.

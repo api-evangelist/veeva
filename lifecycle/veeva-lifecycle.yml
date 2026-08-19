@@ -1,0 +1,73 @@
+generated: '2026-08-15'
+method: searched
+source: https://general.veevavault.dev/vault-api/getting-started/endpoint-structure + https://general.veevavault.dev/rn
+versioning:
+  scheme: date-based-release
+  pattern: vYY.N
+  current_ga: v26.2
+  in_path: true
+  path_form: https://{vaultDNS}/api/{version}
+  discovery_endpoint: GET /api/{version} — Retrieve API Versions returns the versions available on that Vault.
+  cadence: >-
+    Three new API versions per year, coinciding with Vault General Releases (26R1 -> v26.1,
+    26R2 -> v26.2, 26R3 -> v26.3). Limited releases between general releases do not get their
+    own API version; their features land in the current Beta API version.
+  stability_policy: >-
+    Only the newest version, labelled Beta, is subject to change. The latest non-Beta version
+    is General Availability. All older versions do not change, so an existing integration keeps
+    working — but new features are not backported, so consumers must move versions to get them.
+  docs: https://general.veevavault.dev/vault-api/getting-started/endpoint-structure
+deprecation:
+  policy_published: false
+  sunset_headers: false
+  rfc8594: false
+  practice: >-
+    Veeva has no standalone deprecation policy page and emits no Sunset/Deprecation headers.
+    What it does publish is a "Service Announcements" section at the top of every developer
+    release note, defined as "changes that may affect existing integrations", plus explicit
+    Deprecated markers in the reference. Because the immutability guarantee on older API
+    versions means old versions are not retired on a schedule, there is no sunset clock to
+    document. Recorded as an absence, not credited as a policy.
+  examples:
+    - item: X-VaultAPI-DailyLimit / X-VaultAPI-DailyLimitRemaining response headers
+      status: deprecated
+      detail: No longer returned as of v21.1; v20.3 and below still return a static 999,999 for backwards compatibility.
+      source: https://general.veevavault.dev/vault-api/references/response-headers
+    - item: Vault Java SDK NotificationMessage, NotificationTemplate, NotificationParameters
+      status: announced-for-deprecation
+      detail: Superseded by the NotificationQueue* interfaces introduced in 26R2.
+      source: https://general.veevavault.dev/rn/26r2
+    - item: TLS v1 and v1.1 in SDK HttpService
+      status: removed
+      detail: Support removed in 26R1.3 / 26R2.
+      source: https://general.veevavault.dev/rn/26r2
+    - item: HTTP reason phrase in the Vault API status line
+      status: changing
+      detail: 'From 26R1.2 Vault returns a numeric-only status line (HTTP/1.1 200, not HTTP/1.1 200 OK); the Expires header is dropped in favour of Cache-Control: no-store, no-cache.'
+      source: https://general.veevavault.dev/rn/26r2
+status_page:
+  published: true
+  url: https://trust.veeva.com/
+  name: Veeva Systems status page
+  scope: Upcoming maintenance downtimes, data centre incidents, and service status.
+  x-evidence:
+    fetched: '2026-08-15'
+    http_status: 200
+    note: >-
+      Returns 403 to a default curl User-Agent and 200 with a browser User-Agent — a bot
+      challenge, not a gate. Title on the 200 body is "Veeva Systems status page". Its
+      existence is also stated in Veeva's own security overview at www.veeva.com/trust/,
+      which describes "a public 'trust' webpage that displays upcoming maintenance downtimes,
+      data center incidents".
+  in_api: X-VaultAPI-DowntimeExpectedDurationMinutes is returned during scheduled Vault upgrades.
+release_notes:
+  url: https://general.veevavault.dev/rn
+  latest: https://general.veevavault.dev/rn/26r2
+  history_back_to: 17R3
+sla:
+  published: false
+  note: No public SLA document; availability commitments are contractual under the enterprise subscription.
+support:
+  developer_community: http://devcommunity.veevavault.com/
+  help_center: https://support.veeva.com/hc/en-us
+deprecated_operations_in_spec: []

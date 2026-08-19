@@ -1,0 +1,106 @@
+generated: '2026-08-15'
+method: searched
+source: https://general.veevavault.dev/vault-api/references/ + https://general.veevavault.dev/vault-api/getting-started/
+auth:
+  styles:
+    - name: session-id
+      detail: Authorization header carries a Vault session ID obtained from POST /api/{version}/auth.
+    - name: api-access-token
+      detail: 'Authorization: Bearer veeva-vault-<random>. Scoped to one Vault, up to 25 active per user, optional expiry.'
+    - name: oauth2-oidc
+      detail: Exchange an OAuth2/OIDC access token at login.veevavault.com for a Vault session ID.
+  cross_reference: authentication/veeva-authentication.yml
+  docs: https://general.veevavault.dev/vault-api/getting-started/authenticating
+idempotency:
+  supported: false
+  header: null
+  note: >-
+    Veeva publishes NO idempotency key, no request-replay semantics, and no safe-retry contract
+    anywhere in the Vault API reference. RACE_CONDITION is a documented error type for concurrent
+    updates to the same record, and the published guidance for throttled responses is client-side
+    backoff. This is an honest gap, recorded so it is not credited as present.
+versioning:
+  in_path: true
+  form: https://{vaultDNS}/api/{version}
+  current: v26.2
+  policy: Only the newest (Beta) version changes; older versions are immutable.
+  cross_reference: lifecycle/veeva-lifecycle.yml
+pagination:
+  style: response-supplied-links
+  bulk_cap: 500 records per bulk request (e.g. Create Multiple Object Records)
+  vql: VQL supports LIMIT/OFFSET (SKIP) and returns next/previous page URLs in the responseDetails block.
+  note: Veeva's published guidance is to prefer bulk/batch endpoints over per-record calls to stay inside the burst limit.
+request_tracing:
+  - header: X-VaultAPI-ClientID
+    direction: request
+    required: false
+    detail: >-
+      Optional client ID identifying the calling integration; also accepted as a client_id query
+      parameter (the query parameter wins if both are sent). Recorded in the API Usage Log;
+      appears as `unknown` when omitted and `invalid_client_id` when malformed.
+    format: Alphanumeric, max 100 chars, mixed case, only . _ - allowed.
+    recommended_form: '{company}-{organization}-{component/team}-{server|client}-{program}'
+    enforcement: >-
+      Admins can enable Client ID Filtering so Vault rejects requests whose client ID does not
+      match an active Connection. Default connection client ID is veeva-vault-{connection api_name__sys}.
+    docs: https://general.veevavault.dev/vault-api/references/client-id
+  - header: X-VaultAPI-ReferenceId
+    direction: request+response
+    required: false
+    detail: Free-form reference string (v23.3+) echoed back on the response and written to the reference_id column of the API Usage Log.
+    docs: https://general.veevavault.dev/vault-api/references/reference-id
+  - header: X-VaultAPI-ExecutionId
+    direction: response
+    detail: Unique ID for the API request. Veeva asks for this value on any Support ticket about the API.
+response_headers:
+  always:
+    - {name: X-VaultAPI-ExecutionId, meaning: Unique ID for this API request.}
+    - {name: X-VaultAPI-BurstLimit, meaning: Maximum calls allowed in the burst window.}
+    - {name: X-VaultAPI-BurstLimitRemaining, meaning: Calls remaining in the current 5-minute burst window.}
+    - {name: X-VaultAPI-VaultId, meaning: ID of the Vault where the request was initiated.}
+    - {name: X-VaultAPI-UserId, meaning: ID of the authenticated user (when a SESSION_ID is present).}
+    - {name: X-VaultAPI-TruncatedSessionId, meaning: Shortened session ID for correlating a group of calls; cannot be used to authenticate.}
+    - {name: X-VaultAPI-Status, meaning: 'v23.2+: the responseStatus of the request, surfaced as a header.'}
+  conditional:
+    - {name: X-VaultAPI-ResponseDelay, meaning: Throttle delay in ms; only present on a delayed response.}
+    - {name: X-VaultAPI-DowntimeExpectedDurationMinutes, meaning: Expected downtime in minutes during a scheduled Vault upgrade.}
+    - {name: X-VaultAPI-Connection, meaning: api_name__sys of the associated external Connection record.}
+    - {name: X-VaultAPI-SdkCount, meaning: 'v22.1+: number of Vault Java SDK entry points executed.'}
+    - {name: X-VaultAPI-SdkCpuTime, meaning: SDK CPU time in nanoseconds.}
+    - {name: X-VaultAPI-SdkElapsedTime, meaning: SDK elapsed time in milliseconds.}
+    - {name: X-VaultAPI-SdkGrossMemory, meaning: SDK gross memory in bytes.}
+  deprecated:
+    - {name: X-VaultAPI-DailyLimit, meaning: Deprecated. May still appear in v20.3 and below with a static value.}
+    - {name: X-VaultAPI-DailyLimitRemaining, meaning: Deprecated. May still appear in v20.3 and below with a static value.}
+  docs: https://general.veevavault.dev/vault-api/references/response-headers
+error_envelope:
+  format: vendor
+  shape: '{responseStatus: SUCCESS|FAILURE, errors: [{type, message}]}'
+  cross_reference: errors/veeva-problem-types.yml
+  http_status_note: >-
+    From 26R1.2 Vault returns a numeric-only status line, so clients must branch on the integer
+    status code and must not string-match the reason phrase.
+rate_limit_signaling:
+  headers: [X-VaultAPI-BurstLimit, X-VaultAPI-BurstLimitRemaining, X-VaultAPI-ResponseDelay]
+  behaviour: >-
+    Exceeding the general burst limit DELAYS responses rather than rejecting them; exceeding the
+    Auth burst limit FAILS the request until the next window. Exceeding the Job Status poll limit
+    returns the API_LIMIT_EXCEEDED error type.
+  cross_reference: rate-limits/veeva-rate-limits.yml
+content_negotiation:
+  request: 'Content-Type: multipart/form-data or application/x-www-form-urlencoded on auth; application/json elsewhere.'
+  response: 'Accept: application/json (default) or application/xml.'
+cors:
+  docs: https://general.veevavault.dev/vault-api/references/cross-origin
+transport:
+  min_tls: '1.2'
+  cipher_suites:
+    - TLSv1.3/TLS_AES_256_GCM_SHA384
+    - TLSv1.3/TLS_CHACHA20_POLY1305_SHA256
+    - TLSv1.3/TLS_AES_128_GCM_SHA256
+    - TLSv1.2/ECDHE-RSA-AES256-GCM-SHA384
+    - TLSv1.2/ECDHE-RSA-AES128-GCM-SHA256
+  docs: https://general.veevavault.dev/vault-api/references/tls
+csv:
+  note: Vault's CSV handling deviates from RFC 4180 in documented ways.
+  docs: https://general.veevavault.dev/vault-api/references/csv-rfc-deviations

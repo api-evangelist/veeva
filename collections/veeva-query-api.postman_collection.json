@@ -1,0 +1,217 @@
+{
+  "item": [
+    {
+      "id": "130469dc-c39b-4614-b53b-2fe26aa02d06",
+      "name": "Query",
+      "description": {
+        "content": "VQL query execution",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "10121e34-6c10-4fa3-b8d6-d3530b04cb40",
+          "name": "Veeva Execute a VQL Query",
+          "request": {
+            "name": "Veeva Execute a VQL Query",
+            "description": {
+              "content": "Executes a Vault Query Language (VQL) query to retrieve data from documents, objects, users, and system data. Supports SELECT, FROM, WHERE, ORDER BY, FIND, and relationship traversal.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "query"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>",
+                  "description": "(Required) VQL query string"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Your Vault domain (e.g., myvault.veevavault.com)",
+                  "type": "any",
+                  "value": "{{vaultDomain}}",
+                  "key": "vaultDomain"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "413acc22-a005-4b0e-a58b-f4ba8d3292f1",
+              "name": "Query results",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "SELECT id, name__v, status__v FROM documents WHERE type__v = 'study_protocol__c'"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Your Vault domain (e.g., myvault.veevavault.com)",
+                      "type": "any",
+                      "value": "{{vaultDomain}}",
+                      "key": "vaultDomain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"responseStatus\": \"SUCCESS\",\n  \"responseDetails\": {\n    \"limit\": 200,\n    \"offset\": 0,\n    \"size\": 2,\n    \"total\": 2\n  },\n  \"data\": [\n    {\n      \"id\": 100001,\n      \"name__v\": \"Study Protocol v1.0\",\n      \"status__v\": \"approved__c\"\n    },\n    {\n      \"id\": 100002,\n      \"name__v\": \"Study Protocol Amendment 1\",\n      \"status__v\": \"draft__v\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4ff7a24d-c6e1-4cb8-a51b-940a6617fcc3",
+              "name": "Invalid VQL syntax",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "SELECT id, name__v, status__v FROM documents WHERE type__v = 'study_protocol__c'"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Your Vault domain (e.g., myvault.veevavault.com)",
+                      "type": "any",
+                      "value": "{{vaultDomain}}",
+                      "key": "vaultDomain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"responseStatus\": \"FAILURE\",\n  \"errors\": [\n    {\n      \"type\": \"string\",\n      \"message\": \"string\"\n    },\n    {\n      \"type\": \"string\",\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Your Vault domain (e.g., myvault.veevavault.com)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "myvault.veevavault.com",
+      "key": "vaultDomain"
+    },
+    {
+      "type": "string",
+      "value": "https://{{vaultDomain}}/api/v25.3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "75bd4a27-063a-4323-b9a1-650f4b187bc7",
+    "name": "Veeva Vault REST Authentication Query API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Veeva Vault provides life sciences cloud platform APIs for regulatory document management, quality management (QMS), clinical operations, and commercial content management. REST APIs enable document lifecycle management, workflow automation, object CRUD operations, and compliance-validated data exchange. API version v25.3.\n\nContact Support:\n Name: Veeva Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

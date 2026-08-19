@@ -1,0 +1,109 @@
+{
+  "x-evidence": {
+    "fetched": "2026-08-15",
+    "url": "https://docs.veevavault.dev/mcp",
+    "method": "POST tools/list (JSON-RPC 2.0, anonymous)",
+    "http_status": 200,
+    "content_type": "text/event-stream"
+  },
+  "serverInfo": {
+    "name": "Vault Documentation MCP",
+    "version": "3.4.0"
+  },
+  "tools": [
+    {
+      "name": "search_documentation",
+      "description": "# search_documentation\n\nSearch Veeva Vault documentation to find information about Vault APIs, Java SDK, VQL, MDL, VAPIL, and Vault product features across several app families. Use the parameters below to target the desired documentation source, app family, and release.\n\n## Sources\n\n- `vault_developer_documentation`: Search the Veeva Vault Developer Portal for developer features such as Vault Java SDK,\n  Vault API, Metadata Definition Language (MDL), Vault Query Language (VQL), and Direct Data API.\n  For SDK Javadocs use \"vault_java_sdk_javadocs\". For API endpoint reference use \"vault_api_reference\".\n- `vault_api_reference`: Search Vault API endpoint reference docs for specific, technical information about\n  Vault API endpoints including request details (URI paths, headers, parameters), response details\n  (returned attributes and response structure), and response status and error type information.\n- `vault_java_sdk_javadocs`: Search the Vault Java SDK javadocs for code examples, class and interface\n  descriptions, method details (parameters, return types, exceptions thrown), field and constructor\n  information, and package overviews.\n- `vapil_javadocs`: Search the Vault API Library (VAPIL) javadocs for an overview of VAPIL, code examples,\n  class and interface descriptions, method details (parameters, return types, exceptions thrown),\n  field and constructor information, and package overviews.\n- `vault_help_documentation`: Search the Vault Help Docs for non-developer Vault product information including\n  end-user and administrator documentation, Vault feature overviews and configuration options,\n  and guidance on using and configuring Vault.\n\n## Releases\n\nDefaults to general. vapil_javadocs is general-only. vault_help_documentation with app_family=vault_crm is limited-only. All other sources contain general and limited information.\n\n- `general`: A set of Vault production servers that receive software updates approximately every four months.\n  General releases include all product enhancements and defect fixes that have been incorporated into\n  limited releases since the previous general release.\n- `limited`: A set of Vault production servers that receive software updates approximately every three to\n  five weeks between general releases. Limited releases include product enhancements such as new features,\n  data model changes, infrastructure improvements, and defect fixes. Limited releases are intended for\n  early access to new features.\n\n## App Families\n\nDefaults to platform. For vault_developer_documentation, vault_api_reference, and vault_help_documentation, always ask the user which app_family they are working with if not clear from context. vapil_javadocs and vault_java_sdk_javadocs are platform-only. vault_crm is only applicable to vault_help_documentation; use the default release (limited).\n\nEach app family below lists the Vault applications it includes.\n\n- `platform`: The base Vault platform, shared across all applications.\n- `commercial`: Includes PromoMats, Portal\n- `qualityone`: Includes Document Control, Quality Management System (QMS), Hazard Analysis & Critical Control Points (HACCP), Health Safety and Environmental (HSE), Training\n- `quality`: Includes QualityDocs, Vault Training, Station Manager, Quality Management System (QMS), Product Surveillance, Validation Management, Batch Release, Hazard Analysis & Critical Control Points (HACCP)\n- `medical`: Includes MedComms, Medical Inquiry, Portal\n- `clinical`: Includes CTMS, eTMF, Payments, Study Startup (SSU), Disclosures, Site Connect, OpenData Clinical\n- `regulatory`: Includes Submissions, Submissions Archive, Submissions Publishing, Registrations\n- `safety`: Includes Safety, Safety Workbench, Safety Signal, SafetyDocs\n- `vault_crm`: Includes Vault CRM (vaultcrmhelp.veeva.com). Only applicable with vault_help_documentation; limited release only.\n",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "query": {
+            "description": "The search query text.",
+            "type": "string"
+          },
+          "source": {
+            "description": "The documentation source to search. Available sources: vault_developer_documentation, vault_api_reference, vault_java_sdk_javadocs, vapil_javadocs, vault_help_documentation",
+            "enum": [
+              "vault_developer_documentation",
+              "vault_api_reference",
+              "vault_java_sdk_javadocs",
+              "vapil_javadocs",
+              "vault_help_documentation"
+            ],
+            "type": "string"
+          },
+          "release": {
+            "default": "general",
+            "description": "Available releases: general, limited",
+            "enum": [
+              "general",
+              "limited"
+            ],
+            "type": "string"
+          },
+          "app_family": {
+            "default": "platform",
+            "description": "Available app families: platform, clinical, commercial, medical, quality, regulatory, qualityone, safety, vault_crm",
+            "enum": [
+              "platform",
+              "clinical",
+              "commercial",
+              "medical",
+              "quality",
+              "regulatory",
+              "qualityone",
+              "safety",
+              "vault_crm"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "query",
+          "source"
+        ],
+        "type": "object"
+      },
+      "outputSchema": {
+        "description": "The structured response returned by the search_documentation tool.",
+        "properties": {
+          "results": {
+            "items": {
+              "description": "A single document chunk returned by the knowledge base.",
+              "properties": {
+                "content": {
+                  "type": "string"
+                },
+                "content_url": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "content",
+                "content_url",
+                "title"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "results"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "_meta": {
+        "fastmcp": {
+          "tags": []
+        }
+      }
+    }
+  ]
+}

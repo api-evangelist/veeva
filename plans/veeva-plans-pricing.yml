@@ -4,7 +4,18 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: veeva
 providerId: veeva
 created: '2026-05-04'
-modified: '2026-05-05'
+method: searched
+generated: '2026-08-15'
+source: https://www.veeva.com/products/
+modified: '2026-08-15'
+plan_count: 0
+plan_count_note: >-
+  Zero publicly priced plans. The single entry in plans[] below is a Contact Sales placeholder
+  recording that Veeva sells only by enterprise quote; it is not a published tier.
+x-evidence:
+  - {url: 'https://www.veeva.com/products/', status: 200, finding: 'Product catalogue with no prices, no tiers, and no self-serve signup anywhere on the page.'}
+  - {url: 'https://www.veeva.com/', status: 200, finding: 'No Pricing link in the site navigation or footer; the commercial call to action is Contact Us.'}
+  - {url: 'https://general.veevavault.dev/vault-api/getting-started/prerequisites', status: 200, finding: 'Getting started requires an existing Vault and an admin-granted API permission — there is no developer sign-up path to price.'}
 reconciled: false
 tags:
   - Life Sciences
@@ -15,7 +26,8 @@ description: Veeva (Veeva Vault and Veeva CRM) is sold via enterprise sales to l
   API, CRM API) is included with the underlying product subscription.
 sources:
   - https://www.veeva.com/products/
-notes: Veeva publishes no public pricing. API access is bundled with paid product subscriptions and configured
+notes: >-
+  Re-verified 2026-08-15. Veeva publishes no public pricing. API access is bundled with paid product subscriptions and configured
   per Vault tenant. Reconciliation to a single Contact Sales plan; revisit if Veeva publishes self-serve
   developer pricing.
 plans:

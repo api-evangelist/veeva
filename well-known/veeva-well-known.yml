@@ -1,0 +1,52 @@
+generated: '2026-08-15'
+method: probed
+source: live HTTP probes, 2026-08-15
+note: >-
+  Every /.well-known/ path probed on every Veeva host returned a miss. developer.veevavault.com
+  is an S3-backed static site and answers 403 application/xml (AccessDenied) for any key that
+  does not exist; veevavault.dev, general.veevavault.dev and docs.veevavault.dev return 404;
+  www.veeva.com returns a 404 HTML page. No WellKnown or SecurityTxt pointer is emitted,
+  because nothing here is a served document — this file records a verified absence.
+hosts:
+  - host: www.veeva.com
+    paths:
+      - {path: /.well-known/security.txt, status: 404, content_type: text/html, file: null}
+      - {path: /.well-known/openid-configuration, status: 404, content_type: text/html, file: null}
+      - {path: /.well-known/oauth-authorization-server, status: 404, content_type: text/html, file: null}
+      - {path: /.well-known/api-catalog, status: 404, content_type: text/html, file: null}
+      - {path: /.well-known/ai-plugin.json, status: 404, content_type: text/html, file: null}
+      - {path: /.well-known/agent-card.json, status: 404, content_type: text/html, file: null}
+  - host: developer.veevavault.com
+    note: S3 static site; 403 application/xml is AccessDenied for a nonexistent key, not a gate.
+    paths:
+      - {path: /.well-known/security.txt, status: 403, content_type: application/xml, file: null}
+      - {path: /.well-known/agent-card.json, status: 403, content_type: application/xml, file: null}
+      - {path: /.well-known/agent.json, status: 403, content_type: application/xml, file: null}
+      - {path: /llms.txt, status: 403, content_type: application/xml, file: null}
+      - {path: /openapi.json, status: 403, content_type: application/xml, file: null}
+  - host: veevavault.dev
+    paths:
+      - {path: /.well-known/security.txt, status: 404, content_type: text/html, file: null}
+      - {path: /.well-known/openid-configuration, status: 404, content_type: text/html, file: null}
+      - {path: /.well-known/oauth-authorization-server, status: 404, content_type: text/html, file: null}
+      - {path: /.well-known/api-catalog, status: 404, content_type: text/html, file: null}
+      - {path: /.well-known/ai-plugin.json, status: 404, content_type: text/html, file: null}
+      - {path: /.well-known/agent-card.json, status: 404, content_type: text/html, file: null}
+      - {path: /.well-known/agent.json, status: 404, content_type: text/html, file: null}
+  - host: general.veevavault.dev
+    paths:
+      - {path: /.well-known/security.txt, status: 404, content_type: text/html, file: null}
+      - {path: /.well-known/openid-configuration, status: 404, content_type: text/html, file: null}
+      - {path: /.well-known/oauth-authorization-server, status: 404, content_type: text/html, file: null}
+      - {path: /.well-known/api-catalog, status: 404, content_type: text/html, file: null}
+      - {path: /.well-known/ai-plugin.json, status: 404, content_type: text/html, file: null}
+      - {path: /.well-known/agent-card.json, status: 404, content_type: text/html, file: null}
+  - host: docs.veevavault.dev
+    note: Serves the Vault Documentation MCP endpoint at /mcp only; every other path is 404.
+    paths:
+      - {path: /.well-known/oauth-protected-resource, status: 404, content_type: text/plain, file: null}
+      - {path: /.well-known/oauth-authorization-server, status: 404, content_type: text/plain, file: null}
+      - {path: /.well-known/agent-card.json, status: 404, content_type: text/plain, file: null}
+      - {path: /.well-known/agent.json, status: 404, content_type: text/plain, file: null}
+      - {path: /.well-known/security.txt, status: 404, content_type: text/plain, file: null}
+hits: 0

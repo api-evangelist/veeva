@@ -1,0 +1,131 @@
+generated: '2026-08-15'
+method: probed
+source: https://general.veevavault.dev/mcp + live tools/list against https://docs.veevavault.dev/mcp
+status: published
+note: >-
+  Veeva ships TWO distinct first-party MCP servers, documented at general.veevavault.dev/mcp.
+  They are different products with different reach, so they are recorded as separate servers
+  rather than folded into one entry.
+deployment:
+  mode: remote
+  endpoint: https://docs.veevavault.dev/mcp
+  auth: none
+  verified: probed
+  note: >-
+    The `deployment` block describes the PUBLIC, anonymously reachable server (Vault
+    Documentation MCP). The second server, Vault MCP Server, is also remote but its endpoint
+    is tenant-templated (https://{host}/api/ai/mcp, where {host} is the customer's own Vault
+    DNS) and requires a Bearer API access token, so it has no single URL an agent can reach
+    without a customer tenant. Its own deployment block is recorded under servers[].
+servers:
+  - name: Vault Documentation MCP
+    slug: veeva-vault-documentation-mcp
+    docs: https://general.veevavault.dev/mcp/vault-documentation-mcp-server/overview
+    deployment:
+      mode: remote
+      endpoint: https://docs.veevavault.dev/mcp
+      auth: none
+      verified: probed
+    transport: streamable-http
+    protocol_version: '2024-11-05'
+    server_version: 3.4.0
+    tool_count: 1
+    tools_file: mcp/veeva-docs-mcp-tools.json
+    x-evidence:
+      fetched: '2026-08-15'
+      url: https://docs.veevavault.dev/mcp
+      initialize_status: 200
+      tools_list_status: 200
+      content_type: text/event-stream
+      anonymous: true
+    capabilities:
+      tools: true
+      resources: true
+      prompts: true
+      logging: true
+    tools:
+      - name: search_documentation
+        readonly: true
+        description: >-
+          Search Veeva Vault developer and help documentation and return content chunks with
+          source URL, title, and excerpt.
+        inputs: [query, source, release, app_family]
+        sources:
+          - vault_developer_documentation
+          - vault_api_reference
+          - vault_java_sdk_javadocs
+          - vapil_javadocs
+          - vault_help_documentation
+        app_families: [platform, clinical, commercial, medical, quality, regulatory, qualityone, safety, vault_crm]
+    install_examples:
+      - client: Claude Code
+        command: 'claude mcp add --transport http vault-documentation-mcp https://docs.veevavault.dev/mcp --scope user'
+        source: https://general.veevavault.dev/mcp/vault-documentation-mcp-server/guides/claude-code
+      - client: Gemini CLI
+        source: https://general.veevavault.dev/mcp/vault-documentation-mcp-server/guides/gemini-cli
+      - client: Gemini Code Assist
+        source: https://general.veevavault.dev/mcp/vault-documentation-mcp-server/guides/gemini-code-assist
+  - name: Vault MCP Server
+    slug: veeva-vault-mcp
+    docs: https://general.veevavault.dev/mcp/vault-mcp-server/overview
+    deployment:
+      mode: remote
+      endpoint: 'https://{host}/api/ai/mcp'
+      auth: api-key
+      verified: searched
+      note: >-
+        The {host} placeholder is the customer's own Vault DNS, e.g. myvault.veevavault.com. There is no
+        shared endpoint; each Vault tenant serves its own. Not probed — reaching it requires
+        a customer Vault and an API access token, and no anonymous instance exists.
+    transport: streamable-http
+    protocol_version: '2024-11-05 and later'
+    gated: true
+    entitlement: Requires Vault AI enabled on the customer's Vault.
+    authentication:
+      scheme: Bearer
+      credential: Vault API access token (value prefixed `veeva-vault-`)
+      header: 'Authorization: Bearer {access_token}'
+      oauth_supported: false
+      basic_supported: false
+      session_lifetime: 8 hours from initialization
+      docs: https://general.veevavault.dev/mcp/vault-mcp-server/getting-started/authentication
+    session:
+      init: POST initialize -> server returns Mcp-Session-Id header
+      then: POST notifications/initialized -> 202 Accepted
+      header: Mcp-Session-Id required on all subsequent requests
+      docs: https://general.veevavault.dev/mcp/vault-mcp-server/guides/initializing-a-session
+    tool_model: >-
+      Tools are NOT a fixed catalog. Each Vault AI agent action the authenticated user may
+      execute is exposed as one MCP tool, named {agent_name}-{action_name}. The list is
+      per-user and per-tenant; configuration changes take up to 8 hours to appear. Call
+      tools/list after each session init. Custom agent actions configured by the customer
+      appear as tools alongside the Veeva-supplied ones.
+    supports:
+      tools: true
+      resources: false
+      prompts: false
+    documented_tools:
+      - name: base_document_chat_agent__sys-summarize_document__sys
+        title: Summarize Document
+        required: [document_id]
+        optional: [user_message]
+      - name: base_document_chat_agent__sys-ask_questions_on_document__sys
+        title: Ask Questions on Document
+        required: [document_id]
+        optional: [user_message]
+      - note: >-
+          Only these two are shown in the published tools/list example. The live list is
+          tenant-specific and requires authenticated introspection; nothing further is
+          recorded here rather than guessed.
+    long_running:
+      tcp_max: 5 minutes
+      resume: GET with Mcp-Session-Id + Last-Event-ID, 30s hold, retry up to 1 hour
+      cancel: notifications/cancelled with the original JSON-RPC requestId
+    permissions:
+      - 'Application: API: Access API'
+      - 'Agents: Execute'
+    errors_doc: https://general.veevavault.dev/mcp/vault-mcp-server/reference/errors
+    install_examples:
+      - client: Claude Code
+        command: 'claude mcp add --transport http vault-mcp https://{host}/api/ai/mcp --header "Authorization: Bearer {access_token}"'
+        source: https://general.veevavault.dev/mcp/vault-mcp-server/getting-started/connect-claude-code

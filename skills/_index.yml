@@ -1,0 +1,15 @@
+generated: '2026-08-15'
+method: generated
+source: openapi/*.yml + https://general.veevavault.dev/vault-api/ + conventions/veeva-conventions.yml
+note: >-
+  Veeva publishes no AGENTS.md and no packaged agent skills. These are API Evangelist skills,
+  generated from the operationIds actually present in openapi/ and the runtime rules Veeva
+  documents (auth, rate limits, error types, tracing headers). No operationId or endpoint here
+  is invented — every one is grepped from a spec in this repo and cross-checked against the
+  published reference.
+skill_count: 4
+skills:
+  - {file: veeva-authenticate-and-query.md, name: veeva-authenticate-and-query, api: 'veeva:veeva-query-api'}
+  - {file: veeva-manage-document-lifecycle.md, name: veeva-manage-document-lifecycle, api: 'veeva:veeva-documents-api'}
+  - {file: veeva-manage-object-records.md, name: veeva-manage-object-records, api: 'veeva:veeva-objects-api'}
+  - {file: veeva-run-document-workflow-action.md, name: veeva-run-document-workflow-action, api: 'veeva:veeva-workflows-api'}

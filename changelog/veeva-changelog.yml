@@ -1,0 +1,62 @@
+generated: '2026-08-15'
+method: searched
+source: https://general.veevavault.dev/rn
+scheme: release-notes-per-general-release
+cadence: Three general releases per year (YYR1, YYR2, YYR3); limited releases roughly every 3-5 weeks between them.
+current_version: 26R2 (API v26.2)
+url: https://general.veevavault.dev/rn
+latest_url: https://general.veevavault.dev/rn/26r2
+history_back_to: 17R3
+note: >-
+  Veeva's developer release notes are per-release pages, not a dated feed. Each entry carries a
+  release-note ID, the limited release it shipped in, and the app family. Entries below are from
+  the current 26R2 page; the "Service Announcements" block at the top is Veeva's breaking-change
+  channel.
+entries:
+  - version: 26R2
+    api_version: v26.2
+    url: https://general.veevavault.dev/rn/26r2
+    breaking:
+      - id: OOU0000000QX028
+        title: Global API Header Changes
+        limited_release: 26r1.2
+        detail: >-
+          Numeric-only HTTP status line (HTTP/1.1 200, not 200 OK); Expires header removed in
+          favour of Cache-Control no-store/no-cache; Vary sent lowercase for HTTP/2 and HTTP/3.
+          Integrations that string-match "OK" or rely on the 1970 epoch Expires break.
+      - id: OOU0000000RP011
+        title: SDK HttpService no longer supports TLS v1 and v1.1
+        limited_release: 26r1.3
+      - id: OOU0000000R5008
+        title: ExecuteAs support for DocumentAction
+        limited_release: 26r1.2
+        detail: DocumentActionContext.getDocumentVersions() now defaults to the Java SDK Service Account instead of the Request Owner — a permissions shift.
+    additions:
+      - id: OOU0000000K6006
+        title: NotificationService SDK enhancements
+        detail: New NotificationQueue* interfaces; NotificationMessage, NotificationTemplate and NotificationParameters are announced for deprecation.
+      - id: MCP_Announcement
+        title: Vault Developer Docs MCP becomes Vault Docs MCP
+        detail: >-
+          As of 2026-06-08 the server added Platform Vault Help documentation alongside the API
+          reference, SDK javadocs, VAPIL javadocs and Developer Portal content.
+      - id: Vault_Docs_MCP_26R2_Updates
+        title: Vault Documentation MCP updates — consolidated search tool
+      - title: Query Profiler
+        detail: Headline developer feature of 26R2 per the release index.
+  - version: 26R1
+    api_version: v26.1
+    url: https://general.veevavault.dev/rn/26r1
+    highlights: [Doctype Triggers]
+  - version: 25R3
+    api_version: v25.3
+    url: https://general.veevavault.dev/rn/25r3
+    highlights: [Label Sets, Asynchronous Workflow Tasks]
+  - version: 25R2
+    api_version: v25.2
+    url: https://general.veevavault.dev/rn/25r2
+    highlights: [Action Triggers, Custom Pages features, Vault security enhancements]
+  - version: 25R1
+    api_version: v25.1
+    url: https://general.veevavault.dev/rn/25r1
+    highlights: [Custom Pages, Roll-up Fields]

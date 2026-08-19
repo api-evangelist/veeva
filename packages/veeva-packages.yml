@@ -1,0 +1,100 @@
+generated: '2026-08-15'
+method: searched
+source: https://general.veevavault.dev/vault-sdk/ + https://github.com/veeva + https://repo.veevavault.com/
+note: >-
+  Veeva does not publish its first-party client libraries to Maven Central, npm, or PyPI.
+  Java artifacts are served from Veeva's own Maven repository at repo.veevavault.com (which
+  answers an HTML application shell for /maven-metadata.xml paths, so no registry metadata
+  endpoint is queryable), and the Vault Web SDK is distributed as a version-pinned tarball
+  on a public S3 bucket. Versions below were read from the provider's own pinned URLs,
+  pom.xml, and GitHub release tags rather than from a package registry.
+package_count: 5
+packages:
+  - name: vapil
+    title: Vault API Library (VAPIL)
+    language: java
+    official: true
+    registry: veeva-maven
+    registry_url: https://repo.veevavault.com/
+    coordinates: com.veeva.vault:vapil
+    source: https://github.com/veeva/vault-api-library
+    docs: https://veeva.github.io/vault-api-library/javadoc/26.2.0/index.html
+    version: 26.2.0
+    published: '2026-08-10'
+    version_source: https://github.com/veeva/vault-api-library/releases/tag/v26.2.0
+    note: >-
+      Open-source Java REST client for Vault API. Version and date read from the GitHub
+      release tag v26.2.0 (published 2026-08-10) and pom.xml <version>26.2.0</version>.
+      Not present on Maven Central: https://repo1.maven.org/maven2/com/veeva/ returns 404.
+  - name: vault-sdk-api
+    title: Vault Java SDK API
+    language: java
+    official: true
+    registry: veeva-maven
+    registry_url: https://repo.veevavault.com/
+    coordinates: com.veeva.vault.sdk.api:vault-sdk-api
+    docs: https://repo.veevavault.com/javadoc/vault-sdk-api/26.2.0/docs/api/index.html
+    version: 26.2.0
+    published: null
+    version_source: https://repo.veevavault.com/javadoc/vault-sdk-api/26.2.0/docs/api/index.html
+    note: >-
+      Server-side Vault Java SDK, resolved by Maven from repo.veevavault.com. Highest
+      javadoc version that answers 200 is 26.2.0 (26.3.0 returns 403), which matches the
+      current Vault API version v26.2. No registry metadata endpoint answers, so the
+      publish date is unknown rather than guessed.
+  - name: vaultjavasdk-maven-plugin
+    title: Vault Java SDK Maven Plugin
+    language: java
+    official: true
+    registry: veeva-maven
+    registry_url: https://repo.veevavault.com/
+    source: https://github.com/veeva/vaultjavasdk-maven-plugin
+    version: 24.1.0
+    published: '2024-04-29'
+    version_source: https://github.com/veeva/vaultjavasdk-maven-plugin/releases
+    note: >-
+      Packages, validates, imports, and deploys Vault Java SDK code. Latest release tag is
+      v24.1.0 from 2024-04-29 — roughly two years behind the current v26.2 API, which is a
+      decay signal on the build tooling even though the SDK itself tracks each release.
+  - name: '@veeva/vault'
+    title: Vault Web SDK
+    language: javascript
+    official: true
+    registry: cdn
+    registry_url: https://vault-web-sdk-releases-public.s3.us-west-2.amazonaws.com/main/
+    install: npm install https://vault-web-sdk-releases-public.s3.us-west-2.amazonaws.com/main/veeva-vault-26.2.0-release.1.3.5.tgz
+    docs: https://general.veevavault.dev/custom-pages/vault-web-sdk
+    version: 26.2.0-release.1.3.5
+    published: null
+    version_source: https://general.veevavault.dev/custom-pages/getting-started/client-quickstart
+    note: >-
+      Distributed as a version-pinned tarball on a public S3 bucket, not published to npm
+      (registry.npmjs.org/@veeva/vault returns "Not found"). The version is pinned in the
+      install URL the quickstart publishes, so consumers do know what they are getting,
+      but there is no registry metadata endpoint and therefore no publish date.
+  - name: '@veeva/myinsights'
+    title: MyInsights JavaScript Library
+    language: javascript
+    official: true
+    registry: npm
+    registry_url: https://www.npmjs.com/package/@veeva/myinsights
+    version: 0.1.4
+    published: '2019-04-25'
+    version_source: https://registry.npmjs.org/@veeva%2Fmyinsights
+    note: >-
+      Veeva CRM MyInsights client library, published under the @veeva npm scope by the
+      veevaops maintainer account. Last release 2019-04-25 — abandoned on npm; it is the
+      only Veeva package on a public registry and it is seven years stale.
+not_found:
+  - registry: maven-central
+    probe: https://repo1.maven.org/maven2/com/veeva/
+    status: 404
+  - registry: maven-central-search
+    probe: https://search.maven.org/solrsearch/select?q=a:vapil
+    result: numFound 0
+  - registry: npm
+    probe: https://registry.npmjs.org/@veeva%2Fvault
+    result: Not found
+  - registry: pypi
+    probe: https://pypi.org/pypi/veevavault/json
+    status: 404

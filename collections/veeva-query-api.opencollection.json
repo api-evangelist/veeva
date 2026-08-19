@@ -1,0 +1,45 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Veeva Vault REST Authentication Query API",
+    "version": "25.3"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Query",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Veeva Execute a VQL Query",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{vaultDomain}/api/v25.3/query",
+            "params": [
+              {
+                "name": "q",
+                "value": "SELECT id, name__v, status__v FROM documents WHERE type__v = 'study_protocol__c'",
+                "type": "query",
+                "description": "VQL query string"
+              }
+            ]
+          },
+          "docs": "Executes a Vault Query Language (VQL) query to retrieve data from documents, objects, users, and system data. Supports SELECT, FROM, WHERE, ORDER BY, FIND, and relationship traversal."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,112 @@
+generated: '2026-08-15'
+method: derived
+source: openapi/*.yml + https://general.veevavault.dev/vault-api/api-reference/26.2/ + https://general.veevavault.dev/vql/
+note: >-
+  Derived from the operations and schemas captured in openapi/ and cross-checked against the
+  published Vault API reference and VQL query targets. Vault's data model is CONFIGURABLE:
+  object names, fields, and relationships vary per Vault and per application family, so the
+  entities below are the platform-level shapes every Vault has, not a fixed schema. Anything
+  tenant-specific is discoverable at runtime through the Retrieve Object Metadata and Retrieve
+  Document Fields endpoints, not published as a static model.
+configurable: true
+runtime_discovery:
+  - {endpoint: Retrieve Object Metadata, path: '/api/{version}/metadata/vobjects/{object_name}'}
+  - {endpoint: Retrieve Object Field Metadata, path: '/api/{version}/metadata/vobjects/{object_name}/fields/{field_name}'}
+  - {endpoint: Retrieve Document Fields, path: '/api/{version}/metadata/objects/documents/properties'}
+  - {endpoint: 'Retrieve All Component Metadata (MDL)', path: '/api/{version}/metadata/components'}
+id_conventions:
+  - {pattern: '{id}', applies_to: object records and documents, detail: 'Numeric or alphanumeric Vault ID.'}
+  - {pattern: '{id}_{major}_{minor}', applies_to: document versions, detail: 'e.g. 1001_1_3. Supplying just the id resolves to the latest version.'}
+  - {suffix: __v, meaning: Veeva-standard component or field.}
+  - {suffix: __sys, meaning: Veeva system component or field.}
+  - {suffix: __c, meaning: Customer-configured component or field.}
+entities:
+  - name: Vault
+    description: A single tenant instance, addressed by its DNS. Sessions, tokens, and IDs are all scoped to one Vault.
+    fields: [id, name, url]
+    relationships:
+      - {type: has_many, target: Document, via: vault_id}
+      - {type: has_many, target: VaultObject, via: vault_id}
+      - {type: has_many, target: User, via: vault_id}
+  - name: Document
+    description: A controlled document with lifecycle state, versions, renditions, annotations, attachments, and relationships.
+    source_schema: openapi/veeva-documents-api-openapi.yml#/components/schemas/DocumentResponse
+    operations: [listDocuments, createDocument, getDocument, updateDocument, deleteDocument, downloadDocumentFile, performDocumentAction]
+    relationships:
+      - {type: has_many, target: DocumentVersion, via: 'id_{major}_{minor}'}
+      - {type: has_many, target: DocumentRendition, via: document_id}
+      - {type: has_many, target: DocumentAttachment, via: document_id}
+      - {type: has_many, target: DocumentAnnotation, via: document_id}
+      - {type: has_many, target: DocumentRelationship, via: source_doc_id}
+      - {type: has_one, target: DocumentType, via: type__v}
+      - {type: has_one, target: Lifecycle, via: lifecycle__v}
+      - {type: has_many, target: Workflow, via: document_id}
+      - {type: belongs_to, target: Binder, via: binder section membership}
+  - name: DocumentType
+    description: Type / subtype / classification hierarchy that determines a document's field set.
+    relationships:
+      - {type: has_many, target: Document, via: type__v}
+  - name: Binder
+    description: A structured collection of documents organised into sections; used for submissions and dossiers.
+    relationships:
+      - {type: has_many, target: BinderSection, via: binder_id}
+      - {type: has_many, target: Document, via: binder section membership}
+  - name: VaultObject
+    description: A configurable business object record (study, product, site, country, and customer-defined objects).
+    source_schema: openapi/veeva-objects-api-openapi.yml#/components/schemas/ObjectRecordResponse
+    operations: [listObjectRecords, createObjectRecord, getObjectRecord, updateObjectRecord, deleteObjectRecord]
+    relationships:
+      - {type: has_one, target: ObjectType, via: object_type__v}
+      - {type: has_many, target: ObjectRecordAttachment, via: record_id}
+      - {type: has_many, target: VaultObject, via: parent/child reference fields}
+      - {type: has_many, target: Workflow, via: record_id}
+  - name: User
+    description: A Vault user, with permissions, application licence usage, and up to 25 API access tokens.
+    source_schema: openapi/veeva-users-api-openapi.yml#/components/schemas/UserListResponse
+    operations: [listUsers]
+    relationships:
+      - {type: has_many, target: ApiAccessToken, via: user_id}
+      - {type: has_many, target: Group, via: group membership}
+      - {type: has_many, target: WorkflowTask, via: assignee}
+  - name: Group
+    description: A user grouping, standard or auto-managed, used in role assignment.
+    relationships:
+      - {type: has_many, target: User, via: membership}
+  - name: ApiAccessToken
+    description: 'Bearer credential scoped to one Vault, value prefixed veeva-vault-. Queryable as api_access_token__sys.'
+    relationships:
+      - {type: belongs_to, target: User, via: user_id}
+      - {type: belongs_to, target: Vault, via: vault_id}
+  - name: Lifecycle
+    description: The state machine attached to a document type or object; drives user actions and workflow entry.
+    relationships:
+      - {type: has_many, target: Document, via: lifecycle__v}
+      - {type: has_many, target: Workflow, via: lifecycle}
+  - name: Workflow
+    description: A running process instance over a document or object record.
+    source_schema: openapi/veeva-workflows-api-openapi.yml
+    operations: [performDocumentAction]
+    relationships:
+      - {type: has_many, target: WorkflowTask, via: workflow_id}
+      - {type: belongs_to, target: Document, via: document_id}
+      - {type: belongs_to, target: VaultObject, via: record_id}
+  - name: WorkflowTask
+    description: A single assignable task within a workflow.
+    relationships:
+      - {type: belongs_to, target: Workflow, via: workflow_id}
+      - {type: belongs_to, target: User, via: assignee}
+  - name: Picklist
+    description: A configurable value list referenced by document and object fields.
+  - name: Queue
+    description: Spark Messaging inbound/outbound message queue used for asynchronous integration.
+    relationships:
+      - {type: has_many, target: SparkMessage, via: queue_name}
+    cross_reference: asyncapi/veeva-spark-messaging-webhooks.yml
+query_language:
+  name: VQL
+  docs: https://general.veevavault.dev/vql/
+  detail: >-
+    SQL-like language over documents, objects, users, groups, workflows, document events and
+    api_access_tokens, with relationship traversal and ALLVERSIONS / LATESTVERSION modifiers.
+  operation: executeVQLQuery
+render: subway/

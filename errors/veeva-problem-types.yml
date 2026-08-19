@@ -1,0 +1,59 @@
+generated: '2026-08-15'
+method: searched
+source: https://general.veevavault.dev/vault-api/api-reference/26.2/errors/error-types
+format: vendor
+note: >-
+  Vault does NOT use RFC 9457 application/problem+json. Errors arrive in the standard Vault
+  response envelope with a named type from a published vocabulary. The type strings below are
+  Veeva's own, copied from the published Error Types reference; the OpenAPI documents in
+  openapi/ model this as the ErrorResponse schema.
+envelope:
+  content_type: application/json
+  shape:
+    responseStatus: FAILURE
+    errors:
+      - type: <error type from the vocabulary below>
+        message: <human-readable message>
+  success_marker: 'responseStatus: SUCCESS'
+  header: 'X-VaultAPI-Status (v23.2+) repeats responseStatus in the response headers.'
+  execution_id: X-VaultAPI-ExecutionId — include with any Veeva Support ticket about an API call.
+error_count: 26
+errors:
+  - {type: UNEXPECTED_ERROR, meaning: General catch-all when there is no specific error, or an unidentified error.}
+  - {type: MALFORMED_URL, meaning: The specified resource cannot be found.}
+  - {type: METHOD_NOT_SUPPORTED, meaning: The resource does not support this method, or the request is not supported by this API version.}
+  - {type: INACTIVE_USER, meaning: User is inactive or not found.}
+  - {type: NO_PASSWORD_PROVIDED, meaning: No password was provided for the login call.}
+  - {type: USERNAME_OR_PASSWORD_INCORRECT, meaning: Authentication failed because an invalid username or password was provided.}
+  - {type: USER_LOCKED_OUT, meaning: The user is locked out.}
+  - {type: PASSWORD_CHANGE_REQUIRED, meaning: Password change required.}
+  - {type: INVALID_SESSION_ID, meaning: Invalid session ID provided., remediation: Re-authenticate; sessions idle out after 20 minutes of no use.}
+  - {type: PARAMETER_REQUIRED, meaning: Missing required parameters in the API call.}
+  - {type: INVALID_DATA, meaning: Invalid data provided in the API call.}
+  - {type: INSUFFICIENT_ACCESS, meaning: User does not have sufficient privileges. /actions endpoints also return this when the resource does not exist.}
+  - {type: OPERATION_NOT_ALLOWED, meaning: Rules that must be met to perform this operation have not been met.}
+  - {type: ATTRIBUTE_NOT_SUPPORTED, meaning: The specified resource does not recognize the provided attributes.}
+  - {type: INVALID_FILTER, meaning: A non-existent filter was provided to Retrieve Documents.}
+  - {type: INCORRECT_QUERY_SYNTAX_ERROR, meaning: VQL query string has incorrect syntax.}
+  - {type: RACE_CONDITION, meaning: The same record is being simultaneously updated by another API call., remediation: Retry; Vault publishes no idempotency key to make the retry safe.}
+  - {type: EXCEEDS_FILE_MAX_SIZE, meaning: Uploaded file exceeds the maximum allowed size (4 GB).}
+  - {type: API_LIMIT_EXCEEDED, meaning: Job Status can only be requested once every 10 seconds per job_id., remediation: Poll no more than once per 10 seconds per job.}
+  - {type: CONFIGURATION_MODE_ENABLED, meaning: Non-Admins cannot access a Vault in Configuration Mode.}
+  - {type: SDK_ERROR, meaning: An error raised by custom Vault Java SDK code. May carry a custom subtype., remediation: Check the Vault Java SDK Debug Log.}
+  - {type: OPERATION_IN_PROGRESS, meaning: There is already an operation running on the item specified in the request.}
+  - {type: ITEM_NAME_EXISTS, meaning: An item with the same name already exists in the specified location.}
+  - {type: USER_NOT_FOUND, meaning: The specified user cannot be found.}
+  - {type: FEDERATED_ID_ALREADY_EXISTS, meaning: A user with the same Federated ID already exists in the authenticated Vault.}
+mcp_errors:
+  note: The Vault MCP Server has its own error model, separate from the REST envelope.
+  source: https://general.veevavault.dev/mcp/vault-mcp-server/reference/errors
+  jsonrpc:
+    - {code: -32700, meaning: Parse error. Invalid JSON received.}
+    - {code: -32600, meaning: Invalid request. Not a valid JSON-RPC request object.}
+    - {code: -32601, meaning: Method not found. prompts/list and resources/list are not supported.}
+    - {code: -32602, meaning: Invalid params. Invalid parameter name or missing required argument.}
+    - {code: -32000, meaning: Server error — transport, auth failure, invalid session ID, or rate limit. Read the HTTP status to disambiguate.}
+  tool_execution:
+    status: 200
+    marker: 'isError: true'
+    body: Error text appears in the content[] array.

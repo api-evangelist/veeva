@@ -1,0 +1,718 @@
+{
+  "item": [
+    {
+      "id": "c85802be-14bb-4ab6-a70e-0049d7e5520a",
+      "name": "Objects",
+      "description": {
+        "content": "Vault object CRUD operations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "231ffb1f-97ae-4b28-87e5-5e282434b97a",
+          "name": "Veeva List Vault Object Records",
+          "request": {
+            "name": "Veeva List Vault Object Records",
+            "description": {
+              "content": "Returns records for a Vault object. Vault objects are configurable business entities (studies, products, sites, etc.).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "vobjects",
+                ":objectName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "200"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0"
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "Comma-separated list of field names to return"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "objectName",
+                  "description": "(Required) Vault object API name"
+                },
+                {
+                  "description": "Your Vault domain (e.g., myvault.veevavault.com)",
+                  "type": "any",
+                  "value": "{{vaultDomain}}",
+                  "key": "vaultDomain"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8f26a176-aa58-4d84-9838-9dd26553555a",
+              "name": "Object records",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "vobjects",
+                    ":objectName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "200"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "objectName",
+                      "description": "(Required) Vault object API name"
+                    },
+                    {
+                      "description": "Your Vault domain (e.g., myvault.veevavault.com)",
+                      "type": "any",
+                      "value": "{{vaultDomain}}",
+                      "key": "vaultDomain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"responseStatus\": \"SUCCESS\",\n  \"data\": [\n    {\n      \"id\": \"0VO000000000001\",\n      \"name__v\": \"STUDY-001\",\n      \"status__v\": \"active__c\"\n    }\n  ],\n  \"size\": 1,\n  \"start\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "581c86c0-10c9-4b2a-a179-add618cf5f37",
+          "name": "Veeva Create a Vault Object Record",
+          "request": {
+            "name": "Veeva Create a Vault Object Record",
+            "description": {
+              "content": "Creates a new record for the specified Vault object.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "vobjects",
+                ":objectName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "objectName",
+                  "description": "(Required) "
+                },
+                {
+                  "description": "Your Vault domain (e.g., myvault.veevavault.com)",
+                  "type": "any",
+                  "value": "{{vaultDomain}}",
+                  "key": "vaultDomain"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"key_0\": false,\n  \"key_1\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1b6a3728-18fa-424f-b143-006e6b5e2120",
+              "name": "Record created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "vobjects",
+                    ":objectName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "objectName",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "Your Vault domain (e.g., myvault.veevavault.com)",
+                      "type": "any",
+                      "value": "{{vaultDomain}}",
+                      "key": "vaultDomain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name__v\": \"STUDY-002\",\n  \"status__v\": \"active__c\",\n  \"therapeutic_area__c\": \"Oncology\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"responseStatus\": \"SUCCESS\",\n  \"id\": \"0VO000000000002\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7607811d-a713-4328-af58-cf05ee7735ed",
+          "name": "Veeva Get a Vault Object Record",
+          "request": {
+            "name": "Veeva Get a Vault Object Record",
+            "description": {
+              "content": "Returns a single record for a Vault object.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "vobjects",
+                ":objectName",
+                ":recordId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "objectName",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "recordId",
+                  "description": "(Required) "
+                },
+                {
+                  "description": "Your Vault domain (e.g., myvault.veevavault.com)",
+                  "type": "any",
+                  "value": "{{vaultDomain}}",
+                  "key": "vaultDomain"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e8394e3a-d537-4852-8c48-10244bb26016",
+              "name": "Object record",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "vobjects",
+                    ":objectName",
+                    ":recordId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "objectName",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "recordId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "Your Vault domain (e.g., myvault.veevavault.com)",
+                      "type": "any",
+                      "value": "{{vaultDomain}}",
+                      "key": "vaultDomain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"responseStatus\": \"SUCCESS\",\n  \"data\": {\n    \"id\": \"0VO000000000001\",\n    \"name__v\": \"STUDY-001\",\n    \"status__v\": \"active__c\",\n    \"therapeutic_area__c\": \"Oncology\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "10a47673-b828-41dd-9a5d-503b51b31a96",
+          "name": "Veeva Update a Vault Object Record",
+          "request": {
+            "name": "Veeva Update a Vault Object Record",
+            "description": {
+              "content": "Updates fields on an existing Vault object record.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "vobjects",
+                ":objectName",
+                ":recordId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "objectName",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "recordId",
+                  "description": "(Required) "
+                },
+                {
+                  "description": "Your Vault domain (e.g., myvault.veevavault.com)",
+                  "type": "any",
+                  "value": "{{vaultDomain}}",
+                  "key": "vaultDomain"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"key_0\": 5077.5853295497,\n  \"key_1\": 5728.331391763659\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b9921fa6-334e-4758-b5a3-aa6568528c55",
+              "name": "Record updated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "vobjects",
+                    ":objectName",
+                    ":recordId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "objectName",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "recordId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "Your Vault domain (e.g., myvault.veevavault.com)",
+                      "type": "any",
+                      "value": "{{vaultDomain}}",
+                      "key": "vaultDomain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status__v\": \"inactive__c\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"responseStatus\": \"SUCCESS\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "96e6a828-ac6b-4e12-a264-affcf8407548",
+          "name": "Veeva Delete a Vault Object Record",
+          "request": {
+            "name": "Veeva Delete a Vault Object Record",
+            "description": {
+              "content": "Deletes a specific Vault object record.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "vobjects",
+                ":objectName",
+                ":recordId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "objectName",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "recordId",
+                  "description": "(Required) "
+                },
+                {
+                  "description": "Your Vault domain (e.g., myvault.veevavault.com)",
+                  "type": "any",
+                  "value": "{{vaultDomain}}",
+                  "key": "vaultDomain"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "af1dddd4-c12d-4b77-9e2f-23e12ca4ecfe",
+              "name": "Record deleted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "vobjects",
+                    ":objectName",
+                    ":recordId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "objectName",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "recordId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "Your Vault domain (e.g., myvault.veevavault.com)",
+                      "type": "any",
+                      "value": "{{vaultDomain}}",
+                      "key": "vaultDomain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"responseStatus\": \"SUCCESS\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Your Vault domain (e.g., myvault.veevavault.com)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "myvault.veevavault.com",
+      "key": "vaultDomain"
+    },
+    {
+      "type": "string",
+      "value": "https://{{vaultDomain}}/api/v25.3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "36fae338-7553-4c3e-9f06-4087e33d9bc8",
+    "name": "Veeva Vault REST Authentication Objects API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Veeva Vault provides life sciences cloud platform APIs for regulatory document management, quality management (QMS), clinical operations, and commercial content management. REST APIs enable document lifecycle management, workflow automation, object CRUD operations, and compliance-validated data exchange. API version v25.3.\n\nContact Support:\n Name: Veeva Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

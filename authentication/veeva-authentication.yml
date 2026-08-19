@@ -1,16 +1,84 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/veeva-vault-openapi.yml
+generated: '2026-08-15'
+method: searched
+source: https://general.veevavault.dev/vault-api/getting-started/authenticating
+docs: https://general.veevavault.dev/vault-api/api-reference/26.2/authentication
 summary:
-  types:
-  - apiKey
-  api_key_in:
-  - header
+  types: [apiKey, http, oauth2, openIdConnect]
+  api_key_in: [header]
+  bearer: true
+  oauth2_flow: token-exchange (external IdP access token -> Vault session ID)
+  mfa: Delegated to the configured SAML/SSO or OAuth2/OIDC identity provider.
 schemes:
-- name: VaultSession
-  type: apiKey
-  in: header
-  parameter: Authorization
-  description: Vault Session ID from /auth endpoint
-  sources:
-  - openapi/veeva-vault-openapi.yml
+  - name: VaultSession
+    type: apiKey
+    in: header
+    parameter: Authorization
+    description: >-
+      Vault session ID returned by POST /api/{version}/auth, sent raw in the Authorization
+      header (no Bearer prefix). Idles out after 20 minutes of inactivity; Session Keep Alive
+      extends it, End Session revokes it.
+    docs: https://general.veevavault.dev/vault-api/explanation/session-management
+    sources: [openapi/veeva-authentication-api-openapi.yml, https://general.veevavault.dev/vault-api/api-reference/26.2/authentication/user-name-and-password]
+  - name: ApiAccessToken
+    type: http
+    scheme: bearer
+    in: header
+    parameter: Authorization
+    prefix: 'Bearer veeva-vault-'
+    description: >-
+      Long-lived API access token generated from the user profile in the Vault UI or via the
+      API Access Token endpoints. Scoped to a single Vault; grants API access only, never UI
+      access. Optional expiry date. Up to 25 active tokens per user. The value is shown once
+      at creation and cannot be recovered. This is the credential the Vault MCP Server requires.
+    docs: https://general.veevavault.dev/vault-api/explanation/api-access-tokens
+    lifecycle:
+      created_by: [Vault UI user profile, POST API Access Token endpoints, Generate API Access Token for Sandbox]
+      revoked_by: Delete Object Records against api_access_token__sys, or from the user profile page.
+      queryable_as: api_access_token__sys (VQL / Retrieve Object Record)
+      sandbox_behaviour: >-
+        Not copied into a newly created sandbox (regenerate); copied on sandbox refresh; not
+        copied when promoting a pre-production Vault to production; deleted when a user converts to VeevaID.
+  - name: OAuth2OIDC
+    type: oauth2
+    flow: token-exchange
+    token_endpoint: https://login.veevavault.com/auth/oauth/session/{oauth_oidc_profile_id}
+    method: POST
+    description: >-
+      Present an access token issued by the customer's authorization server as
+      `Authorization: Bearer <access_token>`; Vault validates it via the authorization server's
+      introspection endpoint (optionally matching the supplied client_id) and returns a Vault
+      session ID. Body accepts optional vaultDNS and client_id.
+    scopes_published: false
+    scopes_note: >-
+      Vault publishes no OAuth scope vocabulary. Authorization is enforced by Vault permission
+      sets and security profiles, not by token scopes, so there is no scopes/ artifact to write.
+    docs: https://general.veevavault.dev/vault-api/api-reference/26.2/authentication/oauth-20-openid-connect
+  - name: SAML-SSO
+    type: openIdConnect
+    description: SAML/SSO delegated authentication; exempt from the Auth API burst limit.
+    docs: https://general.veevavault.dev/vault-api/api-reference/26.2/authentication
+  - name: DelegatedAccess
+    type: apiKey
+    in: header
+    parameter: Authorization
+    description: >-
+      Initiate a delegated session to act within another user's Vault where a delegation has
+      been granted. Retrieve Delegations lists what the caller may delegate into.
+    docs: https://general.veevavault.dev/vault-api/api-reference/26.2/authentication/delegated-access
+  - name: SalesforceDelegated
+    type: apiKey
+    in: header
+    parameter: Authorization
+    description: Salesforce-delegated requests for Veeva CRM / Salesforce-integrated flows.
+    docs: https://general.veevavault.dev/vault-api/api-reference/26.2/authentication/salesforcetrade-delegated-requests
+discovery:
+  - {name: Authentication Type Discovery, detail: Returns which authentication types a given user or Vault supports.}
+  - {name: Retrieve API Versions, detail: Lists the API versions available on the Vault.}
+  - {name: Validate Session User, detail: Confirms the session is valid and identifies the user.}
+notes:
+  - Authentication version need not match the version used for subsequent calls (auth on v17.3, run on v26.2).
+  - >-
+    Auth calls are rate limited separately on username + vaultDNS; exceeding the Auth burst
+    limit FAILS requests rather than delaying them. SAML/SSO and OAuth authentication are
+    exempt from that limit. See rate-limits/veeva-rate-limits.yml.
+  - The Vault MCP Server accepts ONLY the Bearer API access token — not OAuth 2.0 and not basic auth.
