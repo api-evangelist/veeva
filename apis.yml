@@ -355,6 +355,8 @@ apis:
   humanURL: https://developer.veevavault.com/
   baseURL: https://myvault.veevavault.com/api/v25.3
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
@@ -508,6 +510,12 @@ apis:
   humanURL: https://general.veevavault.dev/mcp
   baseURL: https://docs.veevavault.dev/mcp
   tags:
+  - MCP
+  - Agents
+  - Artificial Intelligence
+  - Life Sciences
+  - Documentation
+  tags_raw:
   - MCP
   - Agents
   - AI
@@ -722,6 +730,19 @@ description: 'Veeva Systems is the leading cloud software provider for the globa
   exposes Vault AI agent actions as MCP tools.'
 created: '2026-05-03'
 tags:
+- Life Sciences
+- Pharmaceuticals
+- Clinical Trials
+- Regulatory
+- Quality Management
+- Document-Management
+- Content Management
+- Healthcare
+- Software-as-a-Service
+- Enterprise
+- MCP
+- Agents
+tags_raw:
 - Life Sciences
 - Pharmaceutical
 - Clinical Trials
