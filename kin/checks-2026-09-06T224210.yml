@@ -1,16 +1,16 @@
 ---
 kin_checks:
   slug: veeva
-  schema_version: 0.18.2
-  scored_at: '2026-09-04'
-  run_ts: 2026-09-04T062714
+  schema_version: 0.19.0
+  scored_at: '2026-09-06'
+  run_ts: 2026-09-06T224210
   note: Actionable checks only (missed + partial). earned/na are every other check
-    in rubric/scoring-0.18.2.yml; counts below let you verify that.
+    in rubric/scoring-0.19.0.yml; counts below let you verify that.
   counts:
     total: 132
-    earned: 64
-    partial: 14
-    missed: 37
+    earned: 65
+    partial: 15
+    missed: 35
     na: 17
   checks:
   - id: multiple_apis
@@ -36,8 +36,6 @@ kin_checks:
     status: missed
   - id: json_ld_property_depth
     status: missed
-  - id: domain_standard_conformance
-    status: missed
   - id: overlay_published
     status: missed
   - id: deprecation_policy
@@ -48,9 +46,6 @@ kin_checks:
     status: missed
   - id: cli_present
     status: missed
-  - id: postman_present
-    status: missed
-    detail: pointer liveness 0.0
   - id: plans_multiple
     status: missed
   - id: pricing_link
@@ -111,6 +106,10 @@ kin_checks:
   - id: balanced_severities
     status: partial
     earned: 0.75
+  - id: postman_present
+    status: partial
+    earned: 1.0
+    detail: pointer liveness 0.5
   - id: agent_skill_present
     status: partial
     earned: 0.75

@@ -19,6 +19,14 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
+  "notes": [
+    "veeva-authentication-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "veeva-documents-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "veeva-objects-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "veeva-query-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "veeva-users-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "veeva-workflows-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
   "skipped": []
 }
