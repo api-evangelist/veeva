@@ -145,3 +145,9 @@ servers:
     command: 'claude mcp add --transport http vault-mcp https://{host}/api/ai/mcp --header "Authorization:
       Bearer {access_token}"'
     source: https://general.veevavault.dev/mcp/vault-mcp-server/getting-started/connect-claude-code
+tools_count: 1
+tools:
+- name: search_documentation
+  description: ''
+tools_source: live tools/list via initialize handshake, 2026-09-11 (signals/audit_mcp_authorship.py --probe)
+authorship: provider
