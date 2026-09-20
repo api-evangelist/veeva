@@ -1,40 +1,44 @@
-# Kin Score artifact — veeva — 2026-08-19T080027
+# Kin Score artifact — veeva — 2026-09-19T165737
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: veeva
-  schema_version: 0.12.0
-  scored_at: '2026-08-19'
-  run_ts: 2026-08-19T080027
-  composite: 73.4
+  schema_version: 0.22.0
+  scored_at: '2026-09-19'
+  run_ts: 2026-09-19T165737
+  composite: 75.6
   band: exemplar
   facets:
-    discoverability: 81.5
-    contract_quality: 80.7
-    governance: 84.8
-    operational_transparency: 52.6
-    developer_ergonomics: 76.2
-    commercial_clarity: 50.0
+    discoverability: 75.9
+    contract_quality: 82.6
+    contract_governance: 47.0
+    operational_transparency: 76.3
+    developer_ergonomics: 82.7
+    access_clarity: 65.8
   agent_readiness:
-    score: 52.0
+    score: 41.5
     band: agent-ready
     band_gated_from: agent-native
     dimensions:
       spec_presence: true
       agentic_access: derived
       reversibility_documented: false
-      mcp_server: documented
-      auth_clarity: true
+      mcp_server: verified
+      auth_clarity: bearer
       idempotency: false
       error_semantics: documented
       openapi_examples: verified
       rate_limit_signal: documented
       event_surface_described: true
-      agent_skills: true
+      agent_skills: derived
       well_known_catalog: false
       consent_identity: false
       agent_card: false
       dry_run_mode: false
+      delegated_identity: false
+      protected_resource_metadata: false
+      dynamic_client_registration: false
+      agentic_commerce: false
   regulatory:
     applies: true
     regime: Health
@@ -42,7 +46,10 @@ kin_score:
     score: 37.5
     matched_via: tags
   provenance:
+    mcp: first-party
+    skills: derived
     agentic_access: derived
+    conformance: first-party
     contracts:
       total: 6
       derived: 0
