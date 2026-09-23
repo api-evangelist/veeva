@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Veeva Vault REST Authentication Query API
+  title: Veeva Vault REST Query API
   description: Veeva Vault provides life sciences cloud platform APIs for regulatory document management, quality management (QMS), clinical operations, and commercial content management. REST APIs enable document lifecycle management, workflow automation, object CRUD operations, and compliance-validated data exchange. API version v25.3.
   version: '25.3'
   contact:
@@ -73,6 +73,21 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+          example: FAILURE
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              message:
+                type: string
     QueryResponse:
       type: object
       properties:
@@ -97,21 +112,6 @@ components:
           items:
             type: object
             additionalProperties: true
-    ErrorResponse:
-      type: object
-      properties:
-        responseStatus:
-          type: string
-          example: FAILURE
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              type:
-                type: string
-              message:
-                type: string
   securitySchemes:
     VaultSession:
       type: apiKey

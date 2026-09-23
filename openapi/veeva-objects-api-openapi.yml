@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Veeva Vault REST Authentication Objects API
+  title: Veeva Vault REST Objects API
   description: Veeva Vault provides life sciences cloud platform APIs for regulatory document management, quality management (QMS), clinical operations, and commercial content management. REST APIs enable document lifecycle management, workflow automation, object CRUD operations, and compliance-validated data exchange. API version v25.3.
   version: '25.3'
   contact:
@@ -256,6 +256,20 @@ components:
                 type: string
               message:
                 type: string
+    ObjectListResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        size:
+          type: integer
+        start:
+          type: integer
     ObjectRecordResponse:
       type: object
       properties:
@@ -271,20 +285,6 @@ components:
           type: string
         id:
           type: string
-    ObjectListResponse:
-      type: object
-      properties:
-        responseStatus:
-          type: string
-        data:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        size:
-          type: integer
-        start:
-          type: integer
   securitySchemes:
     VaultSession:
       type: apiKey

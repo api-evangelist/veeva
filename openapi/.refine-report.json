@@ -1,12 +1,7 @@
 {
   "provider": "veeva",
   "sources": [
-    "veeva-authentication-api-openapi.yml",
-    "veeva-documents-api-openapi.yml",
-    "veeva-objects-api-openapi.yml",
-    "veeva-query-api-openapi.yml",
-    "veeva-users-api-openapi.yml",
-    "veeva-workflows-api-openapi.yml"
+    "_original/veeva-vault-openapi.yml"
   ],
   "outputs": [
     "veeva-authentication-api-openapi.yml",
@@ -20,13 +15,16 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "veeva-authentication-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "veeva-documents-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "veeva-objects-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "veeva-query-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "veeva-users-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "veeva-workflows-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "veeva-vault-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "veeva-authentication-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "veeva-documents-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "veeva-objects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "veeva-query-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "veeva-users-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "veeva-workflows-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

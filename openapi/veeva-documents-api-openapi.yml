@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Veeva Vault REST Authentication Documents API
+  title: Veeva Vault REST Documents API
   description: Veeva Vault provides life sciences cloud platform APIs for regulatory document management, quality management (QMS), clinical operations, and commercial content management. REST APIs enable document lifecycle management, workflow automation, object CRUD operations, and compliance-validated data exchange. API version v25.3.
   version: '25.3'
   contact:
@@ -310,36 +310,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    DocumentListResponse:
-      type: object
-      properties:
-        responseStatus:
-          type: string
-        documents:
-          type: array
-          items:
-            type: object
-            properties:
-              document:
-                $ref: '#/components/schemas/DocumentFields'
-        size:
-          type: integer
-        start:
-          type: integer
-    DocumentCreateResponse:
-      type: object
-      properties:
-        responseStatus:
-          type: string
-        id:
-          type: integer
-          description: New document ID
-        external_id__v:
-          type: string
-        major_version_number__v:
-          type: integer
-        minor_version_number__v:
-          type: integer
     DocumentResponse:
       type: object
       properties:
@@ -357,36 +327,20 @@ components:
               value:
                 type: string
               format: uri
-    DocumentUpdateResponse:
+    DocumentCreateResponse:
       type: object
       properties:
         responseStatus:
           type: string
         id:
           type: integer
+          description: New document ID
+        external_id__v:
+          type: string
         major_version_number__v:
           type: integer
         minor_version_number__v:
           type: integer
-    VaultResponse:
-      type: object
-      properties:
-        responseStatus:
-          type: string
-          enum:
-          - SUCCESS
-          - FAILURE
-        id:
-          type: integer
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              type:
-                type: string
-              message:
-                type: string
     DocumentFields:
       type: object
       description: Document field values (field names end in __v for standard, __c for custom)
@@ -428,6 +382,52 @@ components:
         format__v:
           type: string
       additionalProperties: true
+    VaultResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+          enum:
+          - SUCCESS
+          - FAILURE
+        id:
+          type: integer
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              message:
+                type: string
+    DocumentUpdateResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        id:
+          type: integer
+        major_version_number__v:
+          type: integer
+        minor_version_number__v:
+          type: integer
+    DocumentListResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        documents:
+          type: array
+          items:
+            type: object
+            properties:
+              document:
+                $ref: '#/components/schemas/DocumentFields'
+        size:
+          type: integer
+        start:
+          type: integer
   parameters:
     DocumentId:
       name: documentId
