@@ -124,8 +124,6 @@ apis:
     url: examples/veeva-vault-document-list-response-example.json
   - type: Examples
     url: examples/veeva-vault-query-response-example.json
-  - type: GraphQL
-    url: graphql/veeva-graphql.md
   - type: Documentation
     url: https://developer.veevavault.com/vql/
   - type: Overlay
@@ -198,8 +196,6 @@ apis:
     url: examples/veeva-vault-document-list-response-example.json
   - type: Examples
     url: examples/veeva-vault-query-response-example.json
-  - type: GraphQL
-    url: graphql/veeva-graphql.md
   - type: Documentation
     url: https://developer.veevavault.com/vql/
   - type: Overlay
@@ -272,8 +268,6 @@ apis:
     url: examples/veeva-vault-document-list-response-example.json
   - type: Examples
     url: examples/veeva-vault-query-response-example.json
-  - type: GraphQL
-    url: graphql/veeva-graphql.md
   - type: Documentation
     url: https://developer.veevavault.com/vql/
   - type: Overlay
@@ -346,8 +340,6 @@ apis:
     url: examples/veeva-vault-document-list-response-example.json
   - type: Examples
     url: examples/veeva-vault-query-response-example.json
-  - type: GraphQL
-    url: graphql/veeva-graphql.md
   - type: Documentation
     url: https://developer.veevavault.com/vql/
   - type: Overlay
@@ -422,8 +414,6 @@ apis:
     url: examples/veeva-vault-document-list-response-example.json
   - type: Examples
     url: examples/veeva-vault-query-response-example.json
-  - type: GraphQL
-    url: graphql/veeva-graphql.md
   - type: Documentation
     url: https://developer.veevavault.com/vql/
   - type: Overlay
@@ -496,8 +486,6 @@ apis:
     url: examples/veeva-vault-document-list-response-example.json
   - type: Examples
     url: examples/veeva-vault-query-response-example.json
-  - type: GraphQL
-    url: graphql/veeva-graphql.md
   - type: Documentation
     url: https://developer.veevavault.com/vql/
   - type: Overlay
@@ -746,7 +734,7 @@ tags:
 - Clinical Trials
 - Regulatory
 - Quality Management
-- Document-Management
+- Document Management
 - Content Management
 - Healthcare
 - Software-as-a-Service
@@ -766,6 +754,7 @@ tags_raw:
 - Enterprise
 - MCP
 - Agents
+- Document-Management
 x-enrichment:
   date: '2026-08-15'
   status: enriched
