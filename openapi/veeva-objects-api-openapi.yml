@@ -256,20 +256,6 @@ components:
                 type: string
               message:
                 type: string
-    ObjectListResponse:
-      type: object
-      properties:
-        responseStatus:
-          type: string
-        data:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        size:
-          type: integer
-        start:
-          type: integer
     ObjectRecordResponse:
       type: object
       properties:
@@ -285,6 +271,20 @@ components:
           type: string
         id:
           type: string
+    ObjectListResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        size:
+          type: integer
+        start:
+          type: integer
   securitySchemes:
     VaultSession:
       type: apiKey

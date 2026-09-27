@@ -310,23 +310,41 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    DocumentResponse:
+    DocumentListResponse:
       type: object
       properties:
         responseStatus:
           type: string
-        document:
-          $ref: '#/components/schemas/DocumentFields'
-        versions:
+        documents:
           type: array
           items:
             type: object
             properties:
-              number:
+              document:
+                $ref: '#/components/schemas/DocumentFields'
+        size:
+          type: integer
+        start:
+          type: integer
+    VaultResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+          enum:
+          - SUCCESS
+          - FAILURE
+        id:
+          type: integer
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
                 type: string
-              value:
+              message:
                 type: string
-              format: uri
     DocumentCreateResponse:
       type: object
       properties:
@@ -382,25 +400,6 @@ components:
         format__v:
           type: string
       additionalProperties: true
-    VaultResponse:
-      type: object
-      properties:
-        responseStatus:
-          type: string
-          enum:
-          - SUCCESS
-          - FAILURE
-        id:
-          type: integer
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              type:
-                type: string
-              message:
-                type: string
     DocumentUpdateResponse:
       type: object
       properties:
@@ -412,22 +411,23 @@ components:
           type: integer
         minor_version_number__v:
           type: integer
-    DocumentListResponse:
+    DocumentResponse:
       type: object
       properties:
         responseStatus:
           type: string
-        documents:
+        document:
+          $ref: '#/components/schemas/DocumentFields'
+        versions:
           type: array
           items:
             type: object
             properties:
-              document:
-                $ref: '#/components/schemas/DocumentFields'
-        size:
-          type: integer
-        start:
-          type: integer
+              number:
+                type: string
+              value:
+                type: string
+              format: uri
   parameters:
     DocumentId:
       name: documentId
