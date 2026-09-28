@@ -148,6 +148,10 @@ servers:
 tools_count: 1
 tools:
 - name: search_documentation
-  description: ''
+  description: '# search_documentation  Search Veeva Vault documentation to find information about Vault
+    APIs, Java SDK, VQL, MDL, VAPIL, and Vault product features across several app families. Use the parameters
+    below to target the desired documentation s'
 tools_source: live tools/list via initialize handshake, 2026-09-11 (signals/audit_mcp_authorship.py --probe)
 authorship: provider
+descriptions_source: live tools/list (authorship probe or saved capture); filled by backfill-tools-from-authorship.py
+  --descriptions, 2026-09-28
