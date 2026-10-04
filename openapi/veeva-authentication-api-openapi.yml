@@ -88,21 +88,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        responseStatus:
-          type: string
-          example: FAILURE
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              type:
-                type: string
-              message:
-                type: string
     AuthResponse:
       type: object
       properties:
@@ -126,6 +111,21 @@ components:
               name:
                 type: string
               url:
+                type: string
+    ErrorResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+          example: FAILURE
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              message:
                 type: string
   securitySchemes:
     VaultSession:
