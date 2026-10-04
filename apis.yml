@@ -741,6 +741,7 @@ tags:
 - Enterprise
 - MCP
 - Agents
+- Clinical Research
 tags_raw:
 - Life Sciences
 - Pharmaceutical
@@ -755,6 +756,7 @@ tags_raw:
 - MCP
 - Agents
 - Document-Management
+- Clinical Research
 x-enrichment:
   date: '2026-08-15'
   status: enriched

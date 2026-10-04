@@ -1,30 +1,29 @@
-# Kin Score artifact — veeva — 2026-08-30T203505
+# Kin Score artifact — veeva — 2026-09-24T161608
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: veeva
-  schema_version: 0.17.2
-  scored_at: '2026-08-30'
-  run_ts: 2026-08-30T203505
-  composite: 76.1
+  schema_version: 0.22.0
+  scored_at: '2026-09-24'
+  run_ts: 2026-09-24T161608
+  composite: 75.7
   band: exemplar
   facets:
-    discoverability: 81.5
-    contract_quality: 81.2
-    governance: 47.0
-    operational_transparency: 76.3
-    developer_ergonomics: 80.4
-    commercial_clarity: 65.8
+    discoverability: 75.9
+    contract_quality: 83.0
     contract_governance: 47.0
+    operational_transparency: 76.3
+    developer_ergonomics: 82.7
     access_clarity: 65.8
   agent_readiness:
-    score: 36.4
+    score: 41.5
     band: agent-ready
+    band_gated_from: agent-native
     dimensions:
       spec_presence: true
       agentic_access: derived
       reversibility_documented: false
-      mcp_server: documented
+      mcp_server: verified
       auth_clarity: bearer
       idempotency: false
       error_semantics: documented
