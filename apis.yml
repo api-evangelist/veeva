@@ -536,6 +536,8 @@ apis:
   - type: GettingStarted
     url: https://general.veevavault.dev/mcp/vault-mcp-server/getting-started
 common:
+- type: Pricing
+  url: https://www.veeva.com/products/
 - type: PostmanWorkspace
   url: https://www.postman.com/kinlaneapi/veeva/overview
 - type: AgenticAccess
