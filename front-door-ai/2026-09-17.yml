@@ -1,0 +1,33 @@
+# Front Door AI Index — veeva — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: veeva
+  lexicon_version: '1.0'
+  probed_at: '2026-09-25'
+  host: www.veeva.com
+  final_host: www.veeva.com
+  ownership: own
+  owner: veeva
+  shares_host_with: null
+  inherited_from: null
+  alias_of: null
+  verdict: scored
+  score: 49
+  band: 6
+  band_label: dominant
+  host_score: 49
+  density: 19.13
+  words: 2562
+  tiers:
+    agentic: 27
+    core: 22
+    model: 0
+  ambiguous: 12
+  top_terms:
+    agentic: 23
+    AI: 22
+    agent: 11
+    AI agent: 3
+    embedding: 1
+    intelligence: 1
