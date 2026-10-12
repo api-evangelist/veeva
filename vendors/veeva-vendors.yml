@@ -1,0 +1,89 @@
+generated: '2026-10-12'
+method: probed
+source: pre-flight dossier (docs platform, portal detections) + CNAME chains and response headers of the hosts apis.yml names
+registry: all/0-working/vendors.yml
+areas_vocabulary:
+- documentation
+- developer-portal
+- api-gateway
+- cdn
+- hosting
+- sdk-generation
+- api-collections
+- status-page
+- support
+- community
+- identity
+- mcp-hosting
+vendors:
+- vendor: postman
+  name: Postman
+  area: api-collections
+  host: www.postman.com
+  evidence: https://www.postman.com/veevavault
+  signal: url:postman.com
+  confidence: high
+  kin_score:
+  - postman_collection
+- vendor: aws-api-gateway
+  name: Amazon API Gateway
+  area: api-gateway
+  host: docs.veevavault.dev
+  evidence: header:x-amzn-requestid
+  signal: header
+  confidence: high
+  kin_score: []
+- vendor: cloudfront
+  name: Amazon CloudFront
+  area: cdn
+  host: developer.veevavault.com
+  evidence: header:x-amz-cf-id
+  signal: header
+  confidence: high
+  kin_score: []
+- vendor: fastly
+  name: Fastly
+  area: cdn
+  host: www.veeva.com
+  evidence: header:x-served-by:cache-
+  signal: header
+  confidence: high
+  kin_score: []
+- vendor: zendesk
+  name: Zendesk
+  area: support
+  host: support.veeva.com
+  evidence: cname:zendesk.com
+  signal: cname
+  confidence: high
+  kin_score:
+  - support_channel
+reliance:
+  areas_vendor_served:
+  - api-collections
+  - api-gateway
+  - cdn
+  - support
+  vendor_count: 5
+  areas_observed: 12
+  share_of_observable_areas: 0.333
+  note: areas where a third party was DETECTED serving this provider; an area absent here was either self-run or not observed, and this script
+    cannot tell those apart
+checked:
+- 'docs-platform: not probed'
+- www.veeva.com (SignUp)
+- www.veeva.com (Website)
+- developer.veevavault.com (Portal)
+- developer.veevavault.com (Documentation)
+- developer.veevavault.com (GettingStarted)
+- support.veeva.com (Support)
+- trust.veeva.com (StatusPage)
+- www.postman.com (Postman)
+- veevavault.dev (DeveloperPortal)
+- general.veevavault.dev (APIReference)
+- general.veevavault.dev (Documentation)
+- general.veevavault.dev (GettingStarted)
+- devcommunity.veevavault.com (Community)
+- myvault.veevavault.com (baseURL)
+- docs.veevavault.dev (baseURL)
+- docs.veevavault.dev (mcp)

@@ -1,0 +1,165 @@
+generated: '2026-10-12'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 12
+  own: 3
+  other_domain: 6
+  platform: 3
+  roles:
+  - collections
+  - community
+  - docs
+  - other
+  - portal
+  - source
+  - status
+  - support
+  - website
+hosts:
+- host: devcommunity.veevavault.com
+  found_by:
+  - pointer
+  types:
+  - Community
+  serves: []
+  registrable_domain: veevavault.com
+  role: community
+  relation: other-domain
+- host: developer.veevavault.com
+  found_by:
+  - pointer
+  - apis[]
+  - vendor-detect
+  types:
+  - Portal
+  - Documentation
+  - GettingStarted
+  - Authentication
+  - ChangeLog
+  - SDKs
+  serves:
+  - docs
+  - cdn
+  vendor: cloudfront
+  registrable_domain: veevavault.com
+  role: docs
+  relation: other-domain
+- host: docs.veevavault.dev
+  found_by:
+  - apis[]
+  - vendor-detect
+  types: []
+  serves:
+  - api
+  - api-gateway
+  vendor: aws-api-gateway
+  registrable_domain: veevavault.dev
+  role: docs
+  relation: other-domain
+- host: general.veevavault.dev
+  found_by:
+  - pointer
+  - apis[]
+  types:
+  - APIReference
+  - Documentation
+  - GettingStarted
+  serves:
+  - docs
+  registrable_domain: veevavault.dev
+  role: docs
+  relation: other-domain
+- host: github.com
+  found_by:
+  - pointer
+  types:
+  - GitHubOrganization
+  serves: []
+  registrable_domain: github.com
+  role: source
+  relation: platform
+- host: myvault.veevavault.com
+  found_by:
+  - apis[]
+  types: []
+  serves:
+  - api
+  registrable_domain: veevavault.com
+  role: other
+  relation: other-domain
+- host: support.veeva.com
+  found_by:
+  - pointer
+  - vendor-detect
+  types:
+  - Support
+  serves:
+  - support
+  vendor: zendesk
+  registrable_domain: veeva.com
+  role: support
+  relation: own
+- host: trust.veeva.com
+  found_by:
+  - pointer
+  types:
+  - StatusPage
+  serves: []
+  registrable_domain: veeva.com
+  role: status
+  relation: own
+- host: veevavault.dev
+  found_by:
+  - pointer
+  types:
+  - DeveloperPortal
+  serves: []
+  registrable_domain: veevavault.dev
+  role: portal
+  relation: other-domain
+- host: www.linkedin.com
+  found_by:
+  - pointer
+  types:
+  - LinkedIn
+  serves: []
+  registrable_domain: linkedin.com
+  role: other
+  relation: platform
+- host: www.postman.com
+  found_by:
+  - pointer
+  - vendor-detect
+  types:
+  - PostmanWorkspace
+  - Postman
+  serves:
+  - api-collections
+  vendor: postman
+  registrable_domain: postman.com
+  role: collections
+  relation: platform
+- host: www.veeva.com
+  found_by:
+  - pointer
+  - vendor-detect
+  types:
+  - SignUp
+  - Newsroom
+  - Leadership
+  - Pricing
+  - Website
+  - PrivacyPolicy
+  - Integrations
+  - TrustCenter
+  - TermsOfService
+  - Blog
+  - Partners
+  serves:
+  - cdn
+  vendor: fastly
+  registrable_domain: veeva.com
+  role: website
+  relation: own

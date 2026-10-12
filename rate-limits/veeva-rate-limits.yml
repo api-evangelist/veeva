@@ -1,87 +1,110 @@
+name: Veeva API Rate Limits
 specification: API Commons Rate Limits
 specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
 provider: veeva
 providerId: veeva
 created: '2026-05-04'
-generated: '2026-08-15'
+generated: '2026-10-12'
 method: searched
 source: https://general.veevavault.dev/vault-api/references/api-rate-limits
 modified: '2026-08-15'
 reconciled: true
 tags:
-  - Life Sciences
-  - SaaS
-  - Rate Limiting
-description: >-
-  Vault enforces three distinct rate limits, all documented. The general Burst Limit is a
-  per-Vault ceiling over a fixed 5-minute window; exceeding it DELAYS responses for the rest of
-  the window rather than rejecting them. The Auth API Burst Limit is a separate 1-minute window
-  keyed on username + vaultDNS; it begins delaying at 50% and FAILS requests once fully consumed.
-  The Job Status endpoint is capped at one call per job_id per 10 seconds and returns
-  API_LIMIT_EXCEEDED. Veeva does not publish the numeric ceiling for any Vault — the actual
-  value is tenant-specific and is returned per-request in X-VaultAPI-BurstLimit. As of v21.1
-  Vault enforces no daily limit at all.
+- Life Sciences
+- SaaS
+- Rate Limiting
+description: Vault enforces three distinct rate limits, all documented. The general Burst Limit is a per-Vault ceiling
+  over a fixed 5-minute window; exceeding it DELAYS responses for the rest of the window rather than rejecting them.
+  The Auth API Burst Limit is a separate 1-minute window keyed on username + vaultDNS; it begins delaying at 50%
+  and FAILS requests once fully consumed. The Job Status endpoint is capped at one call per job_id per 10 seconds
+  and returns API_LIMIT_EXCEEDED. Veeva does not publish the numeric ceiling for any Vault — the actual value is
+  tenant-specific and is returned per-request in X-VaultAPI-BurstLimit. As of v21.1 Vault enforces no daily limit
+  at all.
 sources:
-  - https://general.veevavault.dev/vault-api/references/api-rate-limits
-  - https://general.veevavault.dev/vault-api/references/response-headers
-  - https://platform.veevavault.help/en/gr/18666
+- https://general.veevavault.dev/vault-api/references/api-rate-limits
+- https://general.veevavault.dev/vault-api/references/response-headers
+- https://platform.veevavault.help/en/gr/18666
 limit_count: 3
 limits:
-  - name: Burst Limit
-    scope: per-vault
-    window: 5 minutes
-    limit: tenant-specific; read X-VaultAPI-BurstLimit on any response
-    example: 2000 calls per 5-minute window (Veeva's published example)
-    on_exhaustion: >-
-      Responses are DELAYED for the remainder of the window, not rejected. The delay in
-      milliseconds is returned in X-VaultAPI-ResponseDelay.
-    status_code: null
-    headers: [X-VaultAPI-BurstLimit, X-VaultAPI-BurstLimitRemaining, X-VaultAPI-ResponseDelay]
-  - name: Auth API Burst Limit
-    scope: per-username-and-vaultDNS
-    window: 1 minute
-    limit: tenant-specific; read X-VaultAPI-BurstLimit on the /auth response
-    example: 20 calls per 1-minute window (Veeva's published example)
-    on_exhaustion: >-
-      Throttling begins at 50% of the limit; once the limit is reached, further /auth requests
-      FAIL until the next window.
-    exempt: SAML/SSO and OAuth 2.0 / OIDC authentication are not subject to this limit.
-    endpoint: /api/{version}/auth
-    headers: [X-VaultAPI-BurstLimit, X-VaultAPI-BurstLimitRemaining, X-VaultAPI-ResponseDelay]
-  - name: Job Status API Rate Limit
-    scope: per-job
-    window: 10 seconds
-    limit: 1
-    endpoint: /api/{version}/services/jobs/{job_id}
-    on_exhaustion: Returns the API_LIMIT_EXCEEDED error type; no further calls processed until the next 10-second period.
-    headers: []
-    note: The burst-limit headers are not meaningful on this endpoint.
+- name: Burst Limit
+  scope: per-vault
+  window: 5 minutes
+  limit: tenant-specific; read X-VaultAPI-BurstLimit on any response
+  example: 2000 calls per 5-minute window (Veeva's published example)
+  on_exhaustion: Responses are DELAYED for the remainder of the window, not rejected. The delay in milliseconds
+    is returned in X-VaultAPI-ResponseDelay.
+  status_code: null
+  headers:
+  - X-VaultAPI-BurstLimit
+  - X-VaultAPI-BurstLimitRemaining
+  - X-VaultAPI-ResponseDelay
+  limit_text: Burst Limit is the number of API calls that your Vault can receive within a fixed 5-minute period.
+- name: Auth API Burst Limit
+  scope: per-username-and-vaultDNS
+  window: 1 minute
+  limit: tenant-specific; read X-VaultAPI-BurstLimit on the /auth response
+  example: 20 calls per 1-minute window (Veeva's published example)
+  on_exhaustion: Throttling begins at 50% of the limit; once the limit is reached, further /auth requests FAIL until
+    the next window.
+  exempt: SAML/SSO and OAuth 2.0 / OIDC authentication are not subject to this limit.
+  endpoint: /api/{version}/auth
+  headers:
+  - X-VaultAPI-BurstLimit
+  - X-VaultAPI-BurstLimitRemaining
+  - X-VaultAPI-ResponseDelay
+  limit_text: Auth API Burst Limit is the number of calls that your Vault can make to /api/{version}/auth in a one
+    (1) minute period.
+- name: Job Status API Rate Limit
+  scope: per-job
+  window: 10 seconds
+  limit: 1
+  endpoint: /api/{version}/services/jobs/{job_id}
+  on_exhaustion: Returns the API_LIMIT_EXCEEDED error type; no further calls processed until the next 10-second
+    period.
+  headers: []
+  note: The burst-limit headers are not meaningful on this endpoint.
+  limit_text: which is one (1) call every 10 seconds.
 headers:
-  - {name: X-VaultAPI-BurstLimit, since: v19.2, meaning: Maximum calls allowed in the burst window.}
-  - {name: X-VaultAPI-BurstLimitRemaining, since: v14.0, meaning: Calls remaining in the current burst window.}
-  - {name: X-VaultAPI-ResponseDelay, since: v14.0, meaning: Delay applied to a throttled response, in milliseconds. Present only on delayed responses.}
+- name: X-VaultAPI-BurstLimit
+  since: v19.2
+  meaning: Maximum calls allowed in the burst window.
+- name: X-VaultAPI-BurstLimitRemaining
+  since: v14.0
+  meaning: Calls remaining in the current burst window.
+- name: X-VaultAPI-ResponseDelay
+  since: v14.0
+  meaning: Delay applied to a throttled response
+  in milliseconds. Present only on delayed responses.: null
 deprecated_headers:
-  - {name: X-VaultAPI-DailyLimit, note: 'Removed in v21.1. v20.3 and below still return a static 999,999 that never decrements.'}
-  - {name: X-VaultAPI-DailyLimitRemaining, note: 'Removed in v21.1. Same static 999,999 behaviour on old versions.'}
+- name: X-VaultAPI-DailyLimit
+  note: Removed in v21.1. v20.3 and below still return a static 999,999 that never decrements.
+- name: X-VaultAPI-DailyLimitRemaining
+  note: Removed in v21.1. Same static 999,999 behaviour on old versions.
 daily_limits:
   enforced: false
   since: v21.1
-  note: Vault no longer enforces daily API limits, no longer reports daily_limit_remaining in API usage logs, and no longer notifies users on partial or full consumption.
+  note: Vault no longer enforces daily API limits, no longer reports daily_limit_remaining in API usage logs, and
+    no longer notifies users on partial or full consumption.
 observability:
-  - {name: API Usage Logs, detail: 'Admin > Settings > Logs > API Usage Logs in the Vault UI, or Download Daily API Usage over the API. Records client_id, reference_id, and the SDK performance metrics.'}
+- name: API Usage Logs
+  detail: Admin > Settings > Logs > API Usage Logs in the Vault UI, or Download Daily API Usage over the API. Records
+    client_id, reference_id, and the SDK performance metrics.
 policies:
-  - name: Read the burst headers
-    description: The numeric ceiling is not published; X-VaultAPI-BurstLimit on every response is the authoritative value for that Vault.
-  - name: Avoid unnecessary auth calls
-    description: A session ID with a 20-minute idle timeout only expires if unused for 20 minutes after the last request completes.
-  - name: Cache configuration data
-    description: Configuration data changes rarely; retrieve once and store locally.
-  - name: Prefer bulk endpoints
-    description: A single bulk call can create 500 object records; bulk endpoints are the primary lever for staying inside the burst window.
-  - name: Regulate request rate
-    description: Monitor X-VaultAPI-BurstLimitRemaining and throttle client-side before hitting the ceiling.
+- name: Read the burst headers
+  description: The numeric ceiling is not published; X-VaultAPI-BurstLimit on every response is the authoritative
+    value for that Vault.
+- name: Avoid unnecessary auth calls
+  description: A session ID with a 20-minute idle timeout only expires if unused for 20 minutes after the last request
+    completes.
+- name: Cache configuration data
+  description: Configuration data changes rarely; retrieve once and store locally.
+- name: Prefer bulk endpoints
+  description: A single bulk call can create 500 object records; bulk endpoints are the primary lever for staying
+    inside the burst window.
+- name: Regulate request rate
+  description: Monitor X-VaultAPI-BurstLimitRemaining and throttle client-side before hitting the ceiling.
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
-    url: https://apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
+  url: https://apievangelist.com
