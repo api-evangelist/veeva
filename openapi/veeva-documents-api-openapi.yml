@@ -310,34 +310,20 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    DocumentUpdateResponse:
+    DocumentCreateResponse:
       type: object
       properties:
         responseStatus:
           type: string
         id:
           type: integer
+          description: New document ID
+        external_id__v:
+          type: string
         major_version_number__v:
           type: integer
         minor_version_number__v:
           type: integer
-    DocumentResponse:
-      type: object
-      properties:
-        responseStatus:
-          type: string
-        document:
-          $ref: '#/components/schemas/DocumentFields'
-        versions:
-          type: array
-          items:
-            type: object
-            properties:
-              number:
-                type: string
-              value:
-                type: string
-              format: uri
     DocumentFields:
       type: object
       description: Document field values (field names end in __v for standard, __c for custom)
@@ -379,16 +365,30 @@ components:
         format__v:
           type: string
       additionalProperties: true
-    DocumentCreateResponse:
+    DocumentResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        document:
+          $ref: '#/components/schemas/DocumentFields'
+        versions:
+          type: array
+          items:
+            type: object
+            properties:
+              number:
+                type: string
+              value:
+                type: string
+              format: uri
+    DocumentUpdateResponse:
       type: object
       properties:
         responseStatus:
           type: string
         id:
           type: integer
-          description: New document ID
-        external_id__v:
-          type: string
         major_version_number__v:
           type: integer
         minor_version_number__v:

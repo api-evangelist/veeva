@@ -256,14 +256,6 @@ components:
                 type: string
               message:
                 type: string
-    ObjectRecordResponse:
-      type: object
-      properties:
-        responseStatus:
-          type: string
-        data:
-          type: object
-          additionalProperties: true
     ObjectCreateResponse:
       type: object
       properties:
@@ -285,6 +277,14 @@ components:
           type: integer
         start:
           type: integer
+    ObjectRecordResponse:
+      type: object
+      properties:
+        responseStatus:
+          type: string
+        data:
+          type: object
+          additionalProperties: true
   securitySchemes:
     VaultSession:
       type: apiKey

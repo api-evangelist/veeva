@@ -56,6 +56,15 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  parameters:
+    DocumentId:
+      name: documentId
+      in: path
+      required: true
+      description: Vault document ID
+      schema:
+        type: integer
+      example: 12345
   schemas:
     VaultResponse:
       type: object
@@ -76,15 +85,6 @@ components:
                 type: string
               message:
                 type: string
-  parameters:
-    DocumentId:
-      name: documentId
-      in: path
-      required: true
-      description: Vault document ID
-      schema:
-        type: integer
-      example: 12345
   securitySchemes:
     VaultSession:
       type: apiKey
