@@ -28,5 +28,5 @@
     - connectors/applications/veeva-vault
     vendor_link: https://www.veeva.com/
     builder: Fivetran
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
