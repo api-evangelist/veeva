@@ -145,12 +145,126 @@ servers:
     command: 'claude mcp add --transport http vault-mcp https://{host}/api/ai/mcp --header "Authorization:
       Bearer {access_token}"'
     source: https://general.veevavault.dev/mcp/vault-mcp-server/getting-started/connect-claude-code
-tools_count: 1
+tools_count: 2
 tools:
 - name: search_documentation
-  description: '# search_documentation  Search Veeva Vault documentation to find information about Vault
-    APIs, Java SDK, VQL, MDL, VAPIL, and Vault product features across several app families. Use the parameters
-    below to target the desired documentation s'
+  description: 'Search Vault developer and help documentation. Each result includes a `content_url` (rendered
+    HTML) and a `markdown_url` (Markdown). Fetch `markdown_url` when results are incomplete or the task
+    needs full context. SDK and VAPIL javadocs have no `markdown_url`.
+
+
+    ## Sources
+
+
+    - `vault_developer_documentation`: Vault Developer Portal (Java SDK, API, MDL, VQL, Direct Data API,
+    Custom Pages, Vault AI) and Vault CRM Developer Portal. Use vault_crm+limited for CRM.
+
+    - `vault_api_reference`: API endpoint reference — URIs, parameters, response attributes, error types.
+    Use vault_crm+limited for CRM.
+
+    - `vault_java_sdk_javadocs`: Vault Java SDK javadocs — classes, methods, parameters, return types,
+    exceptions.
+
+    - `vapil_javadocs`: VAPIL javadocs — classes, methods, code examples.
+
+    - `vault_help_documentation`: End-user and admin docs. Vault Help and Vault CRM Help. Use vault_crm+limited
+    for CRM.
+
+
+    ## Releases
+
+
+    Defaults to general. `vapil_javadocs` is general-only. Help, developer, and API sources with vault_crm
+    are limited-only.
+
+
+    - `general`: ~every four months; includes all limited enhancements since prior general release.
+
+    - `limited`: ~every 3–5 weeks; early access to new features.
+
+
+    ## App Families
+
+
+    Defaults to platform. Ask user if unclear for developer, API, and help sources. `vapil_javadocs` and
+    `vault_java_sdk_javadocs` are platform-only. Always use release=limited with vault_crm.
+
+
+    - `platform`: Base Vault platform.
+
+    - `commercial`: PromoMats, Portal
+
+    - `qualityone`: Document Control, QMS, HACCP, HSE, Training
+
+    - `quality`: QualityDocs, Training, Station Manager, QMS, Surveillance, Validation Mgmt, Batch Release,
+    HACCP
+
+    - `medical`: MedComms, Medical Inquiry, Portal
+
+    - `clinical`: CTMS, eTMF, Payments, SSU, Disclosures, Site Connect, OpenData Clinical
+
+    - `regulatory`: Submissions, Submissions Archive, Submissions Publishing, Registrations
+
+    - `safety`: Safety, Safety Workbench, Safety Signal, SafetyDocs'
+- name: search_release_notes
+  description: 'Search Veeva Vault release notes to find features, changes, and enhancements introduced
+    in a specific release or range of releases.
+
+
+    Each result includes a `content_url` (rendered HTML) and a `markdown_url` (Markdown). Fetch `markdown_url`
+    when the query asks for a complete feature list (e.g. "what''s new in 26R2?") — search results cover
+    only a subset. Also fetch when results share the same `markdown_url` or content is incomplete.
+
+
+    ## Sources
+
+
+    - `vault_developer_release_notes`: Vault Developer Portal — Java SDK, API, VQL, MDL, Direct Data API,
+    platform developer features.
+
+    - `vault_help_release_notes`: Vault Help site — platform and app-family features for end users and
+    admins.
+
+    - `vault_crm_release_notes`: Vault CRM Help site.
+
+    - `vault_crm_developer_release_notes`: Vault CRM Developer Portal — X-Pages, X-Pages Studio, CRM REST
+    API.
+
+
+    ## Release Format
+
+
+    Major version only (e.g. `26R2`, `25R1`).
+
+
+    - `start_release`: Optional. Omit to search all releases.
+
+    - `end_release`: Optional upper bound (requires `start_release`). E.g. `start_release=24R1`, `end_release=26R2`
+    searches that span.
+
+
+    ### Point Release Mapping
+
+
+    Point releases (minor > 0, e.g. 26R2.1) deliver features for the *next* major release. Apply the same
+    mapping to both `start_release` and `end_release`:
+
+
+    | User asks about  | Use release |
+
+    | ---------------- |-------------|
+
+    | 26R2.0 (GA)      | `26R2`      |
+
+    | 26R2.1 – 26R2.x  | `26R3`      |
+
+    | 26R1.1 – 26R1.x  | `26R2`      |
+
+    | 26R3.1 – 26R3.x  | `27R1`      |
+
+
+    GA (`.0`) uses its own release; any point release (`.1`+) uses the next release. This applies to both
+    `start_release` and `end_release`.'
 tools_source: live tools/list via initialize handshake, 2026-09-11 (signals/audit_mcp_authorship.py --probe)
 authorship: provider
 descriptions_source: live tools/list (authorship probe or saved capture); filled by backfill-tools-from-authorship.py
