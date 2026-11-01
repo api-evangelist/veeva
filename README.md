@@ -1,4 +1,4 @@
-# veeva (veeva)
+# Veeva
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,147 +64,256 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Veeva Systems is a leader in cloud-based software for the global life sciences industry, providing solutions to help pharmaceutical and biotechnology companies bring products to market more efficiently.
+Veeva Systems is the leading cloud software provider for the global life sciences industry, serving pharmaceutical, biotechnology, medical device and CRO customers across commercial, clinical, quality, regulatory, medical and safety operations. Its Vault platform is a single content-and-data cloud whose REST API covers documents, binders, configurable Vault objects, workflows, users, groups, SCIM provisioning, sandbox management and the Direct Data API for high-speed bulk export, all queryable with VQL and extensible through the Vault Java SDK, Custom Pages and Spark Messaging. Veeva also ships two first-party MCP servers: a public Vault Documentation MCP and a tenant-scoped Vault MCP Server that exposes Vault AI agent actions as MCP tools.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/veeva/refs/heads/main/apis.yml)
+**Areas:** Life Sciences · Pharmaceuticals · Clinical Trials · Regulatory · Quality Management · Document Management · Content Management · Healthcare · Software-as-a-Service · Enterprise · MCP · Agents
 
-## Timestamps
+## Veeva on APIs.io
 
-- **Modified:** 2026-05-19
+Everything profiled for Veeva is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/veeva/](https://apis.io/providers/veeva/)** — or go straight to one of the APIs or properties below.
 
-## APIs
+### APIs (9)
 
-### Veeva Vault Platform API
+- [Veeva Vault Java SDK](https://apis.io/apis/veeva/veeva-vault-java-sdk/) — The Veeva Vault Java SDK (VAPIL) is an open-source Java-based REST API client for the Vault REST API. Provides type-safe access to all Vault API operations…
+- [Veeva Vault Direct Data API](https://apis.io/apis/veeva/veeva-vault-direct-data-api/) — The Veeva Vault Direct Data API provides high-speed, read-only bulk access to Vault data for integration, analytics, and reporting purposes. Supports bulk…
+- [veeva Authentication API](https://apis.io/apis/veeva/veeva-authentication-api/) — Session management
+- [veeva Documents API](https://apis.io/apis/veeva/veeva-documents-api/) — Document lifecycle management
+- [veeva Objects API](https://apis.io/apis/veeva/veeva-objects-api/) — Vault object CRUD operations
+- [veeva Query API](https://apis.io/apis/veeva/veeva-query-api/) — VQL query execution
+- [veeva Users API](https://apis.io/apis/veeva/veeva-users-api/) — User management
+- [veeva Workflows API](https://apis.io/apis/veeva/veeva-workflows-api/) — Workflow and task management
+- [Veeva Vault MCP](https://apis.io/apis/veeva/vault-mcp/) — Veeva ships two first-party Model Context Protocol servers. The Vault Documentation MCP at https://docs.veevavault.dev/mcp is public and anonymous, exposing…
 
-Veeva Vault provides life sciences cloud platform APIs for regulatory document management, quality management (QMS), clinical operations, and commercial content management. REST APIs enable document lifecycle management, workflow automation, and compliance-validated data exchange.
+### Published properties
 
-- **Human URL:** [https://developer.veevavault.com/](https://developer.veevavault.com/)
-- **Base URL:** `https://myvault.veevavault.com/api/v25.3`
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-#### Tags
+#### AsyncAPI (1)
 
-- Clinical
-- Life Sciences
-- Pharma
-- QMS
-- Regulatory
+Event-driven and webhook contracts.
 
-#### Properties
+- [Veeva Spark Messaging Webhooks](https://apis.io/asyncapis/veeva/veeva-spark-messaging-webhooks/)
 
-- [Portal](https://developer.veevavault.com/)
-- [Documentation](https://developer.veevavault.com/docs)
-- [Reference](https://developer.veevavault.com/api/25.3/)
-- [Authentication](https://developer.veevavault.com/api/25.3/)
-- [Changelog](https://developer.veevavault.com/rn/25.3/)
-- [Getting Started](https://developer.veevavault.com/docs)
-- [OpenAPI](openapi/veeva-vault-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/veeva-vault.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/veeva-vault.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/veeva-vault-auth-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/veeva-vault-document-fields-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/veeva-vault-document-list-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/veeva-vault-document-create-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/veeva-vault-document-update-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/veeva-vault-document-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/veeva-vault-object-list-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/veeva-vault-object-create-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/veeva-vault-object-record-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/veeva-vault-query-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/veeva-vault-user-list-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Structure](json-structure/veeva-vault-auth-response-structure.json)
-- [JSON Structure](json-structure/veeva-vault-document-fields-structure.json)
-- [JSON Structure](json-structure/veeva-vault-document-list-response-structure.json)
-- [JSON Structure](json-structure/veeva-vault-query-response-structure.json)
-- [Example](examples/veeva-vault-auth-response-example.json)
-- [Example](examples/veeva-vault-document-fields-example.json)
-- [Example](examples/veeva-vault-document-list-response-example.json)
-- [Example](examples/veeva-vault-query-response-example.json)
+#### GraphQL (1)
 
-### Veeva Vault Java SDK
+GraphQL schemas.
 
-The Veeva Vault Java SDK (VAPIL) is an open-source Java-based REST API client for the Vault REST API. Provides type-safe access to all Vault API operations including document management, object CRUD, workflow execution, and administrative functions.
+- [Moved to /providers/veeva/](https://apis.io/graphqls/veeva/veeva-graphql/)
 
-- **Human URL:** [https://developer.veevavault.com/sdk/](https://developer.veevavault.com/sdk/)
-- **Base URL:** `https://myvault.veevavault.com/api`
+#### MCP servers (1)
 
-#### Tags
+Model Context Protocol servers that expose the API to agents.
 
-- Java
-- Life Sciences
-- Pharma
-- SDK
+- [Vault Documentation MCP + Vault MCP Server](https://apis.io/servers/veeva/vault-documentation-mcp-vault-mcp-server/)
 
-#### Properties
+#### Agentic access (1)
 
-- [Documentation](https://developer.veevavault.com/sdk/)
-- [S D Ks](https://github.com/veeva/vault-api-library)
-- [S D Ks](https://mvnrepository.com/artifact/com.veeva/vault-api-library)
-- [Postman Collection](collections/veeva-vault.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/veeva-vault.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Which operations an agent can call, which act, and which need a human in the loop.
 
-### Veeva Vault Query Language (VQL) API
+- [Veeva Agentic Access](https://apis.io/agentic-access/veeva/veeva-agentic-access/)
 
-Vault Query Language (VQL) provides SQL-like query capabilities for accessing and retrieving Vault data. Supports SELECT, FROM, WHERE, ORDER BY, relationship queries, and functions for querying documents, objects, users, workflows, and system data.
+#### JSON Schema (12)
 
-- **Human URL:** [https://developer.veevavault.com/vql/](https://developer.veevavault.com/vql/)
-- **Base URL:** `https://myvault.veevavault.com/api`
+The data models the API reads and writes.
 
-#### Tags
+- [AuthResponse](https://apis.io/schemas/veeva/veeva-vault-auth-response/)
+- [Veeva Vault Document](https://apis.io/schemas/veeva/veeva-vault-document/)
+- [DocumentCreateResponse](https://apis.io/schemas/veeva/veeva-vault-document-create-response/)
+- [DocumentFields](https://apis.io/schemas/veeva/veeva-vault-document-fields/)
+- [DocumentListResponse](https://apis.io/schemas/veeva/veeva-vault-document-list-response/)
+- [DocumentResponse](https://apis.io/schemas/veeva/veeva-vault-document-response/)
+- [DocumentUpdateResponse](https://apis.io/schemas/veeva/veeva-vault-document-update-response/)
+- [ObjectCreateResponse](https://apis.io/schemas/veeva/veeva-vault-object-create-response/)
+- [ObjectListResponse](https://apis.io/schemas/veeva/veeva-vault-object-list-response/)
+- [ObjectRecordResponse](https://apis.io/schemas/veeva/veeva-vault-object-record-response/)
+- [QueryResponse](https://apis.io/schemas/veeva/veeva-vault-query-response/)
+- [UserListResponse](https://apis.io/schemas/veeva/veeva-vault-user-list-response/)
 
-- Life Sciences
-- Pharma
-- Query Language
-- SQL
+#### JSON Structure (12)
 
-#### Properties
+Data models expressed in JSON Structure.
 
-- [Documentation](https://developer.veevavault.com/vql/)
-- [OpenAPI](openapi/veeva-vault-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/veeva-vault.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/veeva-vault.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Veeva Vault Auth Response Structure](https://apis.io/json-structure/veeva/veeva-vault-auth-response-structure/)
+- [Veeva Vault Document Create Response Structure](https://apis.io/json-structure/veeva/veeva-vault-document-create-response-structure/)
+- [Veeva Vault Document Fields Structure](https://apis.io/json-structure/veeva/veeva-vault-document-fields-structure/)
+- [Veeva Vault Document List Response Structure](https://apis.io/json-structure/veeva/veeva-vault-document-list-response-structure/)
+- [Veeva Vault Document Response Structure](https://apis.io/json-structure/veeva/veeva-vault-document-response-structure/)
+- [Veeva Vault Document Structure](https://apis.io/json-structure/veeva/veeva-vault-document-structure/)
+- [Veeva Vault Document Update Response Structure](https://apis.io/json-structure/veeva/veeva-vault-document-update-response-structure/)
+- [Veeva Vault Object Create Response Structure](https://apis.io/json-structure/veeva/veeva-vault-object-create-response-structure/)
+- [Veeva Vault Object List Response Structure](https://apis.io/json-structure/veeva/veeva-vault-object-list-response-structure/)
+- [Veeva Vault Object Record Response Structure](https://apis.io/json-structure/veeva/veeva-vault-object-record-response-structure/)
+- [Veeva Vault Query Response Structure](https://apis.io/json-structure/veeva/veeva-vault-query-response-structure/)
+- [Veeva Vault User List Response Structure](https://apis.io/json-structure/veeva/veeva-vault-user-list-response-structure/)
 
-### Veeva Vault Direct Data API
+#### JSON-LD (1)
 
-The Veeva Vault Direct Data API provides high-speed, read-only bulk access to Vault data for integration, analytics, and reporting purposes. Supports bulk export of documents, objects, and attachment field files for up to 500 records.
+Linked-data contexts for the provider's vocabulary.
 
-- **Human URL:** [https://developer.veevavault.com/docs](https://developer.veevavault.com/docs)
-- **Base URL:** `https://myvault.veevavault.com/api`
+- [Veeva Context](https://apis.io/jsonld/veeva/veeva-context/)
 
-#### Tags
+#### Vocabulary (1)
 
-- Bulk Data
-- Data Access
-- Life Sciences
-- Pharma
+The provider's domain terms, defined.
 
-#### Properties
+- [Veeva Vocabulary](https://apis.io/vocabularies/veeva/veeva-vocabulary/)
 
-- [Documentation](https://developer.veevavault.com/docs)
-- [Postman Collection](collections/veeva-vault.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/veeva-vault.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Examples (12)
 
-## Common Properties
+Example requests and responses.
 
-- [LinkedIn](https://www.linkedin.com/company/veeva-systems)
+- [Veeva Vault Auth Response Example](https://apis.io/examples/veeva/veeva-vault-auth-response-example/)
+- [Veeva Vault Document Create Response Example](https://apis.io/examples/veeva/veeva-vault-document-create-response-example/)
+- [Veeva Vault Document Example](https://apis.io/examples/veeva/veeva-vault-document-example/)
+- [Veeva Vault Document Fields Example](https://apis.io/examples/veeva/veeva-vault-document-fields-example/)
+- [Veeva Vault Document List Response Example](https://apis.io/examples/veeva/veeva-vault-document-list-response-example/)
+- [Veeva Vault Document Response Example](https://apis.io/examples/veeva/veeva-vault-document-response-example/)
+- [Veeva Vault Document Update Response Example](https://apis.io/examples/veeva/veeva-vault-document-update-response-example/)
+- [Veeva Vault Object Create Response Example](https://apis.io/examples/veeva/veeva-vault-object-create-response-example/)
+- [Veeva Vault Object List Response Example](https://apis.io/examples/veeva/veeva-vault-object-list-response-example/)
+- [Veeva Vault Object Record Response Example](https://apis.io/examples/veeva/veeva-vault-object-record-response-example/)
+- [Veeva Vault Query Response Example](https://apis.io/examples/veeva/veeva-vault-query-response-example/)
+- [Veeva Vault User List Response Example](https://apis.io/examples/veeva/veeva-vault-user-list-response-example/)
+
+#### Collections (13)
+
+Postman and Open Collection request collections.
+
+- [Veeva Vault REST Authentication API](https://apis.io/collections/veeva/open-veeva-authentication-api/)
+- [Veeva Vault REST Authentication Documents API](https://apis.io/collections/veeva/open-veeva-documents-api/)
+- [Veeva Vault REST Authentication Objects API](https://apis.io/collections/veeva/open-veeva-objects-api/)
+- [Veeva Vault REST Authentication Query API](https://apis.io/collections/veeva/open-veeva-query-api/)
+- [Veeva Vault REST Authentication Users API](https://apis.io/collections/veeva/open-veeva-users-api/)
+- [Veeva Vault REST API](https://apis.io/collections/veeva/open-veeva-vault/)
+- [Veeva Vault REST Authentication Workflows API](https://apis.io/collections/veeva/open-veeva-workflows-api/)
+- [Veeva Vault REST Authentication API](https://apis.io/collections/veeva/postman-veeva-authentication-api/)
+- [Veeva Vault REST Authentication Documents API](https://apis.io/collections/veeva/postman-veeva-documents-api/)
+- [Veeva Vault REST Authentication Objects API](https://apis.io/collections/veeva/postman-veeva-objects-api/)
+- [Veeva Vault REST Authentication Query API](https://apis.io/collections/veeva/postman-veeva-query-api/)
+- [Veeva Vault REST Authentication Users API](https://apis.io/collections/veeva/postman-veeva-users-api/)
+- [Veeva Vault REST Authentication Workflows API](https://apis.io/collections/veeva/postman-veeva-workflows-api/)
+
+#### Overlays (12)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Veeva Authentication Api Overlay](https://apis.io/overlays/veeva/veeva-authentication-api-overlay/)
+- [Veeva Authentication Api Phrasing Overlay](https://apis.io/overlays/veeva/veeva-authentication-api-phrasing-overlay/)
+- [Veeva Documents Api Overlay](https://apis.io/overlays/veeva/veeva-documents-api-overlay/)
+- [Veeva Documents Api Phrasing Overlay](https://apis.io/overlays/veeva/veeva-documents-api-phrasing-overlay/)
+- [Veeva Objects Api Overlay](https://apis.io/overlays/veeva/veeva-objects-api-overlay/)
+- [Veeva Objects Api Phrasing Overlay](https://apis.io/overlays/veeva/veeva-objects-api-phrasing-overlay/)
+- [Veeva Query Api Overlay](https://apis.io/overlays/veeva/veeva-query-api-overlay/)
+- [Veeva Query Api Phrasing Overlay](https://apis.io/overlays/veeva/veeva-query-api-phrasing-overlay/)
+- [Veeva Users Api Overlay](https://apis.io/overlays/veeva/veeva-users-api-overlay/)
+- [Veeva Users Api Phrasing Overlay](https://apis.io/overlays/veeva/veeva-users-api-phrasing-overlay/)
+- [Veeva Workflows Api Overlay](https://apis.io/overlays/veeva/veeva-workflows-api-overlay/)
+- [Veeva Workflows Api Phrasing Overlay](https://apis.io/overlays/veeva/veeva-workflows-api-phrasing-overlay/)
+
+#### Governance rules (3)
+
+Spectral rulesets for the provider's contracts.
+
+- [Veeva — jsonschema rules](https://apis.io/rules/veeva/veeva-jsonschema-spectral-rules/)
+- [Veeva API Rules](https://apis.io/rules/veeva/veeva-rules/)
+- [Veeva API Rules](https://apis.io/rules/veeva/veeva-spectral-rules/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Veeva Authentication](https://apis.io/security/veeva/veeva-authentication/)
+- [Veeva Domain Security](https://apis.io/security/veeva/veeva-domain-security/)
+- [Veeva Trust Center](https://apis.io/security/veeva/veeva-trust-center/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Veeva Plans Pricing](https://apis.io/plans/veeva/veeva-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Veeva Rate Limits](https://apis.io/rate-limits/veeva/veeva-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Veeva Finops](https://apis.io/finops/veeva/veeva-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://www.veeva.com/)
-- [Portal](https://developer.veevavault.com/)
 - [Documentation](https://developer.veevavault.com/docs)
-- [Getting Started](https://developer.veevavault.com/docs)
-- [Authentication](https://developer.veevavault.com/api/25.3/)
-- [Changelog](https://developer.veevavault.com/rn/25.3/)
-- [S D Ks](https://developer.veevavault.com/sdk/)
+- [Getting started](https://developer.veevavault.com/docs)
+- [API reference](https://general.veevavault.dev/vault-api/api-reference/26.2)
+- [Pricing](https://www.veeva.com/products/)
+- [Sign up](https://www.veeva.com/events/rd-summit/register/)
 - [Support](https://support.veeva.com/hc/en-us)
-- [Privacy Policy](https://www.veeva.com/privacy/)
-- [GitHub Organization](https://github.com/veeva)
-- [JSON Schema](json-schema/veeva-vault-document-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [J S O N L D Context](json-ld/veeva-context.jsonld)
-- [Spectral Rules](rules/veeva-spectral-rules.yml)
-- [Vocabulary](vocabulary/veeva-vocabulary.yml)
-- [Features](undefined)
-- [Use Cases](undefined)
-- [Integrations](undefined)
-- [Integrations](https://www.veeva.com/meet-veeva/partners/)
+- [Changelog](https://developer.veevavault.com/rn/25.3/)
+- [Blog](https://www.veeva.com/veeva-blog/)
+- [Trust centre](https://www.veeva.com/trust/)
+- [Terms of service](https://www.veeva.com/terms/)
+- [Privacy policy](https://www.veeva.com/privacy/)
+- [GitHub](https://github.com/veeva)
+- [Status](https://trust.veeva.com/)
 
-## Maintainers
+## API Evangelist rating
 
-**Email:** kin@apievangelist.com
+**Kin Score 76.1** — exemplar · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 78.3 |
+| Contract quality | 77.0 |
+| Contract governance | 35.6 |
+| Operational transparency | 84.2 |
+| Developer ergonomics | 82.7 |
+| Access clarity | 81.6 |
+
+**Agent readiness 43.0** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 23.4** — Health
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/veeva/](https://apis.io/providers/veeva/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Veeva: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/veeva/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
